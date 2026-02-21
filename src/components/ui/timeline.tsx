@@ -68,8 +68,10 @@ export function Timeline({ items, className }: TimelineProps) {
                         key={idx}
                         className="text-sm text-muted-foreground flex items-start gap-2"
                       >
-                        <span className="text-primary mt-1.5 shrink-0">•</span>
-                        <span>{desc}</span>
+                        <span className="text-primary/70 mt-[0.35rem] shrink-0 leading-none">
+                          •
+                        </span>
+                        <span className="leading-relaxed">{desc}</span>
                       </li>
                     ))}
                   </ul>

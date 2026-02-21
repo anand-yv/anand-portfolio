@@ -27,7 +27,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="text-lg font-semibold text-foreground hover:text-primary transition-colors"
+            className="text-lg font-semibold text-foreground hover:text-primary transition-colors cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: "smooth" });

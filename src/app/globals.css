@@ -139,6 +139,16 @@
       );
     background-attachment: fixed;
   }
+  /* Cursor styles */
+  a, [role="button"], button {
+    cursor: pointer;
+  }
+  p, span:not([class*="cursor"]), h1, h2, h3, h4, h5, h6 {
+    cursor: default;
+  }
+  pre, code {
+    cursor: text;
+  }
 }
 
 .dark body {
@@ -168,4 +178,153 @@
 
 .animate-floaty {
   animation: floaty 6s ease-in-out infinite;
+}
+
+/* Modern scrollbar for resume modal */
+.resume-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.resume-modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resume-modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.resume-modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.resume-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dark .resume-modal-scroll {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.dark .resume-modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark .resume-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+@media (prefers-color-scheme: light) {
+  .resume-modal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .resume-modal-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Typing animation cursor */
+.typing-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  color: currentColor;
+  opacity: 0.8;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* API demo animations */
+@keyframes request-highlight {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: oklch(0.65 0.18 264 / 0.15);
+  }
+}
+
+@keyframes checkmark-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes trace-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.api-request-highlight {
+  animation: request-highlight 0.4s ease-out;
+  border-radius: 2px;
+  padding: 0 2px;
+  transition: background-color 0.2s ease-out;
+}
+
+.api-checkmark {
+  display: inline-block;
+  animation: checkmark-appear 0.3s ease-out;
+}
+
+.api-response {
+  transition: opacity 0.2s ease-out;
+}
+
+.api-output {
+  display: block;
+  width: 100%;
+  /* Fixed height to prevent layout shift */
+  height: 11.25rem; /* Exact height of response content */
+  position: relative;
+}
+
+.api-loading {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.api-loading-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  /* Same content structure as response to maintain exact dimensions */
+}
+
+.api-response {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.api-trace-pulse {
+  animation: trace-pulse 0.4s ease-out;
 }

@@ -16,7 +16,7 @@ export const projects: Project[] = [
       "Real-time seat availability updates",
       "Payment gateway integration",
     ],
-    githubUrl: "https://github.com/anandyadav/flight-booking",
+    githubUrl: "https://github.com/anand-yv/Flight-Booking-System",
     // liveUrl: "https://flight-booking.example.com",
   },
   {

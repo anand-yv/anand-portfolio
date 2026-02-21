@@ -16,6 +16,6 @@ export default function Home() {
       <Experience />
       <Education />
       <Contact />
-    </main>
+      </main>
   );
 }

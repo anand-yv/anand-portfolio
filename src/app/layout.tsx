@@ -70,7 +70,7 @@ export default function RootLayout({
           enableSystem
         >
           <Navbar />
-          {children}
+        {children}
         </ThemeProvider>
       </body>
     </html>

@@ -100,7 +100,9 @@ export function ProjectCard({
                 <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                   {project.highlights.slice(0, 4).map((highlight, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <span className="text-primary mt-1 shrink-0">•</span>
+                      <span className="text-primary/70 mt-[0.35rem] shrink-0 leading-none">
+                        •
+                      </span>
                       <span className="leading-relaxed">{highlight}</span>
                     </li>
                   ))}
@@ -150,7 +152,9 @@ export function ProjectCard({
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             {project.highlights.slice(0, 2).map((highlight, index) => (
               <li key={index} className="flex items-start gap-2">
-                <span className="text-primary mt-1 shrink-0">•</span>
+                <span className="text-primary/70 mt-[0.35rem] shrink-0 leading-none">
+                  •
+                </span>
                 <span className="leading-relaxed">{highlight}</span>
               </li>
             ))}

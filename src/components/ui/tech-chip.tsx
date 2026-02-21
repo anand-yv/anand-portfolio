@@ -104,6 +104,7 @@ export function TechChip({ tech, className, showIcon = true }: TechChipProps) {
         "transition-all duration-200 ease-out",
         "hover:bg-card/60 hover:border-primary/40 hover:shadow-sm hover:shadow-primary/10",
         "inline-flex items-center gap-1.5",
+        "cursor-pointer",
         className
       )}
     >

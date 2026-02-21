@@ -3,9 +3,9 @@ import { Education } from "@/types";
 export const education: Education[] = [
   {
     id: "degree",
-    institution: "Your University", // Update with actual university
+    institution: "University of Mumbai", // Update with actual university
     degree: "Bachelor's Degree",
-    field: "Computer Science / Engineering", // Update with actual field
+    field: "Information Technology / Engineering", // Update with actual field
     location: "Mumbai, Maharashtra, India",
     startDate: "2020", // Update with actual dates
     endDate: "2024",
