@@ -328,3 +328,36 @@
 .api-trace-pulse {
   animation: trace-pulse 0.4s ease-out;
 }
+
+/* Mobile nav dropdown — staggered zig-zag slide-in */
+@keyframes mobile-nav-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes mobile-nav-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.mobile-nav-item {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+.mobile-nav-item.slide-left {
+  animation-name: mobile-nav-slide-left;
+}
+.mobile-nav-item.slide-right {
+  animation-name: mobile-nav-slide-right;
+}
