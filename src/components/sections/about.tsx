@@ -51,19 +51,19 @@ export function About() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <h4 className="text-sm font-semibold text-foreground">APIs</h4>
+                    <h3 className="text-sm font-semibold text-foreground">APIs</h3>
                     <p className="text-sm text-muted-foreground">
                       RESTful design, clear contracts, predictable responses
                     </p>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="text-sm font-semibold text-foreground">Systems</h4>
+                    <h3 className="text-sm font-semibold text-foreground">Systems</h3>
                     <p className="text-sm text-muted-foreground">
                       Scalable architecture, resilient services, clean data models
                     </p>
                   </div>
                   <div className="space-y-2 pt-4">
-                    <h4 className="text-sm font-semibold text-foreground">Location</h4>
+                    <h3 className="text-sm font-semibold text-foreground">Location</h3>
                     <p className="text-sm text-muted-foreground">
                       {personalInfo.location}
                     </p>

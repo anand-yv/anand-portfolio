@@ -9,6 +9,8 @@ type RevealProps = {
   className?: string;
   delayMs?: number;
   once?: boolean;
+  /** Above-the-fold content: skip IO and show immediately for better LCP. */
+  visibleByDefault?: boolean;
 };
 
 export function Reveal({
@@ -16,11 +18,13 @@ export function Reveal({
   className,
   delayMs = 0,
   once = true,
+  visibleByDefault = false,
 }: RevealProps) {
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const [inView, setInView] = React.useState(false);
+  const [inView, setInView] = React.useState(visibleByDefault);
 
   React.useEffect(() => {
+    if (visibleByDefault) return;
     const el = ref.current;
     if (!el) return;
 
@@ -47,7 +51,7 @@ export function Reveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [once]);
+  }, [once, visibleByDefault]);
 
   return (
     <div
