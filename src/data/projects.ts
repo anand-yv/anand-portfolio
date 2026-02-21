@@ -20,23 +20,6 @@ export const projects: Project[] = [
     // liveUrl: "https://flight-booking.example.com",
   },
   {
-    id: "tiny-command",
-    title: "Tiny Command",
-    description: "Automation platform for command execution and workflow management.",
-    longDescription:
-      "A powerful automation platform that enables users to create, schedule, and execute commands and workflows. Built with microservices architecture, it supports task scheduling, workflow orchestration, and provides a clean API for integrations. Features include job queuing, retry mechanisms, and comprehensive logging.",
-    technologies: ["Spring Boot", "Microservices", "MongoDB", "Docker", "RabbitMQ", "REST API"],
-    category: "backend",
-    highlights: [
-      "Microservices architecture with service discovery",
-      "Asynchronous job processing with RabbitMQ",
-      "MongoDB for flexible data storage",
-      "RESTful API with comprehensive documentation",
-      "Docker containerization for easy deployment",
-    ],
-    githubUrl: "https://github.com/anandyadav/tiny-command",
-  },
-  {
     id: "video-streaming",
     title: "Video Streaming Platform",
     description: "Scalable video streaming service with adaptive bitrate streaming and user management.",
