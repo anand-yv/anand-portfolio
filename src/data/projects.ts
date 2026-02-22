@@ -34,7 +34,7 @@ export const projects: Project[] = [
       "User authentication and authorization",
       "Scalable architecture for high traffic",
     ],
-    githubUrl: "https://github.com/anandyadav/video-streaming",
+    githubUrl: "https://github.com/anand-yv/EngageVid",
   },
   {
     id: "trendsift",
@@ -51,7 +51,7 @@ export const projects: Project[] = [
       "Trend analysis algorithms",
       "RESTful API for data access",
     ],
-    githubUrl: "https://github.com/anandyadav/trendsift",
+    githubUrl: "https://github.com/anand-yv/twitter-trend-scrapper",
   },
   {
     id: "health-assist-ai",
@@ -68,7 +68,7 @@ export const projects: Project[] = [
       "JWT-based secure authentication",
       "RESTful API with comprehensive error handling",
     ],
-    githubUrl: "https://github.com/anandyadav/health-assist-ai",
+    githubUrl: "https://github.com/anand-yv/Health-Assist-AI",
   },
 ];
 
