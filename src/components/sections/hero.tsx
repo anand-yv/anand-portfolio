@@ -1,7 +1,7 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { HeroTagline } from "@/components/sections/hero-tagline";
 import { HeroCta } from "@/components/sections/hero-cta";
-import { HeroCard } from "@/components/sections/hero-card";
+import { HeroCardDynamic } from "@/components/sections/hero-card-dynamic";
 
 /**
  * Hero is a Server Component. The h1 and LCP paragraph (p.mt-3.text-xl...)
@@ -45,7 +45,7 @@ export function Hero() {
             <HeroCta />
           </div>
 
-          <HeroCard />
+          <HeroCardDynamic />
         </div>
       </div>
     </SectionWrapper>

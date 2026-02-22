@@ -13,6 +13,39 @@ type RevealProps = {
   visibleByDefault?: boolean;
 };
 
+const REVEAL_OPTIONS: IntersectionObserverInit = {
+  root: null,
+  threshold: 0.2,
+  rootMargin: "0px 0px -10% 0px",
+};
+
+const revealCallbacks = new WeakMap<
+  Element,
+  { setInView: (v: boolean) => void; once: boolean }
+>();
+let sharedObserver: IntersectionObserver | null = null;
+
+function getRevealObserver() {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const cb = revealCallbacks.get(entry.target);
+        if (!cb) continue;
+        if (entry.isIntersecting) {
+          cb.setInView(true);
+          if (cb.once) {
+            sharedObserver?.unobserve(entry.target);
+            revealCallbacks.delete(entry.target);
+          }
+        } else if (!cb.once) {
+          cb.setInView(false);
+        }
+      }
+    }, REVEAL_OPTIONS);
+  }
+  return sharedObserver;
+}
+
 export function Reveal({
   children,
   className,
@@ -36,21 +69,13 @@ export function Reveal({
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) {
-          setInView(true);
-          if (once) observer.disconnect();
-        } else if (!once) {
-          setInView(false);
-        }
-      },
-      { root: null, threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
-    );
-
+    const observer = getRevealObserver();
+    revealCallbacks.set(el, { setInView, once });
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.unobserve(el);
+      revealCallbacks.delete(el);
+    };
   }, [once, visibleByDefault]);
 
   return (

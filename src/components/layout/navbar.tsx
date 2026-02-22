@@ -14,20 +14,15 @@ const navLinks = [
 ] as const;
 
 export function Navbar() {
-  const [mounted, setMounted] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const scrollToSection = (id: string) => {
+  const scrollToSection = React.useCallback((id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     setMenuOpen(false);
-  };
+  }, []);
 
   return (
     <>
