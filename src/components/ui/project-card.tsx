@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -121,7 +122,9 @@ export function ProjectCard({
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2"
                     >
+                      <ExternalLink className="size-4 shrink-0" aria-hidden />
                       Code
                     </Link>
                   </Button>
@@ -137,7 +140,9 @@ export function ProjectCard({
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2"
                     >
+                      <ExternalLink className="size-4 shrink-0" aria-hidden />
                       Live
                     </Link>
                   </Button>
@@ -175,7 +180,9 @@ export function ProjectCard({
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
               >
+                <ExternalLink className="size-4 shrink-0" aria-hidden />
                 Code
               </Link>
             </Button>
@@ -191,7 +198,9 @@ export function ProjectCard({
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="inline-flex items-center gap-2"
               >
+                <ExternalLink className="size-4 shrink-0" aria-hidden />
                 Live
               </Link>
             </Button>
