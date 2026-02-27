@@ -51,7 +51,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
         setPdfError(false);
         timeoutRef.current = setTimeout(() => {
           timeoutRef.current = null;
-          setPdfError(true);
+          setPdfLoaded(true);
         }, PDF_LOAD_TIMEOUT_MS);
       } else {
         clearTimeoutRef();
