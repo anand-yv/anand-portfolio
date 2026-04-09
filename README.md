@@ -25,8 +25,8 @@ A modern, production-quality developer portfolio built with **Next.js** (App Rou
 | Styling | Tailwind CSS v4 |
 | UI | shadcn/ui (Radix primitives, CVA, Lucide icons) |
 | Theme | next-themes |
-| Export | Static (`output: "export"`) |
-| Hosting | Vercel (or any static host) |
+| Export | Static-friendly (Next.js App Router, optional API routes) |
+| Hosting | Vercel (recommended) or any Next-compatible host |
 
 ---
 
@@ -120,10 +120,10 @@ anand-portfolio/
 
 ## 🏗️ Architecture & approach
 
-### Static site generation (SSG)
+### Static-first with optional API routes
 
-- The site is **statically exported**: `next build` produces HTML/CSS/JS in the `out/` directory.
-- No API routes, no server process. You can host on Vercel, Netlify, GitHub Pages, or any static host.
+- The main portfolio page is still **fully pre-rendered** for fast loads.
+- For the AI terminal card in the Hero, we use a **small Next.js API route** on Vercel to securely call Gemini (your API key stays on the server).
 - Content lives in TypeScript files under `src/data/` — type-safe and version-controlled.
 
 ### Server vs client components
@@ -231,17 +231,39 @@ Edit **`src/app/layout.tsx`** — `metadata` object: title, description, Open Gr
 
 1. Push the repo to GitHub.
 2. Go to [vercel.com](https://vercel.com) → New Project → Import the repo.
-3. Framework is auto-detected (Next.js). Build command: **`npm run build`**. Output directory: leave default (Vercel uses Next.js output; for static export it uses `out/`).
+3. Framework is auto-detected (Next.js). Build command: **`npm run build`**. Output directory: leave default.
 4. Deploy. Your site will be at `https://<project>.vercel.app`.
 5. Optional: add a custom domain in Project Settings → Domains and update metadata in `layout.tsx`.
 
-### Other static hosts
+### Other hosts
 
-- **Netlify:** Connect the repo; build command `npm run build`, publish directory `out`.
-- **GitHub Pages:** Build locally, then push the contents of `out/` to a `gh-pages` branch (or use a GitHub Action).
-- **Any static host:** Run `npm run build` and upload the contents of **`out/`**.
+- **Netlify / Render / etc.:** Use their Next.js support so that the `/api/portfolio-chat` route runs as a serverless function.
 
-No environment variables are required for the current setup. If you add any (e.g. for analytics), set them in the host’s dashboard and use `NEXT_PUBLIC_*` for client-visible values.
+If you add environment variables (for example, `GEMINI_API_KEY` for the AI terminal card), set them in the host’s dashboard and **do not** prefix them with `NEXT_PUBLIC_` so they stay server-side only.
+
+---
+
+## 🤖 AI Terminal card (Gemini)
+
+The Hero card can act as an “AI terminal” that only answers questions about this portfolio (projects, skills, experience, education).
+
+- Frontend: `src/components/sections/hero-card.tsx` renders a terminal-style UI and sends requests to `/api/portfolio-chat`.
+- Backend: `src/app/api/portfolio-chat/route.ts` is a small serverless function that:
+  - Loads portfolio data from `src/data/*`
+  - Adds a strict system prompt (“only answer about Anand based on this data”)
+  - Calls the Gemini API on the server using `GEMINI_API_KEY`
+
+### Configuring Gemini (free tier)
+
+1. Go to Google AI Studio and create an API key for the Gemini API (free tier is enough for this use case).
+2. In your Vercel project, add an environment variable:
+
+   - **Name:** `GEMINI_API_KEY`  
+   - **Value:** (paste the key from Google AI Studio)
+
+3. Redeploy or re-run your project so the function can read `process.env.GEMINI_API_KEY`.
+
+The key is **never exposed to the browser**; all Gemini calls go through the serverless route.
 
 ---
 

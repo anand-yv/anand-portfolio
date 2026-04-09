@@ -22,7 +22,7 @@ export function About() {
           <Reveal delayMs={80}>
             <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
               <p>
-                I'm a full-stack software engineer based in Mumbai, India, with a
+                I&apos;m a full-stack software engineer based in Mumbai, India, with a
                 focus on building scalable systems. I enjoy designing RESTful APIs,
                 working with relational and NoSQL databases, and shipping frontends
                 that stay fast and maintainable as they grow.
