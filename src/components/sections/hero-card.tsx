@@ -3,7 +3,6 @@
 import { Circle } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { TerminalAi } from "@/components/ai/terminal-ai";
 
 export function HeroCard() {
   return (
@@ -29,7 +28,14 @@ export function HeroCard() {
             </div>
           </CardHeader>
           <CardContent>
-            <TerminalAi />
+            <div className="rounded-2xl border border-dashed border-border/70 bg-background/40 p-6 text-center">
+              <p className="text-sm font-medium text-foreground/90">
+                Placeholder: hero terminal content coming soon
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                This area is temporarily reserved for a new interactive module.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
