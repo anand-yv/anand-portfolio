@@ -1,8 +1,6 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { HeroTagline } from "@/components/sections/hero-tagline";
 import { HeroCta } from "@/components/sections/hero-cta";
-import { HeroCardDynamic } from "@/components/sections/hero-card-dynamic";
-
 /**
  * Hero is a Server Component. The h1 and LCP paragraph (p.mt-3.text-xl...)
  * are rendered on the server with no client boundary above them, so they
@@ -21,32 +19,26 @@ export function Hero() {
         <div className="absolute -bottom-28 right-[-14rem] h-80 w-[46rem] rounded-full bg-gradient-to-l from-primary/20 via-transparent to-transparent blur-3xl opacity-50 dark:opacity-25" />
       </div>
 
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
-          <div className="text-left">
-            {/* Server-rendered; no Reveal wrapper so no client boundary or transition delay */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
-              <span className="text-foreground">Anand </span>
-              <span className="bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
-                Yadav
-              </span>
-            </h1>
+      <div className="mx-auto w-full max-w-3xl text-left">
+        {/* Server-rendered; no Reveal wrapper so no client boundary or transition delay */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
+          <span className="text-foreground">Anand </span>
+          <span className="bg-gradient-to-r from-primary via-primary to-foreground bg-clip-text text-transparent">
+            Yadav
+          </span>
+        </h1>
 
-            <HeroTagline />
+        <HeroTagline />
 
-            {/* LCP element: server-rendered so it paints without waiting for hydration */}
-            <p className="mt-3 text-xl sm:text-2xl text-foreground/90 max-w-xl">
-              I design scalable{" "}
-              <span className="font-semibold text-foreground">APIs</span>, robust{" "}
-              <span className="font-semibold text-foreground">systems</span>, and
-              clean user experiences.
-            </p>
+        {/* LCP element: server-rendered so it paints without waiting for hydration */}
+        <p className="mt-3 text-xl sm:text-2xl text-foreground/90 max-w-xl">
+          I design scalable{" "}
+          <span className="font-semibold text-foreground">APIs</span>, robust{" "}
+          <span className="font-semibold text-foreground">systems</span>, and
+          clean user experiences.
+        </p>
 
-            <HeroCta />
-          </div>
-
-          <HeroCardDynamic />
-        </div>
+        <HeroCta />
       </div>
     </SectionWrapper>
   );

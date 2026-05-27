@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme-provider";
+import { ChatProvider } from "@/lib/chat-context";
 import { Navbar } from "@/components/layout/navbar";
+import { PortfolioChatDynamic } from "@/components/ai/portfolio-chat-dynamic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,8 +74,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <Navbar />
-        {children}
+          <ChatProvider>
+            <Navbar />
+            {children}
+            <PortfolioChatDynamic />
+          </ChatProvider>
         </ThemeProvider>
       </body>
     </html>

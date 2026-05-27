@@ -6,6 +6,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { TechChip } from "@/components/ui/tech-chip";
 import { personalInfo } from "@/data/personal";
+import { useChat } from "@/lib/chat-context";
+import { MessageCircle } from "lucide-react";
 
 const ResumeDialog = dynamic(
   () =>
@@ -14,6 +16,8 @@ const ResumeDialog = dynamic(
 );
 
 export function HeroCta() {
+  const { openChat } = useChat();
+
   return (
     <>
       <Reveal delayMs={190}>
@@ -54,6 +58,16 @@ export function HeroCta() {
               </Button>
             </ResumeDialog>
           ) : null}
+          <Button
+            type="button"
+            size="lg"
+            variant="ghost"
+            onClick={openChat}
+            className="h-11 px-7 rounded-xl hover:bg-accent/60 hover:-translate-y-0.5 transition-all duration-200 ease-out gap-2"
+          >
+            <MessageCircle className="size-4" aria-hidden />
+            Ask about my work
+          </Button>
         </div>
       </Reveal>
     </>

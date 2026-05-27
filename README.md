@@ -51,10 +51,15 @@ anand-portfolio/
 │   │   │   └── theme-toggle.tsx # Light/dark/system switch
 │   │   │
 │   │   ├── sections/            # Page sections (one per area of the page)
-│   │   │   ├── hero.tsx         # Hero: h1, tagline, LCP paragraph, CTA, hero card
+│   │   │   ├── hero.tsx         # Hero: h1, tagline, LCP paragraph, CTA
 │   │   │   ├── hero-tagline.tsx # Typing effect (client)
-│   │   │   ├── hero-cta.tsx     # Buttons and tech chips (client)
-│   │   │   ├── hero-card.tsx    # API demo card (client)
+│   │   │   ├── hero-cta.tsx     # Buttons, tech chips, open-chat CTA (client)
+│   │   │
+│   │   ├── ai/                  # Floating portfolio chat (client)
+│   │   │   ├── portfolio-chat.tsx
+│   │   │   ├── portfolio-chat-dynamic.tsx
+│   │   │   ├── chat-message-list.tsx
+│   │   │   └── use-portfolio-chat.ts
 │   │   │   ├── about.tsx        # About + focus areas card
 │   │   │   ├── skills.tsx       # Skills by category
 │   │   │   ├── projects.tsx     # Featured + grid of projects
@@ -91,7 +96,8 @@ anand-portfolio/
 │   │
 │   ├── lib/
 │   │   ├── utils.ts             # cn() (clsx + tailwind-merge)
-│   │   └── theme-provider.tsx   # next-themes wrapper (client)
+│   │   ├── theme-provider.tsx   # next-themes wrapper (client)
+│   │   └── chat-context.tsx     # open/close state for floating chat
 │   │
 │   └── types/
 │       └── index.ts             # Shared interfaces: PersonalInfo, Project, Experience, Skill, Education
@@ -123,13 +129,13 @@ anand-portfolio/
 ### Static-first with optional API routes
 
 - The main portfolio page is still **fully pre-rendered** for fast loads.
-- For the AI terminal card in the Hero, we use a **small Next.js API route** on Vercel to securely call Gemini (your API key stays on the server).
+- For the floating portfolio chat, we use a **small Next.js API route** on Vercel to securely call Gemini (your API key stays on the server).
 - Content lives in TypeScript files under `src/data/` — type-safe and version-controlled.
 
 ### Server vs client components
 
 - **Server Components** (default in App Router): Sections (Hero, About, Skills, Projects, Experience, Education, Contact), SectionWrapper, SectionHeader. They render on the server and send no JS for that tree.
-- **Client Components** (`"use client"`): Only where needed — ThemeProvider, Navbar, ThemeToggle, Reveal, HeroTagline, HeroCta, HeroCard, ProjectCard, TypingText, TechChip, Dialog, etc. This keeps the initial bundle smaller and improves LCP.
+- **Client Components** (`"use client"`): Only where needed — ThemeProvider, Navbar, ThemeToggle, Reveal, HeroTagline, HeroCta, PortfolioChat, ProjectCard, TypingText, TechChip, Dialog, etc. This keeps the initial bundle smaller and improves LCP.
 
 ### Data flow
 
@@ -153,7 +159,7 @@ These are the main performance and UX decisions. Useful for learning how a produ
 
 - **Goal:** The main hero heading and the line “I design scalable APIs…” paint as soon as possible.
 - **Approach:** Hero is a **Server Component**. The **h1** and the **LCP paragraph** are rendered on the server with **no client boundary** above them — they are not inside any `"use client"` component. So the browser can paint them with the first HTML/CSS, without waiting for React hydration.
-- **Extra:** Client-only parts of the hero (tagline, CTA, hero card) live in small client components (HeroTagline, HeroCta, HeroCard), so the critical text is not blocked by their JS.
+- **Extra:** Client-only parts of the hero (tagline, CTA) live in small client components (HeroTagline, HeroCta). The floating chat loads via `next/dynamic` from the root layout, so the critical text is not blocked by chat JS.
 
 ### 2. 🔤 Fonts not blocking paint
 
@@ -239,15 +245,16 @@ Edit **`src/app/layout.tsx`** — `metadata` object: title, description, Open Gr
 
 - **Netlify / Render / etc.:** Use their Next.js support so that the `/api/portfolio-chat` route runs as a serverless function.
 
-If you add environment variables (for example, `GEMINI_API_KEY` for the AI terminal card), set them in the host’s dashboard and **do not** prefix them with `NEXT_PUBLIC_` so they stay server-side only.
+If you add environment variables (for example, `GEMINI_API_KEY` for the floating chat), set them in the host’s dashboard and **do not** prefix them with `NEXT_PUBLIC_` so they stay server-side only.
 
 ---
 
-## 🤖 AI Terminal card (Gemini)
+## 🤖 Floating portfolio chat (Gemini)
 
-The Hero card can act as an “AI terminal” that only answers questions about this portfolio (projects, skills, experience, education).
+A minimal chat widget (bottom-right FAB) answers questions about this portfolio (projects, skills, experience, education).
 
-- Frontend: `src/components/sections/hero-card.tsx` renders a terminal-style UI and sends requests to `/api/portfolio-chat`.
+- Frontend: `src/components/ai/portfolio-chat.tsx` (dynamically loaded from `layout.tsx`) sends requests to `/api/portfolio-chat`.
+- Hero CTA **Ask about my work** opens the chat via `src/lib/chat-context.tsx`.
 - Backend: `src/app/api/portfolio-chat/route.ts` is a small serverless function that:
   - Loads portfolio data from `src/data/*`
   - Adds a strict system prompt (“only answer about Anand based on this data”)
