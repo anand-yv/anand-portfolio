@@ -11,7 +11,8 @@ type ChatTurn = {
   content: string;
 };
 
-const MODEL = "gemini-3.1-flash-lite-preview";
+const PRIMARY_MODEL = "gemini-3.5-flash";
+const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 const MAX_MESSAGE_CHARS = 800;
 const MAX_TURNS = 6;
 const MAX_OUTPUT_CHARS = 700;
@@ -116,50 +117,49 @@ async function generateWithGemini(params: {
     },
   ];
 
-  let resp: Response;
-  try {
-    resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(
-        apiKey
-      )}`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemText }] },
-          contents,
-          generationConfig: {
-            temperature: 0.55,
-            maxOutputTokens: 512,
-          },
-        }),
+  for (const model of [PRIMARY_MODEL, FALLBACK_MODEL]) {
+    try {
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(
+          apiKey
+        )}`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: systemText }] },
+            contents,
+            generationConfig: {
+              temperature: 0.55,
+              maxOutputTokens: 512,
+            },
+          }),
+        }
+      );
+
+      if (!resp.ok) continue;
+
+      const data = (await resp.json()) as {
+        candidates?: Array<{
+          content?: { parts?: Array<{ text?: string }> };
+        }>;
+      };
+
+      const parts = data.candidates?.[0]?.content?.parts ?? [];
+      const answer: string | undefined = parts
+        .map((part) => part.text || "")
+        .join("")
+        .trim();
+
+      if (answer && typeof answer === "string") {
+        return NextResponse.json({ answer: normalizeAnswerLength(answer) });
       }
-    );
-  } catch {
-    return NextResponse.json({ answer: fallbackReply() });
+    } catch {
+      // Try next model.
+    }
   }
 
-  if (!resp.ok) {
-    return NextResponse.json({ answer: fallbackReply() });
-  }
-
-  const data = (await resp.json()) as {
-    candidates?: Array<{
-      content?: { parts?: Array<{ text?: string }> };
-    }>;
-  };
-
-  const parts = data.candidates?.[0]?.content?.parts ?? [];
-  const answer: string | undefined = parts
-    .map((part) => part.text || "")
-    .join("")
-    .trim();
-
-  if (!answer || typeof answer !== "string") {
-    return NextResponse.json({ answer: fallbackReply() });
-  }
-
-  return NextResponse.json({ answer: normalizeAnswerLength(answer) });
+  return NextResponse.json({ answer: fallbackReply() });
 }
 
 export async function POST(req: Request) {
