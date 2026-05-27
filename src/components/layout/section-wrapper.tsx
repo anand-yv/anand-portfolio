@@ -6,6 +6,8 @@ interface SectionWrapperProps {
   className?: string;
   bordered?: boolean;
   width?: "narrow" | "wide";
+  /** Full-bleed layers behind the container (e.g. hero gradients). */
+  atmosphere?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -19,20 +21,22 @@ export function SectionWrapper({
   className,
   bordered = true,
   width = "narrow",
+  atmosphere,
   children,
 }: SectionWrapperProps) {
   return (
     <section
       id={id}
       className={cn(
-        "relative scroll-mt-[4.5rem] py-20 sm:py-24",
+        "relative isolate scroll-mt-[4.5rem] overflow-hidden py-20 sm:py-24",
         bordered && "border-t border-border/70",
         className
       )}
     >
+      {atmosphere}
       <div
         className={cn(
-          "container mx-auto px-4 sm:px-6",
+          "container relative z-[1] mx-auto px-4 sm:px-6",
           widthClass[width]
         )}
       >

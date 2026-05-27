@@ -28,16 +28,6 @@ export function HeroMotion({ heading, lcpParagraph }: HeroMotionProps) {
 
   return (
     <div className="relative w-full">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-dot-grid opacity-40" />
-      <div
-        className="ambient-glow -top-24 right-[-5%] h-[380px] w-[380px] opacity-70"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-noise opacity-[0.02]"
-        aria-hidden
-      />
-
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
         <div className="min-w-0">
           <motion.div

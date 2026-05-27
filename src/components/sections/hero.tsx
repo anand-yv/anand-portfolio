@@ -1,4 +1,5 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
+import { HeroAtmosphere } from "@/components/sections/hero-atmosphere";
 import { HeroMotion } from "@/components/sections/hero-motion";
 import { HERO_ROLE_FALLBACK } from "@/components/sections/hero-tagline";
 
@@ -12,6 +13,7 @@ export function Hero() {
       id="hero"
       bordered={false}
       width="wide"
+      atmosphere={<HeroAtmosphere />}
       className="flex min-h-[92vh] items-center pt-14 pb-20 sm:min-h-[90vh]"
     >
       <HeroMotion
