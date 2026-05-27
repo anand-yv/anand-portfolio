@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/lib/theme-provider";
 import { ChatProvider } from "@/lib/chat-context";
 import { Navbar } from "@/components/layout/navbar";
 import { PortfolioChatDynamic } from "@/components/ai/portfolio-chat-dynamic";
+import { ScrollProgressDynamic } from "@/components/motion/scroll-progress-dynamic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,6 +76,7 @@ export default function RootLayout({
           enableSystem
         >
           <ChatProvider>
+            <ScrollProgressDynamic />
             <Navbar />
             {children}
             <PortfolioChatDynamic />

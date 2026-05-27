@@ -1,8 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import {
   Server,
   Code2,
@@ -10,8 +8,9 @@ import {
   Cable,
   Wrench,
   Layers,
-  type LucideIcon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface TechChipProps {
   tech: string;
@@ -19,24 +18,17 @@ interface TechChipProps {
   showIcon?: boolean;
 }
 
-// Map tech keywords to icon categories
-function getTechCategory(tech: string): {
-  category: "backend" | "frontend" | "database" | "api" | "tools" | "microservices" | null;
-  icon: LucideIcon | null;
-} {
+function TechIcon({ tech }: { tech: string }) {
+  const className = "size-3 shrink-0 text-brand";
   const lower = tech.toLowerCase();
 
-  // Backend
   if (
     lower.includes("java") ||
     lower.includes("spring") ||
-    lower.includes("backend") ||
-    lower.includes("server")
+    lower.includes("backend")
   ) {
-    return { category: "backend", icon: Server };
+    return <Server className={className} aria-hidden />;
   }
-
-  // Frontend
   if (
     lower.includes("react") ||
     lower.includes("typescript") ||
@@ -45,74 +37,52 @@ function getTechCategory(tech: string): {
     lower.includes("html") ||
     lower.includes("css")
   ) {
-    return { category: "frontend", icon: Code2 };
+    return <Code2 className={className} aria-hidden />;
   }
-
-  // Database
   if (
     lower.includes("postgres") ||
     lower.includes("mongo") ||
     lower.includes("database") ||
-    lower.includes("sql") ||
-    lower.includes("db")
+    lower.includes("sql")
   ) {
-    return { category: "database", icon: Database };
+    return <Database className={className} aria-hidden />;
   }
-
-  // API
-  if (
-    lower.includes("api") ||
-    lower.includes("rest") ||
-    lower.includes("graphql") ||
-    lower.includes("endpoint")
-  ) {
-    return { category: "api", icon: Cable };
+  if (lower.includes("api") || lower.includes("rest")) {
+    return <Cable className={className} aria-hidden />;
   }
-
-  // Microservices
-  if (
-    lower.includes("microservice") ||
-    lower.includes("micro-service") ||
-    lower.includes("service mesh")
-  ) {
-    return { category: "microservices", icon: Layers };
+  if (lower.includes("microservice")) {
+    return <Layers className={className} aria-hidden />;
   }
-
-  // Tools
   if (
     lower.includes("docker") ||
     lower.includes("git") ||
-    lower.includes("linux") ||
-    lower.includes("devops") ||
-    lower.includes("tool")
+    lower.includes("linux")
   ) {
-    return { category: "tools", icon: Wrench };
+    return <Wrench className={className} aria-hidden />;
   }
-
-  return { category: null, icon: null };
+  return null;
 }
 
 export function TechChip({ tech, className, showIcon = true }: TechChipProps) {
-  const { icon: Icon } = getTechCategory(tech);
-  const shouldShowIcon = showIcon && Icon !== null;
+  const reduced = useReducedMotion();
+  const Comp = reduced ? "span" : motion.span;
 
   return (
-    <Badge
-      variant="outline"
+    <Comp
       className={cn(
-        "rounded-full bg-card/40 px-3 py-1 text-sm",
-        "transition-all duration-200 ease-out",
-        "hover:bg-card/60 hover:border-primary/40 hover:shadow-sm hover:shadow-primary/10",
-        "inline-flex items-center gap-1.5",
-        "cursor-pointer",
+        "inline-flex items-center gap-1.5 rounded-md border border-border/80 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground",
+        "transition-colors hover:border-brand/50 hover:bg-brand-muted hover:text-foreground",
         className
       )}
+      {...(!reduced
+        ? {
+            whileHover: { scale: 1.04 },
+            transition: { type: "spring", stiffness: 400, damping: 22 },
+          }
+        : {})}
     >
-      {shouldShowIcon && (
-        <Icon className="size-3 text-primary/80 shrink-0" aria-hidden="true" />
-      )}
+      {showIcon ? <TechIcon tech={tech} /> : null}
       <span>{tech}</span>
-    </Badge>
+    </Comp>
   );
 }
-

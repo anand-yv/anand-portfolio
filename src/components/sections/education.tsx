@@ -9,22 +9,25 @@ export function Education() {
   const timelineItems = education.map((edu) => ({
     id: edu.id,
     title: edu.degree,
-    subtitle: `${edu.field} - ${edu.institution}`,
-    period: `${edu.startDate} - ${edu.endDate}`,
+    subtitle: `${edu.institution} · ${edu.field}`,
+    period: `${edu.startDate} – ${edu.endDate}`,
     description: edu.description || [],
   }));
 
   return (
     <SectionWrapper id="education">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <Reveal>
-          <SectionHeader icon={<GraduationCap />} title="Education" />
-        </Reveal>
-        <Reveal delayMs={80}>
+      <Reveal>
+        <SectionHeader
+          icon={<GraduationCap />}
+          label="05 — Education"
+          title="Education"
+        />
+      </Reveal>
+      <Reveal delayMs={50}>
+        <div className="mt-10">
           <Timeline items={timelineItems} />
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </SectionWrapper>
   );
 }
-

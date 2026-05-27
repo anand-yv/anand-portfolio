@@ -9,29 +9,22 @@ export function Experience() {
   const timelineItems = experience.map((exp) => ({
     id: exp.id,
     title: exp.position,
-    subtitle: exp.company,
-    period: `${exp.startDate} - ${exp.endDate}`,
+    subtitle: `${exp.company} · ${exp.location}`,
+    period: `${exp.startDate} – ${exp.endDate}`,
     description: exp.description,
     technologies: exp.technologies,
   }));
 
   return (
     <SectionWrapper id="experience">
-      <div className="max-w-5xl mx-auto">
-        <Reveal>
-          <SectionHeader
-            icon={<Briefcase />}
-            title="Experience"
-            description="Building production systems with Spring Boot, React, and modern backend patterns."
-          />
-        </Reveal>
-        <Reveal delayMs={80}>
-          <div className="mt-12">
-            <Timeline items={timelineItems} />
-          </div>
-        </Reveal>
-      </div>
+      <Reveal>
+        <SectionHeader icon={<Briefcase />} label="04 — Experience" title="Experience" />
+      </Reveal>
+      <Reveal delayMs={50}>
+        <div className="mt-10">
+          <Timeline items={timelineItems} />
+        </div>
+      </Reveal>
     </SectionWrapper>
   );
 }
-

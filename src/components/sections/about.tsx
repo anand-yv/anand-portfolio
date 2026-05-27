@@ -1,78 +1,67 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeader } from "@/components/sections/section-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { personalInfo } from "@/data/personal";
 import { User } from "lucide-react";
 
 export function About() {
   return (
     <SectionWrapper id="about">
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <SectionHeader
-            icon={<User />}
-            title="About"
-            description="Full-stack engineer with a focus on clean APIs, solid data models, and UX that feels effortless."
-          />
+      <Reveal>
+        <SectionHeader
+          icon={<User />}
+          label="01 — About"
+          title="About"
+          description="What I do day to day."
+        />
+      </Reveal>
+
+      <div className="mt-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:items-start">
+        <Reveal delayMs={60}>
+          <div className="space-y-4 text-[0.95rem] leading-relaxed text-muted-foreground">
+            <p>
+              I&apos;m a software engineer in {personalInfo.location.split(",")[0]}.
+              Most of my work is Spring Boot on the server and React on the client —
+              booking flows, internal tools, and APIs that other teams depend on.
+            </p>
+            <p>
+              I care about clear contracts, sane database design, and code that the
+              next person can change without guessing. Before shipping, I like to
+              know how something behaves under load and how we&apos;d debug it at 2am.
+            </p>
+          </div>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-14 items-start">
-          {/* Left: Text */}
-          <Reveal delayMs={80}>
-            <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                I&apos;m a full-stack software engineer based in Mumbai, India, with a
-                focus on building scalable systems. I enjoy designing RESTful APIs,
-                working with relational and NoSQL databases, and shipping frontends
-                that stay fast and maintainable as they grow.
-              </p>
-              <p>
-                In production work, I build with Spring Boot and React, and I care
-                about performance, security, and operational simplicity. I like
-                making systems observable, predictable under load, and easy for other
-                developers to extend.
-              </p>
-              <p>
-                Outside of work, I keep learning — exploring new tools, reading
-                engineering deep-dives, and improving my craft through consistent
-                practice.
-              </p>
-            </div>
-          </Reveal>
-
-          {/* Right: Highlight Card */}
-          <Reveal delayMs={140}>
-            <div className="relative">
-              <div className="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-br from-primary/15 via-transparent to-transparent blur-2xl opacity-60 dark:opacity-40" />
-              <Card className="rounded-3xl border bg-card/50 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl">Focus Areas</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="text-sm font-semibold text-foreground">APIs</h3>
-                    <p className="text-sm text-muted-foreground">
-                      RESTful design, clear contracts, predictable responses
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-sm font-semibold text-foreground">Systems</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Scalable architecture, resilient services, clean data models
-                    </p>
-                  </div>
-                  <div className="space-y-2 pt-4">
-                    <h3 className="text-sm font-semibold text-foreground">Location</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {personalInfo.location}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </Reveal>
-        </div>
+        <Reveal delayMs={120}>
+          <div className="glass-panel rounded-xl p-6 transition-shadow duration-300 hover:shadow-md hover:shadow-brand/10">
+            <dl className="grid gap-5">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
+                  Backend
+                </dt>
+                <dd className="mt-1 text-sm text-foreground/90">
+                  REST APIs, auth, service boundaries
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
+                  Data
+                </dt>
+                <dd className="mt-1 text-sm text-foreground/90">
+                  PostgreSQL, MongoDB, migrations
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
+                  Frontend
+                </dt>
+                <dd className="mt-1 text-sm text-foreground/90">
+                  React, TypeScript, product UI
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </Reveal>
       </div>
     </SectionWrapper>
   );

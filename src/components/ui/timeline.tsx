@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Separator } from "@/components/ui/separator";
-import { Card } from "@/components/ui/card";
+"use client";
+
 import { TechChip } from "@/components/ui/tech-chip";
+import { StaggerContainer, StaggerItem } from "@/components/motion/stagger";
 import { cn } from "@/lib/utils";
 
 interface TimelineItem {
@@ -20,78 +20,51 @@ interface TimelineProps {
 
 export function Timeline({ items, className }: TimelineProps) {
   return (
-    <div className={cn("relative", className)}>
-      {/* Vertical Spine with Glow */}
-      <div className="absolute left-4 top-0 bottom-0 w-0.5">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-primary/40 to-transparent" />
-        <div className="absolute inset-0 bg-border blur-sm" />
-      </div>
-
+    <StaggerContainer className={cn("space-y-10", className)}>
       {items.map((item, index) => (
-        <div key={item.id} className="relative pb-10 last:pb-0">
-          {/* Node with Glow */}
-          <div className="absolute left-4 top-0 -translate-x-1/2">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-primary/30 blur-md" />
-              <div className="relative size-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center shrink-0">
-                <div className="size-3 rounded-full bg-primary" />
+        <StaggerItem key={item.id}>
+          <article className="relative pl-6 sm:pl-7">
+            <span
+              className="absolute left-0 top-2 size-2.5 rounded-full border-2 border-brand bg-background"
+              aria-hidden
+            />
+            {index < items.length - 1 ? (
+              <span
+                className="absolute left-[4px] top-4 -bottom-10 w-px bg-brand/30"
+                aria-hidden
+              />
+            ) : null}
+
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <div>
+                <h3 className="text-base font-semibold text-foreground">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.subtitle}</p>
               </div>
+              <p className="text-sm tabular-nums text-muted-foreground">{item.period}</p>
             </div>
-          </div>
 
-          {/* Content Card */}
-          <div className="ml-12">
-            <Card className="rounded-2xl border bg-card/50 shadow-sm hover:shadow-md transition-shadow duration-200">
-              <div className="p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-0.5">
-                      {item.subtitle}
-                    </p>
-                  </div>
-                  <p className="text-sm text-muted-foreground font-medium shrink-0">
-                    {item.period}
-                  </p>
-                </div>
+            {typeof item.description === "string" ? (
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {item.description}
+              </p>
+            ) : (
+              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+                {item.description.map((desc, idx) => (
+                  <li key={idx}>{desc}</li>
+                ))}
+              </ul>
+            )}
 
-                {typeof item.description === "string" ? (
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {item.description}
-                  </p>
-                ) : (
-                  <ul className="space-y-2 mb-4">
-                    {item.description.map((desc, idx) => (
-                      <li
-                        key={idx}
-                        className="text-sm text-muted-foreground flex items-start gap-2"
-                      >
-                        <span className="text-primary/70 mt-[0.35rem] shrink-0 leading-none">
-                          •
-                        </span>
-                        <span className="leading-relaxed">{desc}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {item.technologies && item.technologies.length > 0 && (
-                  <>
-                    <Separator className="my-4" />
-                    <div className="flex flex-wrap gap-2">
-                      {item.technologies.map((tech) => (
-                        <TechChip key={tech} tech={tech} />
-                      ))}
-                    </div>
-                  </>
-                )}
+            {item.technologies && item.technologies.length > 0 ? (
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {item.technologies.map((tech) => (
+                  <TechChip key={tech} tech={tech} />
+                ))}
               </div>
-            </Card>
-          </div>
-        </div>
+            ) : null}
+          </article>
+        </StaggerItem>
       ))}
-    </div>
+    </StaggerContainer>
   );
 }

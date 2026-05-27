@@ -1,46 +1,50 @@
 "use client";
 
 import * as React from "react";
-import { Reveal } from "@/components/motion/reveal";
 import { TypingText } from "@/components/ui/typing-text";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
-const FIRST_PHRASE = "Full-Stack Engineer";
-const PHRASES = [
+export const HERO_ROLE_PHRASES = [
   "Full-Stack Engineer",
   "Backend Engineer",
   "Frontend Engineer",
-];
+] as const;
 
-export function HeroTagline() {
+export const HERO_ROLE_FALLBACK = HERO_ROLE_PHRASES[0];
+
+type HeroTaglineProps = {
+  /** Server-rendered fallback for LCP / no-JS */
+  fallback?: string;
+};
+
+export function HeroTagline({ fallback = HERO_ROLE_FALLBACK }: HeroTaglineProps) {
+  const reduced = useReducedMotion();
   const [showTyping, setShowTyping] = React.useState(false);
 
   React.useEffect(() => {
+    if (reduced) return;
     const useIdle = typeof requestIdleCallback !== "undefined";
     const id = useIdle
       ? requestIdleCallback(() => setShowTyping(true), { timeout: 400 })
-      : setTimeout(() => setShowTyping(true), 100);
+      : window.setTimeout(() => setShowTyping(true), 120);
     return () => {
       if (useIdle) cancelIdleCallback(id as number);
       else clearTimeout(id);
     };
-  }, []);
+  }, [reduced]);
 
   return (
-    <Reveal delayMs={90} visibleByDefault>
-      <p className="mt-4 text-lg sm:text-xl text-muted-foreground">
-        {showTyping ? (
-          <TypingText
-            phrases={PHRASES}
-            typingSpeed={100}
-            deletingSpeed={50}
-            pauseDuration={2000}
-          />
-        ) : (
-          <span style={{ minWidth: `${FIRST_PHRASE.length}ch` }}>
-            {FIRST_PHRASE}
-          </span>
-        )}
-      </p>
-    </Reveal>
+    <p className="mt-4 min-h-[2rem] text-xl text-muted-foreground sm:text-2xl">
+      {reduced || !showTyping ? (
+        <span>{fallback}</span>
+      ) : (
+        <TypingText
+          phrases={[...HERO_ROLE_PHRASES]}
+          typingSpeed={90}
+          deletingSpeed={45}
+          pauseDuration={2200}
+        />
+      )}
+    </p>
   );
 }
