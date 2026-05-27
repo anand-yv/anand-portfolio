@@ -13,7 +13,7 @@ interface SectionWrapperProps {
 
 const widthClass = {
   narrow: "max-w-3xl",
-  wide: "max-w-5xl",
+  wide: "max-w-5xl xl:max-w-6xl",
 } as const;
 
 export function SectionWrapper({

@@ -14,7 +14,7 @@ export function Hero() {
       bordered={false}
       width="wide"
       atmosphere={<HeroAtmosphere />}
-      className="flex min-h-[92vh] items-center pt-14 pb-20 sm:min-h-[90vh]"
+      className="py-0 pb-16 sm:pb-20 min-h-[clamp(28rem,calc(75dvh-3.5rem),48rem)]"
     >
       <HeroMotion
         heading={

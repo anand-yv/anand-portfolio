@@ -1,12 +1,23 @@
+import Link from "next/link";
+import { ArrowUpRight, MapPin, User } from "lucide-react";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeader } from "@/components/sections/section-header";
+import { aboutNarrative } from "@/data/about";
+import { experience } from "@/data/experience";
 import { personalInfo } from "@/data/personal";
-import { User } from "lucide-react";
+
+const currentRole = experience[0];
+
+function formatCompany(name: string) {
+  return name.replace(" Private Limited", "");
+}
 
 export function About() {
+  const [lead, ...rest] = aboutNarrative;
+
   return (
-    <SectionWrapper id="about">
+    <SectionWrapper id="about" width="wide">
       <Reveal>
         <SectionHeader
           icon={<User />}
@@ -16,50 +27,75 @@ export function About() {
         />
       </Reveal>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:items-start">
-        <Reveal delayMs={60}>
-          <div className="space-y-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-            <p>
-              I&apos;m a software engineer in {personalInfo.location.split(",")[0]}.
-              Most of my work is Spring Boot on the server and React on the client —
-              booking flows, internal tools, and APIs that other teams depend on.
+      <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-12 lg:items-stretch lg:gap-5">
+        <Reveal delayMs={50} className="lg:col-span-7">
+          <div className="relative h-full overflow-hidden rounded-xl border border-border/80 bg-card/50 p-6 sm:p-8">
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-brand/80 via-brand/40 to-transparent"
+              aria-hidden
+            />
+            <p className="pl-4 text-lg font-medium leading-snug tracking-tight text-foreground sm:text-xl sm:leading-snug">
+              {lead}
             </p>
-            <p>
-              I care about clear contracts, sane database design, and code that the
-              next person can change without guessing. Before shipping, I like to
-              know how something behaves under load and how we&apos;d debug it at 2am.
-            </p>
+            {rest.length > 0 ? (
+              <div className="mt-5 space-y-4 pl-4 text-[0.95rem] leading-relaxed text-muted-foreground">
+                {rest.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            ) : null}
           </div>
         </Reveal>
 
-        <Reveal delayMs={120}>
-          <div className="glass-panel rounded-xl p-6 transition-shadow duration-300 hover:shadow-md hover:shadow-brand/10">
-            <dl className="grid gap-5">
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
-                  Backend
-                </dt>
-                <dd className="mt-1 text-sm text-foreground/90">
-                  REST APIs, auth, service boundaries
-                </dd>
+        <Reveal delayMs={100} className="lg:col-span-5">
+          <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border/80 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/25 p-6 transition-shadow duration-300 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/10">
+            <div
+              className="pointer-events-none absolute -right-10 -top-10 size-36 rounded-full bg-brand/15 blur-2xl"
+              aria-hidden
+            />
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand">
+                  Currently
+                </p>
+                {currentRole?.endDate === "Present" ? (
+                  <span className="rounded-full border border-brand/30 bg-brand-muted px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-brand">
+                    Present
+                  </span>
+                ) : null}
               </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
-                  Data
-                </dt>
-                <dd className="mt-1 text-sm text-foreground/90">
-                  PostgreSQL, MongoDB, migrations
-                </dd>
+              {currentRole ? (
+                <div className="mt-4 space-y-1">
+                  <p className="text-lg font-semibold tracking-tight text-foreground">
+                    {currentRole.position}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {formatCompany(currentRole.company)}
+                  </p>
+                  <p className="text-xs text-muted-foreground/80">
+                    {currentRole.startDate} — {currentRole.endDate}
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-4 text-lg font-semibold text-foreground">
+                  {personalInfo.title}
+                </p>
+              )}
+              <div className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
+                <MapPin
+                  className="mt-0.5 size-4 shrink-0 text-brand"
+                  aria-hidden
+                />
+                <span>{personalInfo.location}</span>
               </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-wide text-brand">
-                  Frontend
-                </dt>
-                <dd className="mt-1 text-sm text-foreground/90">
-                  React, TypeScript, product UI
-                </dd>
-              </div>
-            </dl>
+            </div>
+            <Link
+              href="#experience"
+              className="relative mt-6 inline-flex w-fit items-center gap-1.5 rounded-lg border border-border/80 bg-background/60 px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand/40 hover:bg-brand-muted hover:text-brand"
+            >
+              View experience
+              <ArrowUpRight className="size-4 text-brand" aria-hidden />
+            </Link>
           </div>
         </Reveal>
       </div>

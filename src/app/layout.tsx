@@ -78,7 +78,7 @@ export default function RootLayout({
           <ChatProvider>
             <ScrollProgressDynamic />
             <Navbar />
-            {children}
+            <main className="pt-[var(--nav-height)]">{children}</main>
             <PortfolioChatDynamic />
           </ChatProvider>
         </ThemeProvider>
