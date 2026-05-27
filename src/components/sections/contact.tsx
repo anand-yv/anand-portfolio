@@ -1,59 +1,121 @@
+import Link from "next/link";
+import { Mail, MapPin, Send } from "lucide-react";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Reveal } from "@/components/motion/reveal";
+import { StaggerContainer, StaggerItem } from "@/components/motion/stagger";
+import {
+  ContactChannelCard,
+  type ContactChannelIcon,
+} from "@/components/sections/contact-channel-card";
+import { ContactChatCta } from "@/components/sections/contact-chat-cta";
 import { SectionHeader } from "@/components/sections/section-header";
 import { personalInfo } from "@/data/personal";
-import Link from "next/link";
-import { ArrowUpRight, Send } from "lucide-react";
+
+type ContactChannel = {
+  id: string;
+  href: string;
+  label: string;
+  description: string;
+  icon: ContactChannelIcon;
+};
+
+const channels: ContactChannel[] = [
+  personalInfo.github
+    ? {
+        id: "github",
+        href: personalInfo.github,
+        label: "GitHub",
+        description: "Projects, code, and open-source work",
+        icon: "github",
+      }
+    : null,
+  personalInfo.linkedin
+    ? {
+        id: "linkedin",
+        href: personalInfo.linkedin,
+        label: "LinkedIn",
+        description: "Professional profile and network",
+        icon: "linkedin",
+      }
+    : null,
+].filter((c): c is ContactChannel => c !== null);
 
 export function Contact() {
   return (
-    <SectionWrapper id="contact">
+    <SectionWrapper id="contact" width="wide">
       <Reveal>
         <SectionHeader
           icon={<Send />}
           label="06 — Contact"
-          title="Contact"
-          description="Reach out if you'd like to talk about a role or a project."
+          title="Get in touch"
+          description="Open to roles, collaborations, and thoughtful conversations about software."
         />
       </Reveal>
 
-      <Reveal delayMs={50}>
-        <div className="mt-10 space-y-8">
-          <Link
-            href={`mailto:${personalInfo.email}`}
-            className="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 text-base font-medium text-brand-foreground shadow-sm transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-md hover:shadow-brand/25"
-          >
-            {personalInfo.email}
-          </Link>
-
-          <p className="text-sm text-muted-foreground">{personalInfo.location}</p>
-
-          <div className="flex flex-wrap gap-5 text-sm">
-            {personalInfo.github ? (
+      <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-12 lg:items-stretch lg:gap-5">
+        <Reveal delayMs={50} className="lg:col-span-7">
+          <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-brand/20 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/25 p-6 sm:p-8">
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent"
+              aria-hidden
+            />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand">
+                Email
+              </p>
+              <p className="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                Let&apos;s build something solid.
+              </p>
+              <p className="mt-3 max-w-lg text-[0.95rem] leading-relaxed text-muted-foreground">
+                Whether it&apos;s a full-time role or a project that needs a reliable
+                full-stack engineer, I&apos;d love to hear from you.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
-                href={personalInfo.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-muted-foreground transition-colors hover:text-brand"
+                href={`mailto:${personalInfo.email}`}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3 text-base font-medium text-brand-foreground shadow-sm transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:bg-brand/90 hover:shadow-md hover:shadow-brand/25"
               >
-                GitHub
-                <ArrowUpRight className="size-3.5" aria-hidden />
+                <Mail className="size-4" aria-hidden />
+                {personalInfo.email}
               </Link>
-            ) : null}
-            {personalInfo.linkedin ? (
-              <Link
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-muted-foreground transition-colors hover:text-brand"
-              >
-                LinkedIn
-                <ArrowUpRight className="size-3.5" aria-hidden />
-              </Link>
-            ) : null}
+              <ContactChatCta />
+            </div>
           </div>
+        </Reveal>
+
+        <div className="flex flex-col gap-4 lg:col-span-5 lg:gap-5">
+          <Reveal delayMs={100}>
+            <div className="glass-panel flex items-start gap-3 rounded-xl p-5 sm:p-6">
+              <MapPin className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand">
+                  Location
+                </p>
+                <p className="mt-2 text-sm font-medium text-foreground">
+                  {personalInfo.location}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Open to remote and hybrid opportunities.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <StaggerContainer className="grid flex-1 gap-4 sm:gap-5">
+            {channels.map((channel) => (
+              <StaggerItem key={channel.id}>
+                <ContactChannelCard
+                  href={channel.href}
+                  label={channel.label}
+                  description={channel.description}
+                  icon={channel.icon}
+                />
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
-      </Reveal>
+      </div>
     </SectionWrapper>
   );
 }

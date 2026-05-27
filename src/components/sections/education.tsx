@@ -15,17 +15,22 @@ export function Education() {
   }));
 
   return (
-    <SectionWrapper id="education">
+    <SectionWrapper id="education" width="wide">
       <Reveal>
         <SectionHeader
           icon={<GraduationCap />}
           label="05 — Education"
           title="Education"
+          description="Academic foundation behind the engineering work."
         />
       </Reveal>
       <Reveal delayMs={50}>
-        <div className="mt-10">
-          <Timeline items={timelineItems} />
+        <div className="mt-8 sm:mt-10">
+          <Timeline
+            items={timelineItems}
+            maxPoints={3}
+            variant="education"
+          />
         </div>
       </Reveal>
     </SectionWrapper>

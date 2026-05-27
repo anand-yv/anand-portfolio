@@ -39,6 +39,17 @@ export interface Skill {
   proficiency?: "expert" | "advanced" | "intermediate";
 }
 
+export type SkillLayerIcon = "code" | "server" | "database" | "wrench";
+
+export interface SkillLayerConfig {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: Skill["category"];
+  icon: SkillLayerIcon;
+  emphasized?: boolean;
+}
+
 export interface Education {
   id: string;
   institution: string;

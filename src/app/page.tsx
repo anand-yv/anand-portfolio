@@ -5,7 +5,6 @@ import { Projects } from "@/components/sections/projects";
 import { Experience } from "@/components/sections/experience";
 import { Education } from "@/components/sections/education";
 import { Contact } from "@/components/sections/contact";
-import { SiteFooter } from "@/components/layout/site-footer";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
       <Experience />
       <Education />
       <Contact />
-      <SiteFooter />
     </main>
   );
 }

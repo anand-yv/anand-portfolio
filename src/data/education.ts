@@ -3,16 +3,16 @@ import { Education } from "@/types";
 export const education: Education[] = [
   {
     id: "degree",
-    institution: "University of Mumbai", // Update with actual university
+    institution: "University of Mumbai",
     degree: "Bachelor's Degree",
-    field: "Information Technology / Engineering", // Update with actual field
+    field: "Information Technology / Engineering",
     location: "Mumbai, Maharashtra, India",
-    startDate: "2020", // Update with actual dates
+    startDate: "2020",
     endDate: "2024",
     description: [
-      "Relevant coursework: Data Structures, Algorithms, Database Systems, Software Engineering",
-      "Projects: Built multiple full-stack applications using Spring Boot and React",
+      "Coursework in data structures, algorithms, databases, and software engineering",
+      "Built full-stack projects with Spring Boot and React",
+      "Strong foundation in problem-solving and system design fundamentals",
     ],
   },
 ];
-

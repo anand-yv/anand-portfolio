@@ -1,53 +1,47 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Reveal } from "@/components/motion/reveal";
-import { SectionHeader } from "@/components/sections/section-header";
 import { StaggerContainer, StaggerItem } from "@/components/motion/stagger";
-import { skills } from "@/data/skills";
-import { TechChip } from "@/components/ui/tech-chip";
+import { SkillLayerCard } from "@/components/sections/skill-layer-card";
+import { SectionHeader } from "@/components/sections/section-header";
+import { groupSkillsByCategory, skillLayers, skills } from "@/data/skills";
 import { Wrench } from "lucide-react";
 
-const categoryLabels = {
-  backend: "Backend",
-  frontend: "Frontend",
-  database: "Database",
-  tools: "Tools",
-  other: "Other",
-} as const;
+const skillsByCategory = groupSkillsByCategory(skills);
 
 export function Skills() {
-  const skillsByCategory = skills.reduce(
-    (acc, skill) => {
-      if (!acc[skill.category]) acc[skill.category] = [];
-      acc[skill.category].push(skill);
-      return acc;
-    },
-    {} as Record<string, typeof skills>
-  );
-
   return (
-    <SectionWrapper id="skills">
+    <SectionWrapper id="skills" width="wide">
       <Reveal>
-        <SectionHeader icon={<Wrench />} label="02 — Skills" title="Skills" />
+        <SectionHeader
+          icon={<Wrench />}
+          label="02 — Skills"
+          title="Tech stack"
+          description="How the stack is organized from UI to data and tooling."
+        />
       </Reveal>
 
-      <Reveal delayMs={50}>
-        <div className="mt-10 divide-y divide-border/70">
-          {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
-            <div key={category} className="py-6 first:pt-0 last:pb-0">
-              <h3 className="text-sm font-medium text-foreground">
-                {categoryLabels[category as keyof typeof categoryLabels] || category}
-              </h3>
-              <StaggerContainer className="mt-3 flex flex-wrap gap-1.5">
-                {categorySkills.map((skill) => (
-                  <StaggerItem key={skill.name}>
-                    <TechChip tech={skill.name} showIcon={false} />
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-            </div>
-          ))}
-        </div>
-      </Reveal>
+      <StaggerContainer className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2">
+        {skillLayers.map((layer) => {
+          const isFullWidth =
+            layer.category === "frontend" || layer.category === "backend";
+
+          return (
+            <StaggerItem
+              key={layer.id}
+              className={isFullWidth ? "min-w-0 lg:col-span-2" : "min-w-0"}
+            >
+              <SkillLayerCard
+                title={layer.title}
+                subtitle={layer.subtitle}
+                icon={layer.icon}
+                skills={skillsByCategory.get(layer.category) ?? []}
+                emphasized={layer.emphasized}
+                className="h-full"
+              />
+            </StaggerItem>
+          );
+        })}
+      </StaggerContainer>
     </SectionWrapper>
   );
 }
