@@ -50,7 +50,7 @@ export function ContactChannelCard({
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
         className={cn(
-          "group glass-panel flex h-full items-center gap-2 rounded-xl p-3 transition-shadow duration-300 sm:p-3.5",
+          "group glass-panel flex h-full items-center gap-2 rounded-sm p-3 transition-shadow duration-300 sm:p-3.5",
           "hover:border-brand/30 hover:shadow-md hover:shadow-brand/10"
         )}
       >

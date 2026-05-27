@@ -30,7 +30,7 @@ export function HeroShowcase() {
   return (
     <motion.div
       className={cn(
-        "glass-panel group relative overflow-hidden rounded-2xl p-6",
+        "glass-panel group relative overflow-hidden rounded-sm p-6",
         "transition-shadow duration-300 hover:shadow-lg hover:shadow-brand/10",
         "border-brand/20 hover:border-brand/40"
       )}
@@ -51,9 +51,9 @@ export function HeroShowcase() {
         {STACK_ITEMS.map(({ label, icon: Icon }) => (
           <div
             key={label}
-            className="flex items-center gap-2.5 rounded-lg border border-border/60 bg-background/50 px-3 py-2.5 transition-colors hover:border-brand/30 hover:bg-brand-muted/50"
+            className="flex items-center gap-2.5 rounded-sm border border-border/60 bg-background/50 px-3 py-2.5 transition-colors hover:border-brand/30 hover:bg-brand-muted/50"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-brand-muted text-brand">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-sm bg-brand-muted text-brand">
               <Icon className="size-4" aria-hidden />
             </span>
             <span className="text-sm font-medium text-foreground">{label}</span>

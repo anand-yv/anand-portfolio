@@ -45,7 +45,7 @@ export function SkillLayerCard({
   return (
     <Comp
       className={cn(
-        "group glass-panel relative overflow-hidden rounded-xl p-5 sm:p-6",
+        "group glass-panel relative overflow-hidden rounded-sm p-5 sm:p-6",
         "transition-shadow duration-300 hover:border-brand/30 hover:shadow-md hover:shadow-brand/10",
         emphasized && "border-brand/25 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/20",
         !reduced && "hover:-translate-y-0.5",
@@ -66,7 +66,7 @@ export function SkillLayerCard({
         aria-hidden
       />
       <div className="flex items-start gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-brand-muted text-brand">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-border/80 bg-brand-muted text-brand">
           <Icon className="size-[1.125rem]" aria-hidden />
         </span>
         <div className="min-w-0">

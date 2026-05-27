@@ -21,7 +21,7 @@ interface ResumeDialogProps {
 const PDF_LOAD_TIMEOUT_MS = 8000;
 
 const outlineTheme =
-  "rounded-lg cursor-pointer border-border hover:border-brand/50 hover:bg-brand-muted";
+  "rounded-sm cursor-pointer border-border hover:border-brand/50 hover:bg-brand-muted";
 
 export function ResumeDialog({ children }: ResumeDialogProps) {
   const [pdfLoaded, setPdfLoaded] = React.useState(false);
@@ -74,7 +74,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="max-w-5xl max-h-[90vh] flex flex-col p-0 rounded-2xl border border-border/80 bg-card shadow-lg overflow-hidden"
+        className="max-w-5xl max-h-[90vh] flex flex-col p-0 rounded-sm border border-border/80 bg-card shadow-lg overflow-hidden"
       >
         {/* Header */}
         <DialogHeader className="px-6 py-4 border-b shrink-0">
@@ -127,7 +127,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
             {/* Skeleton loader - document-style lines until PDF loads */}
             {!pdfLoaded && !pdfError && (
               <div
-                className="absolute inset-0 w-full aspect-[8.5/11] rounded-lg border bg-card shadow-sm p-6 flex flex-col gap-3"
+                className="absolute inset-0 w-full aspect-[8.5/11] rounded-sm border bg-card shadow-sm p-6 flex flex-col gap-3"
                 aria-hidden
               >
                 <div className="flex flex-col gap-2">
@@ -151,7 +151,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
             {/* Error state - network/unavailable or timeout */}
             {pdfError && (
               <div
-                className="absolute inset-0 w-full min-h-[280px] rounded-lg border border-destructive/30 bg-destructive/5 flex flex-col items-center justify-center gap-4 p-8 text-center"
+                className="absolute inset-0 w-full min-h-[280px] rounded-sm border border-destructive/30 bg-destructive/5 flex flex-col items-center justify-center gap-4 p-8 text-center"
                 role="alert"
               >
                 <AlertCircle className="size-12 text-destructive shrink-0" aria-hidden />
@@ -165,7 +165,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-3">
-                  <Button variant="default" size="sm" asChild className="rounded-lg">
+                  <Button variant="default" size="sm" asChild className="rounded-sm">
                     <Link href="/resume.pdf" download>
                       <Download className="size-4 mr-2" />
                       Download
@@ -189,7 +189,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
             <object
               data="/resume.pdf#toolbar=0&navpanes=0"
               type="application/pdf"
-              className="w-full aspect-[8.5/11] rounded-lg border shadow-sm bg-white dark:bg-muted"
+              className="w-full aspect-[8.5/11] rounded-sm border shadow-sm bg-white dark:bg-muted"
               style={
                 pdfLoaded && !pdfError ? undefined : { visibility: "hidden" }
               }
@@ -220,7 +220,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
               variant="default"
               size="lg"
               asChild
-              className="w-full rounded-lg cursor-pointer bg-brand text-brand-foreground hover:bg-brand/90"
+              className="w-full rounded-sm cursor-pointer bg-brand text-brand-foreground hover:bg-brand/90"
             >
               <Link href="/resume.pdf" download>
                 <Download className="size-4 mr-2" />

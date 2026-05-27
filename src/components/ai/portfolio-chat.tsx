@@ -86,7 +86,7 @@ export function PortfolioChat() {
             >
               <div
                 className={cn(
-                  "glass-panel flex flex-col overflow-hidden rounded-xl",
+                  "glass-panel flex flex-col overflow-hidden rounded-sm",
                   "w-[calc(100vw-1.5rem)] max-w-[380px]",
                   "h-[min(70vh,520px)] sm:h-[520px]"
                 )}
@@ -119,16 +119,6 @@ export function PortfolioChat() {
                       variant="ghost"
                       size="icon-sm"
                       onClick={closeChat}
-                      aria-label="Minimize chat"
-                      title="Minimize"
-                    >
-                      <ChevronDown className="size-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={closeChat}
                       aria-label="Close chat"
                       title="Close"
                     >
@@ -151,7 +141,7 @@ export function PortfolioChat() {
                         type="button"
                         onClick={() => sendMessage(topic)}
                         disabled={isSubmitting}
-                        className="rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-brand/40 hover:bg-brand-muted hover:text-foreground disabled:opacity-50"
+                        className="rounded-sm border border-border px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-brand/40 hover:bg-brand-muted hover:text-foreground disabled:opacity-50"
                       >
                         {topic}
                       </button>
@@ -160,7 +150,7 @@ export function PortfolioChat() {
 
                   <form
                     onSubmit={handleSubmit}
-                    className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5"
+                    className="flex items-center gap-2 rounded-sm border border-border bg-background px-3 py-1.5"
                   >
                     <input
                       ref={inputRef}
@@ -199,7 +189,7 @@ export function PortfolioChat() {
             aria-label={isOpen ? "Close portfolio chat" : "Open portfolio chat"}
             aria-expanded={isOpen}
             className={cn(
-              "relative size-12 rounded-full bg-brand text-brand-foreground shadow-md shadow-brand/25 hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/30",
+              "relative size-12 rounded-sm bg-brand text-brand-foreground shadow-md shadow-brand/25 hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/30",
               isOpen && "ring-2 ring-brand/30"
             )}
           >

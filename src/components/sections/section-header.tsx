@@ -20,7 +20,7 @@ export function SectionHeader({
     <header className={cn("space-y-3 max-w-2xl", className)}>
       <div className="flex items-center gap-3">
         {icon ? (
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-brand-muted text-brand [&_svg]:size-[1.125rem]">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-border/80 bg-brand-muted text-brand [&_svg]:size-[1.125rem]">
             {icon}
           </span>
         ) : null}

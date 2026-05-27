@@ -70,7 +70,7 @@ export function TechChip({ tech, className, showIcon = true }: TechChipProps) {
   return (
     <Comp
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-md border border-border/80 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground",
+        "inline-flex items-center gap-1.5 rounded-sm border border-border/80 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground",
         "transition-colors hover:border-brand/50 hover:bg-brand-muted hover:text-foreground",
         className
       )}

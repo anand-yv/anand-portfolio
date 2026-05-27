@@ -37,7 +37,7 @@ export function ProjectCard({
   return (
     <Comp
       className={cn(
-        "group glass-panel relative overflow-hidden rounded-xl p-5 sm:p-6",
+        "group glass-panel relative overflow-hidden rounded-sm p-5 sm:p-6",
         "transition-shadow duration-300 hover:shadow-lg hover:shadow-brand/15",
         featured && "sm:col-span-2",
         !reduced && "hover:-translate-y-1",
@@ -60,7 +60,7 @@ export function ProjectCard({
 
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-brand-muted">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-border/80 bg-brand-muted">
             <CategoryIcon category={project.category} />
           </span>
           <div className="min-w-0 space-y-1">

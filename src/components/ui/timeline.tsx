@@ -50,7 +50,7 @@ export function Timeline({
             <article className="relative pl-8 sm:pl-10">
               <span
                 className={cn(
-                  "absolute left-0 top-6 z-[1] size-3 rounded-full border-2 bg-background",
+                  "absolute left-0 top-6 z-[1] size-3 rounded-sm border-2 bg-background",
                   isFirst || isCurrent
                     ? "border-brand bg-brand-muted shadow-[0_0_0_3px_var(--brand-muted)]"
                     : "border-brand/60"
@@ -66,7 +66,7 @@ export function Timeline({
 
               <div
                 className={cn(
-                  "group glass-panel relative overflow-hidden rounded-xl p-5 transition-shadow duration-300 sm:p-6",
+                  "group glass-panel relative overflow-hidden rounded-sm p-5 transition-shadow duration-300 sm:p-6",
                   "hover:border-brand/30 hover:shadow-md hover:shadow-brand/10",
                   (isFirst || isCurrent) &&
                     "border-brand/20 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/15"
@@ -89,7 +89,7 @@ export function Timeline({
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">{item.subtitle}</p>
                   </div>
-                  <span className="inline-flex w-fit shrink-0 rounded-full border border-border/80 bg-muted/30 px-3 py-1 text-xs font-medium tabular-nums text-muted-foreground">
+                  <span className="inline-flex w-fit shrink-0 rounded-sm border border-border/80 bg-muted/30 px-3 py-1 text-xs font-medium tabular-nums text-muted-foreground">
                     {item.period}
                   </span>
                 </div>
