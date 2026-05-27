@@ -50,22 +50,22 @@ export function ContactChannelCard({
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
         className={cn(
-          "group glass-panel flex h-full items-center gap-4 rounded-xl p-5 transition-shadow duration-300 sm:p-6",
+          "group glass-panel flex h-full items-center gap-2 rounded-xl p-3 transition-shadow duration-300 sm:p-3.5",
           "hover:border-brand/30 hover:shadow-md hover:shadow-brand/10"
         )}
       >
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-brand-muted text-brand">
-          <Icon className="size-5" aria-hidden />
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border/80 bg-brand-muted text-brand">
+          <Icon className="size-4" aria-hidden />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-1 text-base font-semibold text-foreground">
+          <span className="flex items-center gap-1 text-sm font-semibold text-foreground">
             {label}
             <ArrowUpRight
-              className="size-4 shrink-0 text-brand opacity-70 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="size-3 shrink-0 text-brand opacity-70 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               aria-hidden
             />
           </span>
-          <span className="mt-0.5 block text-sm text-muted-foreground">
+          <span className="mt-0.5 block text-xs text-muted-foreground">
             {description}
           </span>
         </span>
