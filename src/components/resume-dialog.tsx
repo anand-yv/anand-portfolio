@@ -20,6 +20,9 @@ interface ResumeDialogProps {
 
 const PDF_LOAD_TIMEOUT_MS = 8000;
 
+const outlineTheme =
+  "rounded-lg cursor-pointer border-border hover:border-brand/50 hover:bg-brand-muted";
+
 export function ResumeDialog({ children }: ResumeDialogProps) {
   const [pdfLoaded, setPdfLoaded] = React.useState(false);
   const [pdfError, setPdfError] = React.useState(false);
@@ -71,30 +74,20 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="max-w-5xl max-h-[90vh] flex flex-col p-0 rounded-2xl border bg-card shadow-lg overflow-hidden"
+        className="max-w-5xl max-h-[90vh] flex flex-col p-0 rounded-2xl border border-border/80 bg-card shadow-lg overflow-hidden"
       >
         {/* Header */}
         <DialogHeader className="px-6 py-4 border-b shrink-0">
           <div className="flex items-center justify-between gap-4">
             <DialogTitle className="text-xl font-semibold">Resume</DialogTitle>
             <div className="hidden md:flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                className="rounded-lg cursor-pointer"
-              >
+              <Button variant="outline" size="sm" asChild className={outlineTheme}>
                 <Link href="/resume.pdf" download>
                   <Download className="size-4 mr-2" />
                   <span className="hidden sm:inline">Download</span>
                 </Link>
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                className="rounded-lg cursor-pointer"
-              >
+              <Button variant="outline" size="sm" asChild className={outlineTheme}>
                 <Link
                   href="/resume.pdf"
                   target="_blank"
@@ -106,7 +99,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
               </Button>
               <DialogClose asChild>
                 <button
-                  className="rounded-xs opacity-70 hover:opacity-100 transition-opacity p-2 hover:bg-accent cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  className="rounded-xs opacity-70 hover:opacity-100 transition-opacity p-2 hover:bg-brand-muted cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   aria-label="Close"
                 >
                   <X className="size-4" />
@@ -117,7 +110,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
             <div className="md:hidden">
               <DialogClose asChild>
                 <button
-                  className="rounded-xs opacity-70 hover:opacity-100 transition-opacity p-2 hover:bg-accent cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  className="rounded-xs opacity-70 hover:opacity-100 transition-opacity p-2 hover:bg-brand-muted cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   aria-label="Close"
                 >
                   <X className="size-4" />
@@ -178,7 +171,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
                       Download
                     </Link>
                   </Button>
-                  <Button variant="outline" size="sm" asChild className="rounded-lg">
+                  <Button variant="outline" size="sm" asChild className={outlineTheme}>
                     <Link
                       href="/resume.pdf"
                       target="_blank"
@@ -213,7 +206,7 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
                   href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-primary underline cursor-pointer hover:text-primary/80"
+                  className="text-sm text-brand underline-offset-4 hover:underline"
                 >
                   Open Resume
                 </Link>
@@ -227,19 +220,14 @@ export function ResumeDialog({ children }: ResumeDialogProps) {
               variant="default"
               size="lg"
               asChild
-              className="w-full rounded-lg cursor-pointer"
+              className="w-full rounded-lg cursor-pointer bg-brand text-brand-foreground hover:bg-brand/90"
             >
               <Link href="/resume.pdf" download>
                 <Download className="size-4 mr-2" />
                 Download Resume
               </Link>
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-              className="w-full rounded-lg cursor-pointer"
-            >
+            <Button variant="outline" size="lg" asChild className={`w-full ${outlineTheme}`}>
               <Link
                 href="/resume.pdf"
                 target="_blank"
