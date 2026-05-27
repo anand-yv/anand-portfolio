@@ -50,6 +50,29 @@ export function PortfolioChat() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen, closeChat]);
 
+  const fabIdleAnimation =
+    !isOpen && !reduced
+      ? {
+          scale: [1, 1.04, 1],
+          y: [0, -2, 0],
+          opacity: [1, 0.95, 1],
+          boxShadow: [
+            "0 10px 24px color-mix(in oklab, var(--brand) 28%, transparent), 0 0 22px color-mix(in oklab, var(--brand) 16%, transparent)",
+            "0 14px 30px color-mix(in oklab, var(--brand) 38%, transparent), 0 0 30px color-mix(in oklab, var(--brand) 24%, transparent)",
+            "0 10px 24px color-mix(in oklab, var(--brand) 28%, transparent), 0 0 22px color-mix(in oklab, var(--brand) 16%, transparent)",
+          ],
+        }
+      : undefined;
+
+  const fabIdleTransition =
+    !isOpen && !reduced
+      ? {
+          duration: 2.2,
+          ease: "easeInOut" as const,
+          repeat: Infinity,
+        }
+      : undefined;
+
   return (
     <>
       <AnimatePresence>
@@ -181,7 +204,11 @@ export function PortfolioChat() {
           ) : null}
         </AnimatePresence>
 
-        <motion.div whileTap={reduced ? undefined : { scale: 0.94 }}>
+        <motion.div
+          whileTap={reduced ? undefined : { scale: 0.94 }}
+          animate={fabIdleAnimation}
+          transition={fabIdleTransition}
+        >
           <Button
             type="button"
             size="icon"
