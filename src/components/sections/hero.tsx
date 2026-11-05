@@ -14,16 +14,17 @@ export function Hero() {
       bordered={false}
       width="wide"
       atmosphere={<HeroAtmosphere />}
-      className="py-0 pb-16 sm:pb-20 min-h-[clamp(28rem,calc(75dvh-3.5rem),48rem)]"
+      className="py-0 pt-10 pb-16 sm:pb-20 min-h-[clamp(26rem,calc(68dvh-3.5rem),40rem)]"
     >
       <HeroMotion
         heading={
-          <h1 className="text-4xl font-bold tracking-tight leading-[1.05] sm:text-6xl lg:text-7xl">
+          <>
+          <p className="mb-1 -rotate-2 font-hand text-2xl text-link">hello, I&apos;m</p>
+          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             <span className="text-foreground">Anand </span>
-            <span className="bg-gradient-to-r from-brand via-brand to-foreground bg-clip-text text-transparent">
-              Yadav
-            </span>
+            <span className="hero-marker relative inline-block text-foreground dark:text-brand">Yadav</span>
           </h1>
+          </>
         }
         lcpParagraph={
           <>

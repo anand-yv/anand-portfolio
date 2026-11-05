@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Caveat, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { ChatProvider } from "@/lib/chat-context";
 import { Navbar } from "@/components/layout/navbar";
 import { PortfolioChatDynamic } from "@/components/ai/portfolio-chat-dynamic";
-import { ScrollProgressDynamic } from "@/components/motion/scroll-progress-dynamic";
+import { Intro } from "@/components/layout/intro";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +15,18 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
   subsets: ["latin"],
   display: "swap",
 });
@@ -69,9 +81,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} ${bricolage.variable}`}
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}',
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="antialiased"
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -80,7 +104,7 @@ export default function RootLayout({
           enableSystem
         >
           <ChatProvider>
-            <ScrollProgressDynamic />
+            <Intro />
             <Navbar />
             <main className="pt-[var(--nav-height)]">{children}</main>
             <PortfolioChatDynamic />

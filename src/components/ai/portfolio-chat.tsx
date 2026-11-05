@@ -27,11 +27,20 @@ export function PortfolioChat() {
     scrollRef,
     clearChat,
     sendMessage,
+    retry,
     handleSubmit,
     handleKeyDown,
-    suggestedTopics,
+    starterPrompts,
     showWelcome,
   } = usePortfolioChat();
+
+  const handleGoto = React.useCallback(
+    (target: string) => {
+      closeChat();
+      setTimeout(() => document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" }), 180);
+    },
+    [closeChat]
+  );
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -45,33 +54,16 @@ export function PortfolioChat() {
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) closeChat();
+      // Cmd/Ctrl + K toggles the assistant.
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (isOpen) closeChat();
+        else openChat();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, closeChat]);
-
-  const fabIdleAnimation =
-    !isOpen && !reduced
-      ? {
-          scale: [1, 1.04, 1],
-          y: [0, -2, 0],
-          opacity: [1, 0.95, 1],
-          boxShadow: [
-            "0 10px 24px color-mix(in oklab, var(--brand) 28%, transparent), 0 0 22px color-mix(in oklab, var(--brand) 16%, transparent)",
-            "0 14px 30px color-mix(in oklab, var(--brand) 38%, transparent), 0 0 30px color-mix(in oklab, var(--brand) 24%, transparent)",
-            "0 10px 24px color-mix(in oklab, var(--brand) 28%, transparent), 0 0 22px color-mix(in oklab, var(--brand) 16%, transparent)",
-          ],
-        }
-      : undefined;
-
-  const fabIdleTransition =
-    !isOpen && !reduced
-      ? {
-          duration: 2.2,
-          ease: "easeInOut" as const,
-          repeat: Infinity,
-        }
-      : undefined;
+  }, [isOpen, openChat, closeChat]);
 
   return (
     <>
@@ -109,21 +101,21 @@ export function PortfolioChat() {
             >
               <div
                 className={cn(
-                  "glass-panel flex flex-col overflow-hidden rounded-sm",
-                  "w-[calc(100vw-1.5rem)] max-w-[380px]",
-                  "h-[min(70vh,520px)] sm:h-[520px]"
+                  "sketch-box flex flex-col overflow-hidden",
+                  "w-[calc(100vw-1.5rem)] sm:w-[420px]",
+                  "h-[min(78dvh,640px)]"
                 )}
               >
-                <header className="flex shrink-0 items-center justify-between gap-2 border-b border-border/60 px-4 py-3">
+                <header className="flex shrink-0 items-center justify-between gap-2 border-b-2 border-dashed border-ink/25 px-4 py-3">
                   <div className="min-w-0">
                     <h2
                       id="portfolio-chat-title"
-                      className="truncate text-sm font-semibold text-foreground"
+                      className="truncate font-display text-base font-bold text-foreground"
                     >
                       Portfolio assistant
                     </h2>
-                    <p className="truncate text-xs text-muted-foreground">
-                      Ask about Anand&apos;s work
+                    <p className="truncate font-hand text-lg leading-none text-link">
+                      ask me about Anand&apos;s work
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-0.5">
@@ -153,37 +145,29 @@ export function PortfolioChat() {
                 <ChatMessageList
                   messages={messages}
                   showWelcome={showWelcome}
+                  starterPrompts={starterPrompts}
+                  busy={isSubmitting}
                   scrollRef={scrollRef}
+                  onSend={sendMessage}
+                  onRetry={retry}
+                  onGoto={handleGoto}
                 />
 
-                <div className="shrink-0 space-y-2 border-t border-border/60 px-3 py-2.5">
-                  <div className="flex flex-wrap gap-1.5">
-                    {suggestedTopics.map((topic) => (
-                      <button
-                        key={topic}
-                        type="button"
-                        onClick={() => sendMessage(topic)}
-                        disabled={isSubmitting}
-                        className="rounded-sm border border-border px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:border-brand/40 hover:bg-brand-muted hover:text-foreground disabled:opacity-50"
-                      >
-                        {topic}
-                      </button>
-                    ))}
-                  </div>
-
+                <div className="shrink-0 space-y-2 border-t-2 border-dashed border-ink/25 px-3 py-2.5">
                   <form
                     onSubmit={handleSubmit}
-                    className="flex items-center gap-2 rounded-sm border border-border bg-background px-3 py-1.5"
+                    className="sketch-box sketch-box--sm flex items-center gap-2 bg-background px-3 py-1.5"
                   >
                     <input
                       ref={inputRef}
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask a question..."
+                      placeholder="Ask about projects, skills, hiring…"
                       className="flex-1 min-w-0 bg-transparent text-sm outline-none text-foreground placeholder:text-muted-foreground/60"
                       maxLength={800}
                       aria-label="Message"
+                      enterKeyHint="send"
                       autoComplete="off"
                       spellCheck={false}
                       disabled={isSubmitting}
@@ -193,7 +177,7 @@ export function PortfolioChat() {
                       size="icon-sm"
                       disabled={!input.trim() || isSubmitting}
                       aria-label="Send message"
-                      className="shrink-0 bg-brand text-brand-foreground hover:bg-brand/90"
+                      className="shrink-0 bg-brand text-brand-foreground hover:bg-brand"
                     >
                       <Send className="size-4" />
                     </Button>
@@ -204,11 +188,7 @@ export function PortfolioChat() {
           ) : null}
         </AnimatePresence>
 
-        <motion.div
-          whileTap={reduced ? undefined : { scale: 0.94 }}
-          animate={fabIdleAnimation}
-          transition={fabIdleTransition}
-        >
+        <motion.div whileTap={reduced ? undefined : { scale: 0.94 }}>
           <Button
             type="button"
             size="icon"
@@ -216,8 +196,8 @@ export function PortfolioChat() {
             aria-label={isOpen ? "Close portfolio chat" : "Open portfolio chat"}
             aria-expanded={isOpen}
             className={cn(
-              "relative size-12 rounded-sm bg-brand text-brand-foreground shadow-md shadow-brand/25 hover:bg-brand/90 hover:shadow-lg hover:shadow-brand/30",
-              isOpen && "ring-2 ring-brand/30"
+              "sketch-btn sketch-box--brand relative size-12 rounded-sm hover:bg-brand",
+              !isOpen && "fab-wiggle"
             )}
           >
             {isOpen ? (

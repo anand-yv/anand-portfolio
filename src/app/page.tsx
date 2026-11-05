@@ -1,21 +1,23 @@
 import { Hero } from "@/components/sections/hero";
+import { Marquee } from "@/components/sections/marquee";
 import { About } from "@/components/sections/about";
-import { Skills } from "@/components/sections/skills";
+import { Journey } from "@/components/sections/journey";
 import { Projects } from "@/components/sections/projects";
-import { Experience } from "@/components/sections/experience";
-import { Education } from "@/components/sections/education";
+import { Skills } from "@/components/sections/skills";
 import { Contact } from "@/components/sections/contact";
+import { Footer } from "@/components/layout/footer";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
       <Hero />
+      <Marquee />
       <About />
-      <Skills />
+      <Journey />
       <Projects />
-      <Experience />
-      <Education />
+      <Skills />
       <Contact />
+      <Footer />
     </div>
   );
 }

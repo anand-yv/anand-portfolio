@@ -1,100 +1,81 @@
+import * as React from "react";
 import Link from "next/link";
-import { ArrowUpRight, MapPin, User } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Reveal } from "@/components/motion/reveal";
+import { Marker } from "@/components/motion/marker";
 import { SectionHeader } from "@/components/sections/section-header";
 import { aboutNarrative } from "@/data/about";
+import { education } from "@/data/education";
 import { experience } from "@/data/experience";
 import { personalInfo } from "@/data/personal";
 
 const currentRole = experience[0];
+const latestEdu = education[0];
 
-function formatCompany(name: string) {
-  return name.replace(" Private Limited", "");
+const HIGHLIGHTS = ["Spring Boot", "React", "clear contracts", "sane database design"];
+
+/** Wraps known phrases in an animated marker highlight. */
+function withMarkers(text: string) {
+  const pattern = new RegExp(`(${HIGHLIGHTS.map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
+  return text.split(pattern).map((part, i) =>
+    HIGHLIGHTS.includes(part) ? (
+      <Marker key={i} delay={0.2 + i * 0.05}>
+        {part}
+      </Marker>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    )
+  );
 }
 
 export function About() {
   const [lead, ...rest] = aboutNarrative;
+  const facts: { label: string; value: string }[] = [
+    { label: "based in", value: personalInfo.location.split(",")[0] },
+    { label: "role", value: currentRole ? currentRole.position : personalInfo.title },
+    { label: "at", value: currentRole ? currentRole.company.replace(" Private Limited", "") : "—" },
+    { label: "focus", value: "Spring Boot · React" },
+    ...(latestEdu ? [{ label: "studied", value: `${latestEdu.institution}, ${latestEdu.endDate}` }] : []),
+  ];
 
   return (
     <SectionWrapper id="about" width="wide">
       <Reveal>
-        <SectionHeader
-          icon={<User />}
-          label="01 — About"
-          title="About"
-          description="What I do day to day."
-        />
+        <SectionHeader index="01" label="about" title="A bit about me" description="What I do day to day." />
       </Reveal>
 
-      <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-12 lg:items-stretch lg:gap-5">
-        <Reveal delayMs={50} className="lg:col-span-7">
-          <div className="relative h-full overflow-hidden rounded-sm border border-border/80 bg-card/50 p-6 sm:p-8">
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-brand/80 via-brand/40 to-transparent"
-              aria-hidden
-            />
-            <p className="pl-4 text-lg font-medium leading-snug tracking-tight text-foreground sm:text-xl sm:leading-snug">
-              {lead}
-            </p>
-            {rest.length > 0 ? (
-              <div className="mt-5 space-y-4 pl-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-                {rest.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            ) : null}
-          </div>
+      <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:gap-10">
+        <Reveal delayMs={60} className="lg:col-span-7">
+          <p className="font-display text-xl font-medium leading-snug tracking-tight text-foreground sm:text-2xl sm:leading-snug">
+            {withMarkers(lead)}
+          </p>
+          {rest.length > 0 ? (
+            <div className="mt-4 max-w-xl space-y-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {rest.map((paragraph, i) => (
+                <p key={i}>{withMarkers(paragraph)}</p>
+              ))}
+            </div>
+          ) : null}
         </Reveal>
 
-        <Reveal delayMs={100} className="lg:col-span-5">
-          <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-sm border border-border/80 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/25 p-6 transition-shadow duration-300 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/10">
-            <div
-              className="pointer-events-none absolute -right-10 -top-10 size-36 rounded-full bg-brand/15 blur-2xl"
-              aria-hidden
-            />
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-brand">
-                  Currently
-                </p>
-                {currentRole?.endDate === "Present" ? (
-                  <span className="rounded-sm border border-brand/30 bg-brand-muted px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-brand">
-                    Present
-                  </span>
-                ) : null}
-              </div>
-              {currentRole ? (
-                <div className="mt-4 space-y-1">
-                  <p className="text-lg font-semibold tracking-tight text-foreground">
-                    {currentRole.position}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {formatCompany(currentRole.company)}
-                  </p>
-                  <p className="text-xs text-muted-foreground/80">
-                    {currentRole.startDate} — {currentRole.endDate}
-                  </p>
+        <Reveal delayMs={140} className="lg:col-span-5">
+          <div className="sketch-box sketch-tilt relative p-5" style={{ "--tilt": "1.2deg" } as React.CSSProperties}>
+            <span className="sketch-tape" aria-hidden />
+            <p className="font-hand text-2xl text-link">quick facts</p>
+            <dl className="mt-3 divide-y-2 divide-dashed divide-ink/20">
+              {facts.map((f) => (
+                <div key={f.label} className="flex items-baseline justify-between gap-4 py-2.5">
+                  <dt className="font-mono text-xs uppercase tracking-wider text-muted-foreground">{f.label}</dt>
+                  <dd className="text-right text-sm font-medium text-foreground">{f.value}</dd>
                 </div>
-              ) : (
-                <p className="mt-4 text-lg font-semibold text-foreground">
-                  {personalInfo.title}
-                </p>
-              )}
-              <div className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
-                <MapPin
-                  className="mt-0.5 size-4 shrink-0 text-brand"
-                  aria-hidden
-                />
-                <span>{personalInfo.location}</span>
-              </div>
-            </div>
+              ))}
+            </dl>
             <Link
               href="#experience"
-              className="relative mt-6 inline-flex w-fit items-center gap-1.5 rounded-sm border border-border/80 bg-background/60 px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand/40 hover:bg-brand-muted hover:text-brand"
+              className="mt-4 inline-flex items-center gap-1 font-hand text-xl text-foreground underline decoration-brand decoration-2 underline-offset-4 transition-colors hover:text-link"
             >
-              View experience
-              <ArrowUpRight className="size-4 text-brand" aria-hidden />
+              see my experience <ArrowUpRight className="size-4" aria-hidden />
             </Link>
           </div>
         </Reveal>

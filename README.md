@@ -214,18 +214,30 @@ If you add environment variables (for example, `GEMINI_API_KEY` for the floating
 
 ---
 
+## 🎨 Design notes
+
+- **Theme tokens** live in `src/app/globals.css`. `--brand` is the *fill* accent (highlighter yellow in light, acid yellow in dark); `--link` is the accent for *coloured text* (indigo in light, yellow in dark); `--pop-1..4` are the colored-pencil accents used for project/skill cards.
+- **Intro:** `src/components/layout/intro.tsx` (multi-language greeting, once per tab session, skipped for reduced motion; an inline script in `layout.tsx` sets `data-intro="skip"` before paint).
+- **Interactive diagram:** `src/components/sections/hero-showcase.tsx` (click a layer for details, or "send request" to animate a request through the stack).
+- **Projects:** `src/components/sections/projects-fan.tsx` is a fanned hand of playing cards. The cards follow your finger/mouse live while dragging and snap on release (with momentum); a ruler above the cards also scrubs through them. Tap the front card to flip it: the front shows image, name, Code and Live; the back shows description, highlights and tech. Per-project artwork lives in `public/projects/*.svg`; set `imageUrl`, `liveUrl` and `accent` (1-4) in `src/data/projects.ts`.
+- **UI scale:** the whole site is sized in `rem`, so the two `html { font-size }` values in `globals.css` (14px mobile, 13px desktop) scale everything at once.
+- **About:** `src/components/sections/about.tsx`: a highlighted statement beside a "quick facts" card, built from `src/data/about.ts` and your experience/education data.
+- **Contact:** `src/components/sections/postcard.tsx` is a postcard with a compose form. There is no backend: "send it" opens a pre-filled draft in the visitor's email app (`mailto:`), and the email address can be copied.
+- **Section order:** About, Experience & Education (`journey.tsx`), Projects, Skills, Contact.
+
 ## 🤖 Floating portfolio chat (Gemini)
 
-A minimal chat widget (bottom-right FAB) answers questions about this portfolio (projects, skills, experience, education).
+A chat widget (bottom-right, or `Ctrl/Cmd + K`) that answers questions about this portfolio.
 
-- Frontend: `src/components/ai/portfolio-chat.tsx` (dynamically loaded from `layout.tsx`) sends requests to `/api/portfolio-chat`.
-- Hero CTA **Ask about my work** opens the chat via `src/lib/chat-context.tsx`.
-- Backend: `src/app/api/portfolio-chat/route.ts` is a small serverless function that:
-  - Loads portfolio data from `src/data/*`
-  - Adds a strict system prompt (“only answer about Anand based on this data”)
-  - Calls the Gemini API on the server using `GEMINI_API_KEY`, trying `gemini-3.5-flash` then falling back to `gemini-2.5-flash-lite`
-  - Validates input (800 chars per message, last 6 turns) and rate-limits to 8 requests/minute per IP (best-effort, per serverless instance)
-  - Logs server-side errors (missing key, upstream failures) to the function logs; users only see a friendly retry message
+- **Frontend:** `src/components/ai/*`. Streams the reply as it arrives, renders Markdown, and keeps the conversation in `sessionStorage` for the tab session. It has retry-on-error, a copy button, starter questions, and follow-up suggestions.
+- **Rich answers:** the model can end a reply with directive lines (`[[project:<id>]]`, `[[goto:<section>]]`, `[[email]]`, `[[resume]]`, `[[ask: a | b]]`). `src/lib/chat-directives.ts` parses and **validates** them against `src/data/*`, so the UI can show a project card, scroll buttons, an email button or follow-up chips. Unknown directives are ignored.
+- **Backend:** `src/app/api/portfolio-chat/route.ts` is a serverless route that:
+  - Loads portfolio data from `src/data/*` (including `personalInfo.availability`) and uses a system prompt that only allows facts from that data.
+  - Streams from Gemini (`gemini-3.5-flash`, falling back to `gemini-2.5-flash-lite`) with thinking disabled for fast first tokens, and passes the key in a header.
+  - Validates input (800 chars per message, last 6 turns) and rate-limits to 8 requests/minute per IP (best-effort, per serverless instance).
+  - Logs server-side errors (missing key, upstream failures) to the function logs; users only see a friendly retry message.
+
+**Availability:** the hero pill reads `personalInfo.availability` in `src/data/personal.ts` (`open` + `text`). Set `open: false` to hide it.
 
 ### Configuring Gemini (free tier)
 

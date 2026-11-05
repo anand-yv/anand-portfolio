@@ -17,7 +17,11 @@ export const projects: Project[] = [
       "Payment gateway integration",
     ],
     githubUrl: "https://github.com/anand-yv/Flight-Booking-System",
-    // liveUrl: "https://flight-booking.example.com",
+    // DUMMY values below: replace imageUrl / liveUrl with real ones.
+    imageUrl: "/projects/flight.svg",
+    liveUrl: "https://example.com",
+    rotation: -1,
+    accent: 1,
   },
   {
     id: "video-streaming",
@@ -35,6 +39,11 @@ export const projects: Project[] = [
       "Scalable architecture for high traffic",
     ],
     githubUrl: "https://github.com/anand-yv/EngageVid",
+    // DUMMY values below: replace imageUrl / liveUrl with real ones.
+    imageUrl: "/projects/video.svg",
+    liveUrl: "https://example.com",
+    rotation: 1.2,
+    accent: 2,
   },
   {
     id: "trendsift",
@@ -52,6 +61,11 @@ export const projects: Project[] = [
       "RESTful API for data access",
     ],
     githubUrl: "https://github.com/anand-yv/twitter-trend-scrapper",
+    // DUMMY values below: replace imageUrl / liveUrl with real ones.
+    imageUrl: "/projects/trend.svg",
+    liveUrl: "https://example.com",
+    rotation: -1.4,
+    accent: 3,
   },
   {
     id: "health-assist-ai",
@@ -69,6 +83,11 @@ export const projects: Project[] = [
       "RESTful API with comprehensive error handling",
     ],
     githubUrl: "https://github.com/anand-yv/Health-Assist-AI",
+    // DUMMY values below: replace imageUrl / liveUrl with real ones.
+    imageUrl: "/projects/health.svg",
+    liveUrl: "https://example.com",
+    rotation: 1,
+    accent: 4,
   },
 ];
 

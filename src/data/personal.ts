@@ -9,5 +9,6 @@ export const personalInfo: PersonalInfo = {
   linkedin: "https://www.linkedin.com/in/anandyv/",
   bio: "Full-Stack Software Engineer specializing in Spring Boot and React. I build scalable REST APIs, design robust database architectures, and create seamless user experiences. Passionate about clean code, microservices, and solving complex technical challenges.",
   resumeUrl: "/resume.pdf",
+  availability: { open: true, text: "Open to full-time roles · Mumbai / remote" },
 };
 

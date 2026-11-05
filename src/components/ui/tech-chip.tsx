@@ -19,11 +19,11 @@ interface TechChipProps {
 }
 
 function TechIcon({ tech }: { tech: string }) {
-  const className = "size-3 shrink-0 text-brand";
+  const className = "size-3 shrink-0 text-link";
   const lower = tech.toLowerCase();
 
   if (
-    lower.includes("java") ||
+    (lower.includes("java") && !lower.includes("javascript")) ||
     lower.includes("spring") ||
     lower.includes("backend")
   ) {
@@ -70,7 +70,7 @@ export function TechChip({ tech, className, showIcon = true }: TechChipProps) {
   return (
     <Comp
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-sm border border-border/80 bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground",
+        "sketch-chip inline-flex items-center gap-1.5 bg-card/60 px-2.5 py-1 text-xs text-foreground/80",
         "transition-colors hover:border-brand/50 hover:bg-brand-muted hover:text-foreground",
         className
       )}

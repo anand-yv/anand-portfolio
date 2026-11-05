@@ -1,9 +1,6 @@
-"use client";
-
+import * as React from "react";
 import { Code2, Database, Server, Wrench } from "lucide-react";
-import { motion } from "motion/react";
 import { TechChip } from "@/components/ui/tech-chip";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import type { Skill, SkillLayerIcon } from "@/types";
 
@@ -15,79 +12,63 @@ const layerIcons = {
 } as const;
 
 interface SkillLayerCardProps {
+  index: number;
   title: string;
   subtitle?: string;
   icon: SkillLayerIcon;
   skills: Skill[];
   emphasized?: boolean;
+  /** Colored-pencil accent 1-4 for the shadow and icon chip. */
+  accent?: 1 | 2 | 3 | 4;
   className?: string;
 }
 
-function chipClassName(proficiency?: Skill["proficiency"]) {
-  if (proficiency === "advanced" || proficiency === "expert") {
-    return "border-brand/35 bg-brand-muted/40";
-  }
-  return undefined;
-}
-
 export function SkillLayerCard({
+  index,
   title,
   subtitle,
   icon,
   skills,
   emphasized = false,
+  accent = 1,
   className,
 }: SkillLayerCardProps) {
   const Icon = layerIcons[icon];
-  const reduced = useReducedMotion();
-  const Comp = reduced ? "article" : motion.article;
 
   return (
-    <Comp
+    <article
+      style={{ "--pop": `var(--pop-${accent})` } as React.CSSProperties}
       className={cn(
-        "group glass-panel relative overflow-hidden rounded-sm p-5 sm:p-6",
-        "transition-shadow duration-300 hover:border-brand/30 hover:shadow-md hover:shadow-brand/10",
-        emphasized && "border-brand/25 bg-gradient-to-br from-card/80 via-card/60 to-brand-muted/20",
-        !reduced && "hover:-translate-y-0.5",
+        "sketch-box sketch-box--pop group relative p-4 transition-transform duration-200 motion-safe:hover:-translate-y-1 sm:p-5",
+        emphasized && "sketch-box--accent",
         className
       )}
-      {...(!reduced
-        ? {
-            whileHover: { y: -2 },
-            transition: { type: "spring", stiffness: 300, damping: 24 },
-          }
-        : {})}
     >
-      <div
-        className={cn(
-          "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent",
-          emphasized ? "opacity-100" : "opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        )}
-        aria-hidden
-      />
-      <div className="flex items-start gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-border/80 bg-brand-muted text-brand">
-          <Icon className="size-[1.125rem]" aria-hidden />
-        </span>
-        <div className="min-w-0">
-          <h3 className="text-base font-semibold tracking-tight text-foreground">
-            {title}
-          </h3>
-          {subtitle ? (
-            <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>
-          ) : null}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span
+            className="sketch-box sketch-box--sm flex size-10 shrink-0 items-center justify-center text-ink"
+            style={{ background: "var(--pop)" }}
+          >
+            <Icon className="size-5" aria-hidden />
+          </span>
+          <div className="min-w-0">
+            <h3 className="text-lg font-bold tracking-tight text-foreground">{title}</h3>
+            {subtitle ? <p className="text-sm text-muted-foreground">{subtitle}</p> : null}
+          </div>
         </div>
+        <span className="font-mono text-xs text-muted-foreground">layer 0{index}</span>
       </div>
+
+      {emphasized ? (
+        <p className="mt-3 font-hand text-xl leading-none text-link">✎ my home turf</p>
+      ) : null}
+
       <div className="mt-4 flex flex-wrap gap-2">
         {skills.map((skill) => (
-          <TechChip
-            key={skill.name}
-            tech={skill.name}
-            showIcon
-            className={chipClassName(skill.proficiency)}
-          />
+          <TechChip key={skill.name} tech={skill.name} showIcon />
         ))}
       </div>
-    </Comp>
+    </article>
   );
 }
