@@ -71,6 +71,9 @@ export function usePortfolioChat() {
           }),
         });
 
+        if (response.status === 429) {
+          throw new Error("rate-limited");
+        }
         if (!response.ok) {
           const data = (await response.json().catch(() => null)) as
             | { error?: string }
@@ -97,7 +100,9 @@ export function usePortfolioChat() {
         ]);
       } catch (error) {
         const answer =
-          error instanceof Error
+          error instanceof Error && error.message === "rate-limited"
+            ? "You're sending messages quickly. Please wait a minute and try again."
+            : error instanceof Error
             ? [
                 "Temporary AI hiccup on this request.",
                 "Please retry in a few seconds.",

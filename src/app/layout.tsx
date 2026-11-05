@@ -19,7 +19,11 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://helloanand.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: "Anand Yadav | Full-Stack Software Engineer",
   description:
     "Backend-strong Full-Stack Software Engineer specializing in Spring Boot and React. Building scalable REST APIs, robust database architectures, and seamless user experiences.",
@@ -41,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://anandyadav.dev", // Update with your domain
+    url: SITE_URL,
     title: "Anand Yadav | Full-Stack Software Engineer",
     description:
       "Backend-strong Full-Stack Software Engineer specializing in Spring Boot and React.",

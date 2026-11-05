@@ -16,6 +16,38 @@ const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 const MAX_MESSAGE_CHARS = 800;
 const MAX_TURNS = 6;
 const MAX_OUTPUT_CHARS = 700;
+const MAX_CONTENT_CHARS = 1500;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 8;
+
+// Best-effort, per-instance limiter. On serverless each instance has its own
+// memory, so this curbs abuse and quota burn but is not a hard global limit.
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (recent.length >= RATE_LIMIT_MAX) {
+    hits.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 1000) {
+    for (const [key, times] of hits) {
+      if (times.every((t) => now - t >= RATE_LIMIT_WINDOW_MS)) hits.delete(key);
+    }
+  }
+  return false;
+}
+
+function clientIp(req: Request) {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
 
 function fallbackReply() {
   return [
@@ -33,6 +65,7 @@ function clampHistory(history: ChatTurn[] | undefined): ChatTurn[] {
         (t.role === "user" || t.role === "assistant") &&
         typeof t.content === "string"
     )
+    .map((t) => ({ role: t.role, content: t.content.slice(0, MAX_CONTENT_CHARS) }))
     .slice(-MAX_TURNS);
 }
 
@@ -87,6 +120,7 @@ async function generateWithGemini(params: {
 }) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
+    console.error("portfolio-chat: GEMINI_API_KEY is not configured.");
     return NextResponse.json(
       { error: "Missing GEMINI_API_KEY server configuration." },
       { status: 500 }
@@ -137,7 +171,10 @@ async function generateWithGemini(params: {
         }
       );
 
-      if (!resp.ok) continue;
+      if (!resp.ok) {
+        console.error(`portfolio-chat: ${model} responded with ${resp.status}`);
+        continue;
+      }
 
       const data = (await resp.json()) as {
         candidates?: Array<{
@@ -154,7 +191,8 @@ async function generateWithGemini(params: {
       if (answer && typeof answer === "string") {
         return NextResponse.json({ answer: normalizeAnswerLength(answer) });
       }
-    } catch {
+    } catch (error) {
+      console.error(`portfolio-chat: ${model} request failed`, error);
       // Try next model.
     }
   }
@@ -163,6 +201,13 @@ async function generateWithGemini(params: {
 }
 
 export async function POST(req: Request) {
+  if (isRateLimited(clientIp(req))) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

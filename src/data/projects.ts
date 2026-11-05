@@ -58,7 +58,7 @@ export const projects: Project[] = [
     title: "Health Assist AI",
     description: "AI-powered health assistance platform with symptom analysis and recommendations.",
     longDescription:
-      "An AI-powered health assistance application that provides symptom analysis, health recommendations, and medication reminders. The backend integrates with AI models for natural language processing, manages user health data securely, and provides personalized insights. Features include secure data storage, HIPAA-compliant architecture considerations, and RESTful API.",
+      "An AI-powered health assistance application that provides symptom analysis, health recommendations, and medication reminders. The backend integrates with AI models for natural language processing, manages user health data securely, and provides personalized insights. Features include secure data storage and a RESTful API.",
     technologies: ["Spring Boot", "React", "PostgreSQL", "AI/ML Integration", "REST API", "JWT"],
     category: "fullstack",
     highlights: [
