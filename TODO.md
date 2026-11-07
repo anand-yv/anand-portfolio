@@ -21,6 +21,8 @@ Improvements from the review of https://helloanand.vercel.app. Items are ordered
 - [x] Cursor rebuilt (dot + lagging ring + context labels + comet trail, footer switch). Earlier image-cursor and trail-only attempts were removed.
 - [x] Round: slim ink scrollbar (replaced the chunky yellow pill); diagram shows Third-party services (payments, AWS S3, AI/ML, all from project data) instead of MongoDB; postcard copy button only swaps its icon; cursor trail redrawn (smoother, softer, fades along its length).
 - [x] Chat hardening: natural-language profile instead of JSON, input/output guards, honesty + edge-case prompt, friendly "busy" message; stream parser no longer drops the last event; two-finger trackpad swipe now moves the project cards and blocks the browser back/forward gesture.
+- [x] Skills revamped as a filterable sticker sheet (no proficiency labels shown), with brand/line icons on every sticker.
+- [x] Flipped project card: mouse wheel now scrolls its content (Chrome ignored it inside the 3D flip), and its scrollbar uses the same style as the page. Wheel over a scrollable card never scrolls the page behind it (no hand-off at the ends); cards that fit still let the page scroll.
 - [x] Fixed Geist never loading (font variables were on `<body>` instead of `<html>`).
 
 ## High priority: content

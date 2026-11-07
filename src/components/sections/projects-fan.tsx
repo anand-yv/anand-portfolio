@@ -46,6 +46,38 @@ function Corner({ index, suit, className }: { index: number; suit: string; class
 
 const faceStyle: React.CSSProperties = { backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" };
 
+/**
+ * Scrollable region on the flipped (back) face. Chrome will not wheel-scroll a panel that sits inside a card
+ * flipped with 3D transforms: the page scrolls instead and only dragging the scrollbar works. So the wheel is
+ * handled here by hand. While the pointer is over a panel that has something to scroll, the wheel only ever
+ * moves the panel: reaching the top or bottom does not hand the scroll over to the page. A panel whose content
+ * fits has nothing to scroll, so the page scrolls as usual there (the card is never a trap).
+ */
+function ScrollPanel({ className, children }: { className?: string; children: React.ReactNode }) {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return; // pinch-zoom, or a sideways swipe
+      const max = el.scrollHeight - el.clientHeight;
+      if (max <= 1) return; // content fits: nothing to scroll, so leave the wheel to the page
+      const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * el.clientHeight : e.deltaY;
+      e.preventDefault(); // always consumed, even at the top or bottom, so the page behind never moves
+      el.scrollTop = clamp(el.scrollTop + dy, 0, max);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  return (
+    <div ref={ref} className={cn("[overscroll-behavior:contain]", className)}>
+      {children}
+    </div>
+  );
+}
+
 function FlipButton({ onClick, label, flipped }: { onClick: () => void; label: string; flipped?: boolean }) {
   return (
     <button
@@ -454,7 +486,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                       {project.title}
                     </h3>
 
-                    <div className="resume-modal-scroll mt-2 min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1">
+                    <ScrollPanel className="mt-2 min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1">
                       <p className="text-sm leading-relaxed text-muted-foreground">{project.description}</p>
 
                       {project.highlights.length > 0 ? (
@@ -478,7 +510,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                           ))}
                         </div>
                       </div>
-                    </div>
+                    </ScrollPanel>
                   </div>
                 </div>
               </motion.div>

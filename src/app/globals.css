@@ -342,22 +342,9 @@ html {
   }
 }
 
+/* Inner scrollers (chat messages, resume dialog) never pass their scroll on to the page behind. */
 .resume-modal-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklch, var(--ink) 35%, transparent) transparent;
-}
-
-.resume-modal-scroll::-webkit-scrollbar {
-  width: 5px;
-}
-
-.resume-modal-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.resume-modal-scroll::-webkit-scrollbar-thumb {
-  background: color-mix(in oklch, var(--ink) 35%, transparent);
-  border-radius: 999px;
+  overscroll-behavior: contain;
 }
 
 .typing-cursor {
@@ -730,7 +717,8 @@ html[data-cursor-fx="on"] :is(object, iframe, embed) {
 }
 
 @supports not selector(::-webkit-scrollbar) {
-  html {
+  html,
+  .resume-modal-scroll {
     scrollbar-width: thin;
     scrollbar-color: color-mix(in oklch, var(--ink) 40%, transparent) transparent;
   }
