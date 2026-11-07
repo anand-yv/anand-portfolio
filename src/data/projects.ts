@@ -17,8 +17,8 @@ export const projects: Project[] = [
       "Payment gateway integration",
     ],
     githubUrl: "https://github.com/anand-yv/Flight-Booking-System",
-    // DUMMY values below: replace imageUrl / liveUrl with real ones.
-    imageUrl: "/projects/flight.svg",
+    // DUMMY values below: set imageUrl to a real screenshot (it replaces `art`) and liveUrl to a real link.
+    art: "flight",
     liveUrl: "https://example.com",
     rotation: -1,
     accent: 1,
@@ -39,8 +39,8 @@ export const projects: Project[] = [
       "Scalable architecture for high traffic",
     ],
     githubUrl: "https://github.com/anand-yv/EngageVid",
-    // DUMMY values below: replace imageUrl / liveUrl with real ones.
-    imageUrl: "/projects/video.svg",
+    // DUMMY values below: set imageUrl to a real screenshot (it replaces `art`) and liveUrl to a real link.
+    art: "video",
     liveUrl: "https://example.com",
     rotation: 1.2,
     accent: 2,
@@ -61,8 +61,8 @@ export const projects: Project[] = [
       "RESTful API for data access",
     ],
     githubUrl: "https://github.com/anand-yv/twitter-trend-scrapper",
-    // DUMMY values below: replace imageUrl / liveUrl with real ones.
-    imageUrl: "/projects/trend.svg",
+    // DUMMY values below: set imageUrl to a real screenshot (it replaces `art`) and liveUrl to a real link.
+    art: "trend",
     liveUrl: "https://example.com",
     rotation: -1.4,
     accent: 3,
@@ -83,8 +83,8 @@ export const projects: Project[] = [
       "RESTful API with comprehensive error handling",
     ],
     githubUrl: "https://github.com/anand-yv/Health-Assist-AI",
-    // DUMMY values below: replace imageUrl / liveUrl with real ones.
-    imageUrl: "/projects/health.svg",
+    // DUMMY values below: set imageUrl to a real screenshot (it replaces `art`) and liveUrl to a real link.
+    art: "health",
     liveUrl: "https://example.com",
     rotation: 1,
     accent: 4,

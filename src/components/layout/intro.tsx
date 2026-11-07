@@ -75,7 +75,7 @@ export function Intro() {
           aria-label="Loading"
         >
           <div className="flex items-center gap-3 sm:gap-4">
-            <span className="size-2.5 rounded-full bg-[oklch(0.93_0.2_112)] sm:size-3" aria-hidden />
+            <span className="size-2.5 rounded-full bg-[oklch(0.96_0.005_95)] sm:size-3" aria-hidden />
             <AnimatePresence mode="wait">
               <motion.span
                 key={closing ? "closing" : GREETINGS[index]}

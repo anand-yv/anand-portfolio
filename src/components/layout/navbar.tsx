@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { ThemeToggle } from "./theme-toggle";
+import { PaletteMenu } from "./palette-menu";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
@@ -67,25 +68,26 @@ export function Navbar() {
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
-        <div className="sketch-box pointer-events-auto relative mx-auto flex h-[3.25rem] max-w-4xl -rotate-[0.3deg] items-center justify-between gap-3 pl-2.5 pr-2">
+        {/* roomy on purpose: tall bar, generous gaps, large lettering */}
+        <div className="sketch-box pointer-events-auto relative mx-auto flex h-[4.25rem] max-w-6xl -rotate-[0.3deg] items-center justify-between gap-5 bg-background/95 pl-3.5 pr-3 backdrop-blur-md">
           <Link
             href="/"
-            className="group flex items-center gap-2"
+            className="group flex shrink-0 items-center gap-3"
             aria-label="Back to top"
             onClick={(e) => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <span className="sketch-box sketch-box--sm sketch-box--brand flex size-8 items-center justify-center font-display text-sm font-extrabold transition-transform group-hover:-rotate-6">
+            <span className="sketch-box sketch-box--sm sketch-box--brand flex size-11 items-center justify-center font-display text-base font-extrabold transition-transform group-hover:-rotate-6">
               AY
             </span>
-            <span className="hidden font-display text-base font-bold tracking-tight text-foreground sm:inline">
+            <span className="hidden whitespace-nowrap font-display text-[1.05rem] font-bold tracking-tight text-foreground xl:inline">
               Anand Yadav
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+          <nav className="hidden items-center gap-1.5 md:flex" aria-label="Main">
             {navLinks.map(({ id, label }, i) => {
               const isActive = active === id;
               return (
@@ -94,20 +96,20 @@ export function Navbar() {
                   type="button"
                   onClick={() => scrollToSection(id)}
                   className={cn(
-                    "group relative px-2.5 py-1 font-hand text-2xl leading-none transition-colors",
+                    "group relative whitespace-nowrap px-3 py-2 font-hand text-[1.75rem] leading-none transition-colors lg:px-4",
                     isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {isActive ? (
                     <motion.span
                       layoutId="nav-marker"
-                      className="absolute inset-x-0.5 bottom-0.5 top-1.5 -z-0 -rotate-1"
-                      style={{ background: "var(--marker)", borderRadius: "6px 3px 7px 3px / 3px 7px 3px 6px" }}
+                      className="absolute inset-x-1 bottom-1 top-2.5 -z-0 -rotate-1"
+                      style={{ background: "var(--marker)", borderRadius: "7px 3px 8px 3px / 3px 8px 3px 7px" }}
                       transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 32 }}
                     />
                   ) : null}
                   <span className="relative z-10">
-                    <sup className="mr-0.5 font-mono text-[0.55rem] font-bold not-italic opacity-60">
+                    <sup className="mr-1 font-mono text-[0.78rem] font-bold not-italic opacity-60">
                       {String(i + 1).padStart(2, "0")}
                     </sup>
                     {label}
@@ -117,31 +119,32 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={() => scrollToSection("contact")}
-              className="sketch-btn sketch-box--brand hidden px-3 py-1 font-hand text-2xl leading-none lg:inline-flex"
+              className="sketch-btn sketch-box--brand hidden shrink-0 whitespace-nowrap px-5 py-2 font-hand text-[1.75rem] leading-none lg:inline-flex"
             >
               hire me
             </button>
+            <PaletteMenu />
             <ThemeToggle />
             <button
               type="button"
-              className="sketch-chip flex size-9 items-center justify-center bg-card text-foreground md:hidden"
+              className="sketch-chip flex size-11 items-center justify-center bg-card text-foreground md:hidden"
               onClick={() => setMenuOpen((o) => !o)}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav-menu"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
-              {menuOpen ? <X className="size-4" aria-hidden /> : <Menu className="size-4" aria-hidden />}
+              {menuOpen ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
             </button>
           </div>
 
-          {/* reading-progress line, drawn along the bottom edge of the bar */}
+          {/* reading-progress line along the bottom edge of the bar */}
           {!reduced ? (
             <motion.span
-              className="absolute inset-x-4 bottom-[3px] h-[3px] origin-left rounded-full bg-link"
+              className="absolute inset-x-5 bottom-[4px] h-[3px] origin-left rounded-full bg-link"
               style={{ scaleX: progress }}
               aria-hidden
             />
@@ -164,7 +167,7 @@ export function Navbar() {
             <motion.nav
               id="mobile-nav-menu"
               aria-label="Mobile"
-              className="sketch-box fixed left-4 right-4 top-[4.75rem] z-50 p-2 md:hidden"
+              className="sketch-box fixed left-4 right-4 top-[5.75rem] z-50 p-2.5 md:hidden"
               initial={{ opacity: 0, y: -8, rotate: -1 }}
               animate={{ opacity: 1, y: 0, rotate: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -176,12 +179,12 @@ export function Navbar() {
                   type="button"
                   onClick={() => scrollToSection(id)}
                   className={cn(
-                    "flex w-full items-baseline gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-brand-muted",
+                    "flex w-full items-baseline gap-3.5 rounded-md px-3.5 py-3 text-left transition-colors hover:bg-brand-muted",
                     active === id && "bg-brand-muted"
                   )}
                 >
                   <span className="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="font-hand text-2xl leading-none">{label}</span>
+                  <span className="font-hand text-[2rem] leading-none">{label}</span>
                 </button>
               ))}
             </motion.nav>

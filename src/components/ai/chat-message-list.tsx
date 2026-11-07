@@ -81,7 +81,7 @@ function ProjectMiniCard({ id }: { id: string }) {
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{project.description}</p>
       <div className="mt-2 flex flex-wrap gap-1">
         {project.technologies.slice(0, 3).map((t) => (
-          <TechChip key={t} tech={t} showIcon={false} className="px-1.5 py-0.5 text-[0.65rem]" />
+          <TechChip key={t} tech={t} showIcon={false} className="px-1.5 py-0.5 text-[0.75rem]" />
         ))}
       </div>
       <div className="mt-2 flex gap-3">

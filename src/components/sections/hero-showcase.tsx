@@ -131,8 +131,8 @@ function Node({
         lit && "sketch-box--brand scale-[1.03]"
       )}
     >
-      <p className={cn("font-hand text-lg leading-none", lit ? "text-brand-foreground" : "text-link")}>{n.tag}</p>
-      <p className="mt-1 text-sm font-semibold">{n.title}</p>
+      <p className={cn("font-hand text-xl leading-none", lit ? "text-brand-foreground" : "text-link")}>{n.tag}</p>
+      <p className="mt-1 text-base font-semibold">{n.title}</p>
     </button>
   );
 }
@@ -185,12 +185,12 @@ export function HeroShowcase() {
       <Sfx className="-bottom-7 -right-5 size-[5.25rem]">SHIP IT!</Sfx>
 
       <div className="flex items-center justify-between gap-3">
-        <p className="font-hand text-xl text-foreground">how I build things</p>
+        <p className="font-hand text-2xl text-foreground">how I build things</p>
         <button
           type="button"
           onClick={sendRequest}
           disabled={running}
-          className="sketch-btn sketch-box--brand inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold disabled:opacity-70"
+          className="sketch-btn sketch-box--brand inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 text-base font-semibold disabled:opacity-70"
         >
           <Play className="size-3 fill-current" aria-hidden />
           {running ? "sending…" : "send request"}
@@ -212,7 +212,7 @@ export function HeroShowcase() {
       </div>
 
       {/* live request status */}
-      <div className="mt-3 h-6 text-right font-mono text-xs text-muted-foreground" aria-live="polite">
+      <div className="mt-3 h-8 text-right font-mono text-sm text-muted-foreground" aria-live="polite">
         <AnimatePresence mode="wait">
           {status ? (
             <motion.span
@@ -226,7 +226,7 @@ export function HeroShowcase() {
               {status}
             </motion.span>
           ) : (
-            <span className="font-hand text-base">click a layer, or send a request ↑</span>
+            <span className="font-hand text-lg">click a layer, or send a request ↑</span>
           )}
         </AnimatePresence>
       </div>
@@ -241,17 +241,17 @@ export function HeroShowcase() {
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.18 }}
           >
-            <p className="text-sm leading-relaxed text-muted-foreground">{detail.blurb}</p>
+            <p className="text-base leading-relaxed text-muted-foreground">{detail.blurb}</p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               {detail.chips.map((c) => (
-                <TechChip key={c} tech={c} showIcon={false} className="px-2 py-0.5" />
+                <TechChip key={c} tech={c} showIcon={false} className="px-2.5 py-1 text-[0.98rem]" />
               ))}
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 pr-20 text-sm text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
           <MapPin className="size-3.5 text-link" aria-hidden />
           {personalInfo.location.split(",")[0]}

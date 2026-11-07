@@ -14,6 +14,10 @@ Improvements from the review of https://helloanand.vercel.app. Items are ordered
 - [x] Round 5: UI scaled down again (13px desktop / 14px mobile), fan starts on a middle card (centred), sticker-style navbar with in-bar progress line, diagram arrows are request/response pairs, fixed invisible-text bug on lit layers in dark mode.
 - [x] Round 6: flip-card projects, ruler moved above the cards, live finger-follow swipe with momentum, postcard-style Get in touch with working mailto form.
 - [x] Round 7: ruler redesigned as a slim scrubber (filled rail, knob, name tag). About: sticky-notes and compact-card versions were tried and reverted; the original statement + quick-facts layout is back. Resume modal restyled and widened. Project images no longer draggable. Pointer trail / custom cursor tried (pencil, arrow, comet / pencil / dots trails) and fully removed; custom cursor images were tried (pencil, then arrow) and removed.
+- [x] Palette alternatives added (indigo / tomato / forest, footer switcher) after friends said the multi-colour look clashed; the yellow palette stays the default. Navbar: sliding-marker design kept and made roomier (taller bar, larger lettering) because it was too compact.
+- [x] Text inside containers was too small (xs/sm were ~9.8px/11.4px at the 13px root): small type scale raised; project cards made taller so the back face still fits; nav kept from wrapping.
+- [x] Diagram and contact postcard text raised one more step (they used the smallest sizes); postcard widened, lined paper re-spaced.
+- [x] Palette picker moved from the footer into the navbar (swatch button + menu with 4 palettes). The glowing green "open to opportunities" pill (an AI-template cliche) replaced by a handwritten sticky note beside the hero buttons and a highlighter line on the postcard.
 - [x] Fixed Geist never loading (font variables were on `<body>` instead of `<html>`).
 
 ## High priority: content

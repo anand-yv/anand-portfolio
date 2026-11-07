@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { ArrowUpRight, RotateCw } from "lucide-react";
+import { ProjectArt } from "@/components/ui/project-art";
 import { TechChip } from "@/components/ui/tech-chip";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
@@ -270,7 +271,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
           select(Math.round(projected));
           setTimeout(() => (justDragged.current = false), 60);
         }}
-        className="relative h-[28rem] touch-pan-y select-none outline-none [-webkit-user-drag:none]"
+        className="relative h-[31.5rem] touch-pan-y select-none outline-none [-webkit-user-drag:none]"
       >
         {projects.map((project, i) => {
           const off = i - pos;
@@ -325,8 +326,8 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                 } as React.CSSProperties
               }
               className={cn(
-                "absolute left-1/2 top-0 h-[23.5rem] w-[19rem] max-w-[calc(100vw-4rem)]",
-                isActive ? "cursor-default" : "cursor-pointer"
+                "absolute left-1/2 top-0 h-[27rem] w-[19rem] max-w-[calc(100vw-4rem)]",
+                "cursor-default"
               )}
             >
               {/* the flipper: rotates 180deg to reveal the back face */}
@@ -363,6 +364,8 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                           draggable={false}
                           className="pointer-events-none select-none object-cover [-webkit-user-drag:none]"
                         />
+                      ) : project.art ? (
+                        <ProjectArt kind={project.art} />
                       ) : (
                         <div className="flex size-full items-center justify-center font-hand text-xl text-ink/70">
                           screenshot coming soon

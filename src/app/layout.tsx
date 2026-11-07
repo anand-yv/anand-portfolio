@@ -90,7 +90,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}',
+              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}try{var pl=localStorage.getItem("palette");if(pl&&/^(indigo|tomato|forest|yellow)$/.test(pl))document.documentElement.dataset.palette=pl}catch(e){}',
           }}
         />
       </head>

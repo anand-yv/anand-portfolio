@@ -21,6 +21,19 @@ html {
 }
 
 @theme inline {
+  /* Type scale: the default xs/sm are too small once the root is 13px (about 9.8px / 11.4px), and
+     most card, chip and timeline text uses them. Only the small sizes are raised; headings and
+     spacing are unchanged. */
+  --text-xs: 0.9rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 1.02rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1.1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.2rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.32rem;
+  --text-xl--line-height: 1.4;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -191,10 +204,13 @@ html {
     background: color-mix(in oklch, var(--brand) 55%, transparent);
     color: var(--foreground);
   }
+  /* Normal arrow everywhere (the browser would otherwise show a hand over links). */
   a,
   [role="button"],
-  button {
-    cursor: pointer;
+  button,
+  summary,
+  label {
+    cursor: default;
   }
 }
 
@@ -582,3 +598,83 @@ html[data-intro="skip"] .intro-overlay {
     transition-duration: 0.08s, 0.25s;
   }
 }
+
+/* ======== Alternative palettes (the default, no attribute, is "yellow": see :root / .dark above). ======== */
+/* palette: indigo */
+html[data-palette="indigo"] {
+  --brand: oklch(0.48 0.2 270);
+  --brand-foreground: oklch(0.98 0.01 95);
+  --brand-muted: oklch(0.48 0.2 270 / 0.1);
+  --link: oklch(0.45 0.2 270);
+  --marker: oklch(0.9 0.15 100 / 0.85);
+  --ring: oklch(0.48 0.2 270 / 0.5);
+  --pop-1: oklch(0.88 0.07 275);
+  --pop-2: oklch(0.93 0.11 100);
+  --pop-3: oklch(0.9 0.035 235);
+  --pop-4: oklch(0.91 0.02 95);
+}
+html[data-palette="indigo"].dark {
+  --brand: oklch(0.76 0.13 275);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.76 0.13 275 / 0.16);
+  --link: oklch(0.78 0.12 275);
+  --marker: oklch(0.86 0.15 100 / 0.22);
+  --ring: oklch(0.76 0.13 275 / 0.5);
+  --pop-1: oklch(0.62 0.11 275);
+  --pop-2: oklch(0.8 0.13 100);
+  --pop-3: oklch(0.66 0.06 235);
+  --pop-4: oklch(0.55 0.02 270);
+}
+
+/* palette: tomato */
+html[data-palette="tomato"] {
+  --brand: oklch(0.57 0.21 30);
+  --brand-foreground: oklch(0.99 0.01 95);
+  --brand-muted: oklch(0.57 0.21 30 / 0.1);
+  --link: oklch(0.5 0.2 30);
+  --marker: oklch(0.9 0.1 70 / 0.85);
+  --ring: oklch(0.57 0.21 30 / 0.5);
+  --pop-1: oklch(0.87 0.08 30);
+  --pop-2: oklch(0.93 0.08 85);
+  --pop-3: oklch(0.9 0.03 60);
+  --pop-4: oklch(0.9 0.03 200);
+}
+html[data-palette="tomato"].dark {
+  --brand: oklch(0.72 0.17 35);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.72 0.17 35 / 0.16);
+  --link: oklch(0.78 0.15 40);
+  --marker: oklch(0.85 0.1 70 / 0.22);
+  --ring: oklch(0.72 0.17 35 / 0.5);
+  --pop-1: oklch(0.6 0.14 30);
+  --pop-2: oklch(0.78 0.12 85);
+  --pop-3: oklch(0.62 0.04 60);
+  --pop-4: oklch(0.6 0.05 200);
+}
+
+/* palette: forest */
+html[data-palette="forest"] {
+  --brand: oklch(0.42 0.1 160);
+  --brand-foreground: oklch(0.98 0.01 95);
+  --brand-muted: oklch(0.42 0.1 160 / 0.1);
+  --link: oklch(0.4 0.1 160);
+  --marker: oklch(0.9 0.13 120 / 0.8);
+  --ring: oklch(0.42 0.1 160 / 0.5);
+  --pop-1: oklch(0.88 0.07 160);
+  --pop-2: oklch(0.93 0.09 105);
+  --pop-3: oklch(0.9 0.035 130);
+  --pop-4: oklch(0.91 0.025 80);
+}
+html[data-palette="forest"].dark {
+  --brand: oklch(0.78 0.13 160);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.78 0.13 160 / 0.16);
+  --link: oklch(0.8 0.12 160);
+  --marker: oklch(0.86 0.13 120 / 0.22);
+  --ring: oklch(0.78 0.13 160 / 0.5);
+  --pop-1: oklch(0.58 0.1 160);
+  --pop-2: oklch(0.8 0.12 105);
+  --pop-3: oklch(0.62 0.05 130);
+  --pop-4: oklch(0.56 0.03 80);
+}
+

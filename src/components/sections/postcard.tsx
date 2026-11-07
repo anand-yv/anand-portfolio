@@ -62,11 +62,11 @@ export function Postcard() {
   };
 
   const field =
-    "w-full bg-transparent px-1 py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground/60 focus:bg-brand-muted";
+    "w-full bg-transparent px-1 py-1 text-base text-foreground outline-none placeholder:text-muted-foreground/60 focus:bg-brand-muted";
 
   return (
     <motion.div
-      className="relative mx-auto max-w-4xl"
+      className="relative mx-auto max-w-5xl"
       initial={reduced ? false : { opacity: 0, y: 40, rotate: -3 }}
       whileInView={{ opacity: 1, y: 0, rotate: 0 }}
       viewport={{ once: true, margin: "-10%" }}
@@ -83,18 +83,17 @@ export function Postcard() {
         <div className="relative grid gap-0 bg-card md:grid-cols-[1.05fr_1fr]" style={{ backgroundColor: "var(--card)" }}>
           {/* ---------- message side ---------- */}
           <div className="flex flex-col p-5 sm:p-7">
-            <p className="font-hand text-2xl text-link">dear reader,</p>
-            <h3 className="mt-1 font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-4xl">
+            <p className="font-hand text-3xl text-link">dear reader,</p>
+            <h3 className="mt-1 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl">
               Let&apos;s build something <Marker>solid</Marker>.
             </h3>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-sm text-base leading-relaxed text-muted-foreground">
               Whether it&apos;s a full-time role or a project that needs a reliable full-stack engineer, I&apos;d love
               to hear from you.
             </p>
             {personalInfo.availability?.open ? (
-              <p className="mt-4 inline-flex items-center gap-2 font-hand text-xl text-foreground">
-                <span className="size-2.5 rounded-full bg-emerald-500" aria-hidden />
-                {personalInfo.availability.text}
+              <p className="mt-4 font-hand text-2xl leading-snug text-foreground">
+                <Marker>{personalInfo.availability.text}</Marker>
               </p>
             ) : null}
 
@@ -102,7 +101,7 @@ export function Postcard() {
               <button
                 type="button"
                 onClick={copy}
-                className="sketch-btn inline-flex items-center gap-2 bg-card px-3 py-2 font-mono text-xs font-semibold text-foreground"
+                className="sketch-btn inline-flex items-center gap-2 bg-card px-3 py-2 font-mono text-sm font-semibold text-foreground"
               >
                 {status === "copied" ? <Check className="size-3.5" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
                 {status === "copied" ? "copied!" : personalInfo.email}
@@ -110,14 +109,14 @@ export function Postcard() {
               <button
                 type="button"
                 onClick={openChat}
-                className="sketch-btn inline-flex items-center gap-2 bg-card px-3 py-2 font-hand text-lg leading-none text-foreground"
+                className="sketch-btn inline-flex items-center gap-2 bg-card px-3 py-2 font-hand text-xl leading-none text-foreground"
               >
                 <MessageCircle className="size-3.5" aria-hidden />
                 ask the assistant
               </button>
             </div>
 
-            <p className="mt-auto pt-8 font-hand text-3xl leading-none text-muted-foreground">— Anand</p>
+            <p className="mt-auto pt-8 font-hand text-4xl leading-none text-muted-foreground">— Anand</p>
           </div>
 
           {/* ---------- address side ---------- */}
@@ -137,13 +136,13 @@ export function Postcard() {
               </svg>
               <div className="relative z-10 rotate-3 border-2 border-dashed border-ink/60 bg-card p-1.5">
                 <div className="flex size-14 flex-col items-center justify-center border-2 border-ink" style={{ background: "var(--pop-1)" }}>
-                  <span className="font-display text-xl font-extrabold leading-none text-ink">AY</span>
-                  <span className="mt-0.5 font-mono text-[0.5rem] font-bold tracking-widest text-ink">FIRST CLASS</span>
+                  <span className="font-display text-2xl font-extrabold leading-none text-ink">AY</span>
+                  <span className="mt-0.5 font-mono text-[0.6rem] font-bold tracking-widest text-ink">FIRST CLASS</span>
                 </div>
               </div>
             </div>
 
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">write back</p>
+            <p className="font-mono text-[0.85rem] uppercase tracking-[0.2em] text-muted-foreground">write back</p>
 
             <form onSubmit={send} className="mt-12 space-y-0">
               {[
@@ -155,13 +154,13 @@ export function Postcard() {
                 ) },
               ].map((row) => (
                 <label key={row.id} htmlFor={row.id} className="flex items-baseline gap-2 border-b-2 border-ink/40 py-1.5">
-                  <span className="w-16 shrink-0 font-hand text-lg leading-none text-link">{row.label}</span>
+                  <span className="w-24 shrink-0 font-hand text-xl leading-none text-link">{row.label}</span>
                   {row.node}
                 </label>
               ))}
 
               <label htmlFor="pc-message" className="block border-b-2 border-ink/40 py-1.5">
-                <span className="font-hand text-lg leading-none text-link">message</span>
+                <span className="font-hand text-xl leading-none text-link">message</span>
                 <textarea
                   id="pc-message"
                   value={message}
@@ -171,9 +170,9 @@ export function Postcard() {
                   }}
                   rows={4}
                   placeholder="say hi, share the role, or ask anything…"
-                  className={cn(field, "mt-1 resize-none leading-[1.7rem]")}
+                  className={cn(field, "mt-1 resize-none leading-[2.1rem]")}
                   style={{
-                    backgroundImage: "repeating-linear-gradient(transparent 0 calc(1.7rem - 2px), color-mix(in oklch, var(--ink) 18%, transparent) calc(1.7rem - 2px) 1.7rem)",
+                    backgroundImage: "repeating-linear-gradient(transparent 0 calc(2.1rem - 2px), color-mix(in oklch, var(--ink) 18%, transparent) calc(2.1rem - 2px) 2.1rem)",
                     backgroundAttachment: "local",
                   }}
                 />
@@ -183,7 +182,7 @@ export function Postcard() {
                 <button
                   type="submit"
                   disabled={!canSend}
-                  className="sketch-btn sketch-box--brand inline-flex items-center gap-2 px-4 py-2 font-hand text-xl leading-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="sketch-btn sketch-box--brand inline-flex items-center gap-2 px-4 py-2 font-hand text-2xl leading-none disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Send className="size-4" aria-hidden />
                   {status === "sent" ? "opening your mail app…" : "send it"}
@@ -201,12 +200,12 @@ export function Postcard() {
                   ) : null}
                 </div>
               </div>
-              <p className="pt-1 text-xs text-muted-foreground">
+              <p className="pt-1 text-sm text-muted-foreground">
                 This opens a draft in your email app. I&apos;ll never see anything you type until you press send there.
               </p>
             </form>
 
-            <p className="mt-5 font-hand text-xl leading-tight text-muted-foreground">
+            <p className="mt-5 font-hand text-2xl leading-tight text-muted-foreground">
               to: Anand Yadav
               <br />
               {personalInfo.location}

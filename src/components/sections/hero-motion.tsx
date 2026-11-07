@@ -31,20 +31,7 @@ export function HeroMotion({ heading, lcpParagraph }: HeroMotionProps) {
     <div className="relative w-full">
       <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
         <div className="min-w-0">
-          {personalInfo.availability?.open ? (
-            <motion.div
-              className="sketch-box sketch-box--sm inline-flex items-center gap-2 px-3 py-1 font-hand text-lg leading-tight text-foreground"
-              {...item(0)}
-            >
-              <span className="relative flex size-2.5" aria-hidden>
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
-                <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
-              </span>
-              {personalInfo.availability.text}
-            </motion.div>
-          ) : null}
-
-          <motion.div className="mt-5" {...item(0.05)}>
+          <motion.div {...item(0.05)}>
             {heading}
           </motion.div>
 
@@ -63,7 +50,26 @@ export function HeroMotion({ heading, lcpParagraph }: HeroMotionProps) {
             <HeroCta />
           </motion.div>
 
-          <motion.p className="mt-6" {...item(0.3)}>
+          {personalInfo.availability?.open ? (
+            <motion.div className="relative mt-7 inline-block pl-9" {...item(0.3)}>
+              {/* hand-drawn arrow curling up toward the buttons */}
+              <svg viewBox="0 0 48 44" className="absolute -top-5 left-0 hidden h-11 w-12 text-ink/70 sm:block" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M40 38 C 12 40, 4 24, 14 8" />
+                <path d="M6 15 L14 7 L21 15" />
+              </svg>
+              <div
+                className="sketch-box sketch-box--sm relative -rotate-1 px-4 py-2.5 text-[oklch(0.19_0.02_270)]"
+                style={{ background: "var(--pop-1)" }}
+              >
+                <span className="sketch-tape sketch-tape--sm" aria-hidden />
+                <p className="font-hand text-2xl leading-[1.15]">
+                  psst… <span className="font-bold">{personalInfo.availability.text}</span>
+                </p>
+              </div>
+            </motion.div>
+          ) : null}
+
+          <motion.p className="mt-6" {...item(0.34)}>
             <Link
               href="#about"
               className="font-hand text-xl text-muted-foreground underline decoration-dashed underline-offset-4 transition-colors hover:text-link"

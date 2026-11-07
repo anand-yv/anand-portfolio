@@ -21,6 +21,8 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   imageUrl?: string;
+  /** Built-in placeholder artwork (follows the palette) used when there is no imageUrl. */
+  art?: "flight" | "video" | "trend" | "health";
   /** Card tilt in degrees (e.g. -1.5). Optional. */
   rotation?: number;
   /** Colored-pencil accent 1-4 (yellow, coral, mint, sky) for the card shadow and tape. */

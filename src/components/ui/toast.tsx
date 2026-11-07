@@ -29,7 +29,7 @@ export function Toast({ message, onClose, duration = 3000 }: ToastProps) {
       <p className="text-sm text-foreground">{message}</p>
       <button
         onClick={onClose}
-        className="rounded-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
+        className="rounded-xs opacity-70 hover:opacity-100 transition-opacity"
         aria-label="Close"
       >
         <X className="size-4" />

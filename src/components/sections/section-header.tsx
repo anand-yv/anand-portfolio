@@ -15,7 +15,7 @@ export function SectionHeader({ index, label, title, description, className }: S
   return (
     <header className={cn("max-w-2xl space-y-3", className)}>
       <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-        <span className="sketch-box sketch-box--sm sketch-box--brand px-2 py-0.5 text-[0.7rem] font-semibold">
+        <span className="sketch-box sketch-box--sm sketch-box--brand px-2 py-0.5 text-[0.78rem] font-semibold">
           {index}
         </span>
         <span>{label}</span>
