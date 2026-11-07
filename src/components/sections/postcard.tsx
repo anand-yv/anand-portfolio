@@ -104,7 +104,10 @@ export function Postcard() {
                 className="sketch-btn inline-flex items-center gap-2 bg-card px-3 py-2 font-mono text-sm font-semibold text-foreground"
               >
                 {status === "copied" ? <Check className="size-3.5" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
-                {status === "copied" ? "copied!" : personalInfo.email}
+                {personalInfo.email}
+                <span className="sr-only" role="status">
+                  {status === "copied" ? "Email address copied" : ""}
+                </span>
               </button>
               <button
                 type="button"

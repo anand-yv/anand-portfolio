@@ -1,4 +1,5 @@
 import { ArrowUp } from "lucide-react";
+import { CursorToggle } from "@/components/layout/cursor-toggle";
 import { personalInfo } from "@/data/personal";
 
 export function Footer() {
@@ -8,12 +9,15 @@ export function Footer() {
         <p className="font-hand text-xl text-muted-foreground">
           © {new Date().getFullYear()} {personalInfo.name} · sketched with Next.js &amp; a lot of coffee
         </p>
-        <a
-          href="#hero"
-          className="sketch-btn inline-flex items-center gap-1.5 bg-card px-3 py-1.5 font-hand text-lg text-foreground"
-        >
-          back to top <ArrowUp className="size-4" aria-hidden />
-        </a>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <CursorToggle />
+          <a
+            href="#hero"
+            className="sketch-btn inline-flex items-center gap-1.5 bg-card px-3 py-1.5 font-hand text-lg text-foreground"
+          >
+            back to top <ArrowUp className="size-4" aria-hidden />
+          </a>
+        </div>
       </div>
     </footer>
   );

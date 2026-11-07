@@ -223,6 +223,7 @@ If you add environment variables (for example, `GEMINI_API_KEY` for the floating
 - **Type scale:** the small Tailwind sizes are overridden at the top of `src/app/globals.css` (`--text-xs` … `--text-xl`) because the defaults are too small at a 13px root (xs was about 9.8px, sm about 11.4px). Raise or lower those five values to resize text inside cards, chips and timelines without touching spacing or headings.
 - **UI scale:** the whole site is sized in `rem`, so the two `html { font-size }` values in `globals.css` (14px mobile, 13px desktop) scale everything at once.
 - **About:** `src/components/sections/about.tsx`: a highlighted statement beside a "quick facts" card, built from `src/data/about.ts` and your experience/education data.
+- **Cursor:** `src/components/layout/cursor-fx.tsx` draws a dot on the pointer, a ring that follows with a soft lag, and a tapered comet trail. The ring grows over links and buttons, and becomes a labelled sticker over any element with a `data-cursor="..."` attribute (the project cards use `drag`, `flip`, `view` and `back`). Add `data-cursor="word"` to any element to give it a label. Mouse only (not touch), skipped for reduced motion, native cursor kept over text fields, and paused while the resume dialog is open. The footer switch (`cursor-toggle.tsx`) turns it off; the choice is saved in `localStorage`. To remove it entirely, delete `<CursorFx />` and `<CursorToggle />` and the cursor block at the end of `globals.css`.
 - **Contact:** `src/components/sections/postcard.tsx` is a postcard with a compose form. There is no backend: "send it" opens a pre-filled draft in the visitor's email app (`mailto:`), and the email address can be copied.
 - **Section order:** About, Experience & Education (`journey.tsx`), Projects, Skills, Contact.
 
@@ -233,12 +234,15 @@ A chat widget (bottom-right, or `Ctrl/Cmd + K`) that answers questions about thi
 - **Frontend:** `src/components/ai/*`. Streams the reply as it arrives, renders Markdown, and keeps the conversation in `sessionStorage` for the tab session. It has retry-on-error, a copy button, starter questions, and follow-up suggestions.
 - **Rich answers:** the model can end a reply with directive lines (`[[project:<id>]]`, `[[goto:<section>]]`, `[[email]]`, `[[resume]]`, `[[ask: a | b]]`). `src/lib/chat-directives.ts` parses and **validates** them against `src/data/*`, so the UI can show a project card, scroll buttons, an email button or follow-up chips. Unknown directives are ignored.
 - **Backend:** `src/app/api/portfolio-chat/route.ts` is a serverless route that:
-  - Loads portfolio data from `src/data/*` (including `personalInfo.availability`) and uses a system prompt that only allows facts from that data.
+  - Turns `src/data/*` into plain-language notes for the model (not raw JSON, so it has no internal field names to repeat), leaves out self-rated skill levels and placeholder `example.com` links, and uses a prompt with honesty rules, edge-case rules and worked examples.
+  - **Guards** (`src/lib/chat-guard.ts`, self-contained so it can be tested alone): invisible and control characters are stripped from input; questions about how the assistant works, requests for keys or secrets, and prompt-injection attempts get a fixed reply and never reach the model; and the streamed answer is watched, so if it starts describing internals it is cut at the last clean sentence and redirected.
   - Streams from Gemini (`gemini-3.5-flash`, falling back to `gemini-2.5-flash-lite`) with thinking disabled for fast first tokens, and passes the key in a header.
   - Validates input (800 chars per message, last 6 turns) and rate-limits to 8 requests/minute per IP (best-effort, per serverless instance).
-  - Logs server-side errors (missing key, upstream failures) to the function logs; users only see a friendly retry message.
+  - Logs server-side errors (missing key, upstream failures, guard cuts, abnormal finish reasons) to the function logs. If Google's quota is exhausted the visitor sees "the assistant is busy, try again in a minute" (HTTP 503), not a generic failure.
 
 **Availability:** the hero pill reads `personalInfo.availability` in `src/data/personal.ts` (`open` + `text`). Set `open: false` to hide it.
+
+> **Free-tier limit:** the Gemini free tier allows only about **20 requests per day per model**, and this route tries two models, so roughly 40 chat messages a day across all visitors before everyone gets the "busy" message. For a public portfolio, enable billing on the key in Google AI Studio (this chat costs very little) or the assistant will go quiet on busy days.
 
 ### Configuring Gemini (free tier)
 

@@ -18,6 +18,9 @@ Improvements from the review of https://helloanand.vercel.app. Items are ordered
 - [x] Text inside containers was too small (xs/sm were ~9.8px/11.4px at the 13px root): small type scale raised; project cards made taller so the back face still fits; nav kept from wrapping.
 - [x] Diagram and contact postcard text raised one more step (they used the smallest sizes); postcard widened, lined paper re-spaced.
 - [x] Palette picker moved from the footer into the navbar (swatch button + menu with 4 palettes). The glowing green "open to opportunities" pill (an AI-template cliche) replaced by a handwritten sticky note beside the hero buttons and a highlighter line on the postcard.
+- [x] Cursor rebuilt (dot + lagging ring + context labels + comet trail, footer switch). Earlier image-cursor and trail-only attempts were removed.
+- [x] Round: slim ink scrollbar (replaced the chunky yellow pill); diagram shows Third-party services (payments, AWS S3, AI/ML, all from project data) instead of MongoDB; postcard copy button only swaps its icon; cursor trail redrawn (smoother, softer, fades along its length).
+- [x] Chat hardening: natural-language profile instead of JSON, input/output guards, honesty + edge-case prompt, friendly "busy" message; stream parser no longer drops the last event; two-finger trackpad swipe now moves the project cards and blocks the browser back/forward gesture.
 - [x] Fixed Geist never loading (font variables were on `<body>` instead of `<html>`).
 
 ## High priority: content
@@ -44,6 +47,11 @@ Improvements from the review of https://helloanand.vercel.app. Items are ordered
 - [ ] **Browser QA (partly done)**
   - Done: desktop and mobile, light and dark, open chat panel.
   - Still to check: tablet widths, the resume dialog (restyled, not viewed), the mobile nav menu open, and real-device performance.
+
+## Chat: needs a decision
+
+- [ ] **Gemini free tier = ~20 requests/day per model** (about 40 messages/day total). Enable billing on the key, or add an answer cache for the starter questions, or accept that the assistant goes quiet on busy days.
+- [ ] Re-run the live chat checks once the daily quota resets (the last prompt tweaks, and the cut-off fix, were not re-verified live).
 
 ## Low priority / optional
 

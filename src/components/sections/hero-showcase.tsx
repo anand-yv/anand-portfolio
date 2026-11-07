@@ -11,7 +11,7 @@ import { TechChip } from "@/components/ui/tech-chip";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type NodeId = "client" | "api" | "sql" | "nosql";
+type NodeId = "client" | "api" | "sql" | "ext";
 
 const currentRole = experience[0];
 const byCategory = groupSkillsByCategory(skills);
@@ -36,11 +36,11 @@ const NODES: Record<NodeId, { tag: string; title: string; blurb: string; chips: 
     blurb: "Relational data models designed and optimised for reliability.",
     chips: ["PostgreSQL", "SQL"],
   },
-  nosql: {
-    tag: "nosql",
-    title: "MongoDB",
-    blurb: "Document models for data that doesn't fit neatly into tables.",
-    chips: ["MongoDB"],
+  ext: {
+    tag: "external",
+    title: "Third-party services",
+    blurb: "Outside services the API talks to. In my projects that means payments, cloud storage and AI models.",
+    chips: ["Payment gateway", "AWS S3", "AI/ML integration"],
   },
 };
 
@@ -169,7 +169,7 @@ export function HeroShowcase() {
   const lit = (id: NodeId) =>
     (id === "client" && (phase === "client" || phase === "done")) ||
     (id === "api" && (phase === "api" || phase === "api2")) ||
-    ((id === "sql" || id === "nosql") && phase === "db");
+    ((id === "sql" || id === "ext") && phase === "db");
 
   const detail = NODES[selected];
 
@@ -202,7 +202,7 @@ export function HeroShowcase() {
         <Link2 down={phase === "down1"} up={phase === "up1"} reduced={reduced} />
         <Node id="api" selected={selected === "api"} lit={lit("api")} onSelect={setSelected} />
         <div className="grid grid-cols-2 gap-3">
-          {(["sql", "nosql"] as const).map((id) => (
+          {(["sql", "ext"] as const).map((id) => (
             <div key={id}>
               <Link2 down={phase === "down2"} up={phase === "up2"} reduced={reduced} />
               <Node id={id} selected={selected === id} lit={lit(id)} onSelect={setSelected} />

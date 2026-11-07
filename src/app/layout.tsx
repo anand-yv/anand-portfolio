@@ -6,6 +6,7 @@ import { ChatProvider } from "@/lib/chat-context";
 import { Navbar } from "@/components/layout/navbar";
 import { PortfolioChatDynamic } from "@/components/ai/portfolio-chat-dynamic";
 import { Intro } from "@/components/layout/intro";
+import { CursorFx } from "@/components/layout/cursor-fx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -90,7 +91,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}try{var pl=localStorage.getItem("palette");if(pl&&/^(indigo|tomato|forest|yellow)$/.test(pl))document.documentElement.dataset.palette=pl}catch(e){}',
+              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}try{if(localStorage.getItem("cursor-fx")==="off")document.documentElement.dataset.cursorFx="off"}catch(e){}try{var pl=localStorage.getItem("palette");if(pl&&/^(indigo|tomato|forest|yellow)$/.test(pl))document.documentElement.dataset.palette=pl}catch(e){}',
           }}
         />
       </head>
@@ -105,6 +106,7 @@ export default function RootLayout({
         >
           <ChatProvider>
             <Intro />
+            <CursorFx />
             <Navbar />
             <main className="pt-[var(--nav-height)]">{children}</main>
             <PortfolioChatDynamic />

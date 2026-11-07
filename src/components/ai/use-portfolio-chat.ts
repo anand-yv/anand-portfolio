@@ -20,6 +20,7 @@ export const STARTER_PROMPTS = [
 
 const FRIENDLY_ERROR = "I couldn't reach the assistant just now.";
 const RATE_LIMITED = "You're sending messages quickly. Please wait a minute and try again.";
+const BUSY = "The assistant is busy right now. Please try again in a minute.";
 
 function historyFrom(messages: ChatMessage[]): ChatTurn[] {
   const turns: ChatTurn[] = [];
@@ -111,6 +112,7 @@ export function usePortfolioChat() {
       });
 
       if (response.status === 429) return fail(RATE_LIMITED);
+      if (response.status === 503) return fail(BUSY);
       if (!response.ok || !response.body) return fail(FRIENDLY_ERROR);
 
       const reader = response.body.getReader();

@@ -102,6 +102,7 @@ function Ruler({
       <div
         ref={trackRef}
         role="slider"
+        data-cursor="drag"
         tabIndex={0}
         aria-label="Project ruler"
         aria-valuemin={1}
@@ -205,6 +206,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
   const [dragDx, setDragDx] = React.useState(0);
   const [dims, setDims] = React.useState({ vw: 1280, card: 247 });
 
+  const blockRef = React.useRef<HTMLDivElement | null>(null); // ruler + cards: where trackpad swipes are handled
   const wrapRef = React.useRef<HTMLDivElement | null>(null);
   const cardRef = React.useRef<HTMLDivElement | null>(null);
   const justDragged = React.useRef(false);
@@ -238,8 +240,52 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
   // While a finger/mouse drags, the hand follows it continuously (fractional position).
   const pos = clamp(active - dragDx / spacing, -0.35, n - 0.65);
 
+  // The wheel handler is attached once, so it reads the latest values from a ref.
+  const latest = React.useRef({ active, spacing });
+  React.useEffect(() => {
+    latest.current = { active, spacing };
+  });
+
+  // Two-finger trackpad swipes (and shift + wheel) arrive as horizontal *wheel* events, not pointer events,
+  // so dragging worked while swiping did not, and the browser took the swipe as "back / forward".
+  // Here a horizontal wheel gesture moves the cards live, like a drag, and cancels the browser's own swipe.
+  React.useEffect(() => {
+    const el = blockRef.current;
+    if (!el) return;
+    let accum = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const finish = () => {
+      const { active: a, spacing: s } = latest.current;
+      const target = Math.round(a + accum / s);
+      accum = 0;
+      setDragging(false);
+      setDragDx(0);
+      select(target);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) return; // pinch-to-zoom
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return; // vertical scrolling stays with the page
+      e.preventDefault(); // stops the browser's back / forward swipe
+      const { spacing: s } = latest.current;
+      const dx = e.deltaMode === 1 ? e.deltaX * 16 : e.deltaX; // Firefox can report lines instead of pixels
+      accum = clamp(accum + dx, -2 * s, 2 * s); // at most two cards per swipe
+      setDragging(true);
+      setDragDx(-accum);
+      clearTimeout(timer);
+      timer = setTimeout(finish, 140); // the swipe ends when the wheel events stop (inertia included)
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      clearTimeout(timer);
+    };
+  }, [select]);
+
   return (
-    <div>
+    <div ref={blockRef} className="[overscroll-behavior-x:contain]">
       <div className="mx-auto mb-6 max-w-2xl space-y-1.5">
         <Ruler projects={projects} active={active} onSelect={select} />
         <p className="text-center font-hand text-xl text-muted-foreground">
@@ -252,6 +298,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
         ref={wrapRef}
         tabIndex={0}
         role="group"
+        data-cursor="drag"
         aria-roledescription="carousel"
         aria-label="Projects"
         onKeyDown={(e) => {
@@ -295,6 +342,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
               key={project.id}
               ref={i === 0 ? cardRef : undefined}
               role={isActive ? undefined : "button"}
+              data-cursor={isActive ? undefined : "view"}
               tabIndex={isActive ? -1 : 0}
               aria-label={isActive ? undefined : `Show ${project.title}`}
               onClick={isActive ? undefined : () => !justDragged.current && select(i)}
@@ -341,6 +389,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                 <div
                   className="sketch-box sketch-box--pop absolute inset-0 flex flex-col p-3"
                   style={faceStyle}
+                  data-cursor={isActive && !isFlipped ? "flip" : undefined}
                   onClick={isActive && !isFlipped ? () => !justDragged.current && setFlipped(true) : undefined}
                 >
                   <div inert={!isActive || isFlipped} className="flex h-full flex-col">
@@ -392,6 +441,7 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                 <div
                   className="sketch-box sketch-box--pop absolute inset-0 flex flex-col p-3"
                   style={{ ...faceStyle, transform: "rotateY(180deg)" }}
+                  data-cursor={isFlipped ? "back" : undefined}
                   onClick={isFlipped ? () => !justDragged.current && setFlipped(false) : undefined}
                 >
                   <div inert={!isFlipped} className="flex h-full flex-col">
