@@ -80,7 +80,7 @@ export function PaletteMenu() {
   const current = OPTIONS.find((o) => o.id === active) ?? OPTIONS[0];
 
   return (
-    <div ref={wrapRef} className="relative">
+    <div ref={wrapRef} className="sm:relative">
       <button
         ref={buttonRef}
         type="button"
@@ -98,7 +98,7 @@ export function PaletteMenu() {
           <motion.div
             role="listbox"
             aria-label="Colour palette"
-            className="sketch-box absolute right-0 top-[calc(100%+1.1rem)] z-50 flex w-[18rem] flex-col gap-2 p-3.5"
+            className="sketch-box absolute inset-x-0 top-[calc(100%+0.75rem)] z-50 flex flex-col sm:inset-x-auto sm:right-0 sm:top-[calc(100%+1.1rem)] sm:w-[18rem] gap-2 p-3.5"
             initial={reduced ? false : { opacity: 0, y: -8, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? undefined : { opacity: 0, y: -6, scale: 0.98, transition: { duration: 0.12 } }}

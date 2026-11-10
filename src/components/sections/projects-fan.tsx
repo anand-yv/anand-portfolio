@@ -459,6 +459,16 @@ export function ProjectsFan({ projects }: { projects: Project[] }) {
                       {project.title}
                     </h3>
 
+                    <p className="mt-1.5 line-clamp-3 text-sm leading-snug text-muted-foreground">{project.description}</p>
+
+                    <div className="mt-2 flex h-6 flex-wrap gap-1.5 overflow-hidden" aria-label="Main technologies">
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span key={tech} className="sketch-chip bg-card/60 px-2 py-0.5 text-[11px] leading-tight text-foreground/80">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
                     <div className="mt-auto flex items-center justify-between gap-3 pb-1 pt-3">
                       <div className="flex items-center gap-4">
                         {project.githubUrl ? <CardLink href={project.githubUrl}>Code</CardLink> : null}
