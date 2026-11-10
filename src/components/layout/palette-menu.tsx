@@ -10,15 +10,15 @@ type PaletteId = "yellow" | "indigo" | "tomato" | "forest";
 
 // Swatches mirror the light-mode colours defined in globals.css (brand, a second tint, a third tint).
 const OPTIONS: { id: PaletteId; label: string; hint: string; swatch: [string, string, string] }[] = [
-  { id: "yellow", label: "Highlighter", hint: "yellow, coral, mint", swatch: ["oklch(0.9 0.17 100)", "oklch(0.8 0.13 12)", "oklch(0.86 0.12 165)"] },
-  { id: "indigo", label: "Indigo", hint: "one calm accent", swatch: ["oklch(0.48 0.2 270)", "oklch(0.9 0.15 100)", "oklch(0.88 0.07 275)"] },
-  { id: "tomato", label: "Tomato", hint: "bold and warm", swatch: ["oklch(0.57 0.21 30)", "oklch(0.93 0.08 85)", "oklch(0.87 0.08 30)"] },
-  { id: "forest", label: "Forest", hint: "earthy green", swatch: ["oklch(0.42 0.1 160)", "oklch(0.93 0.09 105)", "oklch(0.88 0.07 160)"] },
+  { id: "yellow", label: "Highlighter", hint: "sunny yellow, coral, mint", swatch: ["oklch(0.88 0.17 95)", "oklch(0.72 0.17 15)", "oklch(0.78 0.14 165)"] },
+  { id: "indigo", label: "Indigo", hint: "deep blue with a gold spark", swatch: ["oklch(0.48 0.2 270)", "oklch(0.8 0.12 275)", "oklch(0.86 0.16 95)"] },
+  { id: "tomato", label: "Tomato", hint: "bold, warm and juicy", swatch: ["oklch(0.6 0.21 30)", "oklch(0.78 0.13 55)", "oklch(0.88 0.12 90)"] },
+  { id: "forest", label: "Forest", hint: "earthy green and lime", swatch: ["oklch(0.45 0.11 160)", "oklch(0.72 0.14 150)", "oklch(0.87 0.15 115)"] },
 ];
 
 function currentPalette(): PaletteId {
   const v = document.documentElement.dataset.palette;
-  return OPTIONS.some((o) => o.id === v) ? (v as PaletteId) : "yellow";
+  return OPTIONS.some((o) => o.id === v) ? (v as PaletteId) : "tomato";
 }
 
 /** Applies and saves a palette. Lives outside the component because it writes to the document. */
@@ -33,9 +33,9 @@ function applyPalette(id: PaletteId) {
 
 function Dots({ swatch, size = "size-4" }: { swatch: readonly string[]; size?: string }) {
   return (
-    <span className="flex -space-x-1.5" aria-hidden>
+    <span className="flex items-center gap-1" aria-hidden>
       {swatch.map((c, i) => (
-        <span key={i} className={cn("rounded-full border-2 border-ink", size)} style={{ background: c }} />
+        <span key={i} className={cn("rounded-full border border-ink/70 shadow-[inset_0_-2px_0_rgb(0_0_0/0.12)]", size)} style={{ background: c }} />
       ))}
     </span>
   );
@@ -45,7 +45,7 @@ function Dots({ swatch, size = "size-4" }: { swatch: readonly string[]; size?: s
 export function PaletteMenu() {
   const reduced = useReducedMotion();
   const [open, setOpen] = React.useState(false);
-  const [active, setActive] = React.useState<PaletteId>("yellow");
+  const [active, setActive] = React.useState<PaletteId>("tomato");
   const wrapRef = React.useRef<HTMLDivElement | null>(null);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 

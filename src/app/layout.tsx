@@ -91,7 +91,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}try{if(localStorage.getItem("cursor-fx")==="off")document.documentElement.dataset.cursorFx="off"}catch(e){}try{var pl=localStorage.getItem("palette");if(pl&&/^(indigo|tomato|forest|yellow)$/.test(pl))document.documentElement.dataset.palette=pl}catch(e){}',
+              'try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="skip"}catch(e){}try{if(localStorage.getItem("cursor-fx")==="off")document.documentElement.dataset.cursorFx="off"}catch(e){}try{var pl=localStorage.getItem("palette");if(pl&&/^(indigo|tomato|forest|yellow)$/.test(pl))document.documentElement.dataset.palette=pl;else document.documentElement.dataset.palette="tomato"}catch(e){document.documentElement.dataset.palette="tomato"}',
           }}
         />
       </head>
