@@ -1,6 +1,6 @@
 # Anand Yadav — Developer Portfolio
 
-A modern, production-quality developer portfolio built with **Next.js** (App Router), **TypeScript**, **Tailwind CSS**, and **shadcn/ui**. Static export for fast loading, SEO, and free hosting. This README is the single source of truth: architecture, folder structure, optimizations, and how to run or deploy.
+A modern, production-quality developer portfolio built with **Next.js** (App Router), **TypeScript**, **Tailwind CSS**, and **shadcn/ui**. Live at **https://helloanand.vercel.app**. Pre-rendered page plus a small serverless API route for the AI chat. This README is the single source of truth: architecture, folder structure, optimizations, and how to run or deploy.
 
 ---
 
@@ -9,7 +9,8 @@ A modern, production-quality developer portfolio built with **Next.js** (App Rou
 - 🎨 **Modern UI** — Clean, professional layout with dark/light/system theme
 - 📱 **Fully responsive** — Mobile-first, works on all screen sizes
 - 🔍 **SEO-friendly** — Metadata, Open Graph, semantic HTML
-- ⚡ **Static site** — Pre-rendered at build time; no server required
+- ⚡ **Pre-rendered page** — Fast loads; only the chat endpoint runs server-side
+- 🤖 **AI chat** — Gemini-powered assistant that answers questions about the portfolio
 - 📘 **Type-safe** — Full TypeScript and shared types for content
 - ♿ **Accessible** — WCAG-oriented components (Radix-based)
 - 🚀 **Performance-focused** — LCP and bundle optimizations applied
@@ -25,8 +26,9 @@ A modern, production-quality developer portfolio built with **Next.js** (App Rou
 | Styling | Tailwind CSS v4 |
 | UI | shadcn/ui (Radix primitives, CVA, Lucide icons) |
 | Theme | next-themes |
-| Export | Static-friendly (Next.js App Router, optional API routes) |
-| Hosting | Vercel (recommended) or any Next-compatible host |
+| AI | Gemini API via a server-side route (`/api/portfolio-chat`) |
+| Motion | `motion` (Framer Motion) with reduced-motion support |
+| Hosting | Vercel — https://helloanand.vercel.app |
 
 ---
 
@@ -36,79 +38,41 @@ Exact layout of the project so you can navigate and understand where everything 
 
 ```
 anand-portfolio/
-├── public/                      # Static assets (optional: favicon, images)
-│
+├── public/                      # resume.pdf and static assets
 ├── src/
-│   ├── app/                     # Next.js App Router
-│   │   ├── layout.tsx           # Root layout: fonts, metadata, ThemeProvider, Navbar
-│   │   ├── page.tsx             # Home page: composition of all sections
-│   │   └── globals.css          # Tailwind, design tokens, theme variables
+│   ├── app/
+│   │   ├── layout.tsx           # Fonts, metadata, providers, Navbar, chat
+│   │   ├── page.tsx             # Home page: composes all sections
+│   │   ├── globals.css          # Tailwind, design tokens, theme variables
+│   │   ├── icon.png             # Favicon
+│   │   └── api/portfolio-chat/route.ts  # Gemini chat endpoint (server)
 │   │
 │   ├── components/
-│   │   ├── layout/              # App shell and layout primitives
-│   │   │   ├── navbar.tsx       # Fixed nav, smooth scroll, theme toggle, mobile menu
-│   │   │   ├── section-wrapper.tsx  # Section spacing and container
-│   │   │   └── theme-toggle.tsx # Light/dark/system switch
-│   │   │
-│   │   ├── sections/            # Page sections (one per area of the page)
-│   │   │   ├── hero.tsx         # Hero: h1, tagline, LCP paragraph, CTA
-│   │   │   ├── hero-tagline.tsx # Typing effect (client)
-│   │   │   ├── hero-cta.tsx     # Buttons, tech chips, open-chat CTA (client)
-│   │   │
 │   │   ├── ai/                  # Floating portfolio chat (client)
 │   │   │   ├── portfolio-chat.tsx
-│   │   │   ├── portfolio-chat-dynamic.tsx
+│   │   │   ├── portfolio-chat-dynamic.tsx   # next/dynamic loader
 │   │   │   ├── chat-message-list.tsx
-│   │   │   └── use-portfolio-chat.ts
-│   │   │   ├── about.tsx        # About + focus areas card
-│   │   │   ├── skills.tsx       # Skills by category
-│   │   │   ├── projects.tsx     # Featured + grid of projects
-│   │   │   ├── experience.tsx   # Work timeline
-│   │   │   ├── education.tsx    # Education timeline
-│   │   │   ├── contact.tsx      # Contact CTA and social links
-│   │   │   └── section-header.tsx # Reusable section title + description
-│   │   │
-│   │   ├── motion/
-│   │   │   └── reveal.tsx       # Scroll-triggered reveal (IntersectionObserver)
-│   │   │
-│   │   ├── ui/                  # Reusable UI (shadcn-style + custom)
-│   │   │   ├── button.tsx       # CVA variants, Radix Slot
-│   │   │   ├── card.tsx
-│   │   │   ├── badge.tsx
-│   │   │   ├── separator.tsx
-│   │   │   ├── dialog.tsx       # Radix Dialog
-│   │   │   ├── skeleton.tsx
-│   │   │   ├── toast.tsx
-│   │   │   ├── project-card.tsx # Project card (featured/compact)
-│   │   │   ├── skill-badge.tsx
-│   │   │   ├── tech-chip.tsx    # Tech label + optional icon
-│   │   │   ├── timeline.tsx     # Experience/education timeline
-│   │   │   └── typing-text.tsx  # Typing/deleting effect
-│   │   │
-│   │   └── resume-dialog.tsx    # Modal for resume / links
+│   │   │   └── use-portfolio-chat.ts        # State, history, API calls
+│   │   ├── layout/              # navbar, section-wrapper, theme-toggle
+│   │   ├── motion/              # reveal, motion-reveal, stagger, scroll-progress(+dynamic)
+│   │   ├── sections/            # hero (+ atmosphere, motion, showcase, tagline, cta),
+│   │   │                        # about, skills (+ skill-layer-card), projects,
+│   │   │                        # experience, education, contact
+│   │   │                        # (+ contact-channel-card, contact-chat-cta), section-header
+│   │   ├── ui/                  # badge, button, card, dialog, project-card,
+│   │   │                        # separator, skeleton, tech-chip, timeline, toast, typing-text
+│   │   └── resume-dialog.tsx    # Resume PDF modal
 │   │
-│   ├── data/                    # Content (type-safe, no CMS)
-│   │   ├── personal.ts          # Name, title, location, email, bio, GitHub, LinkedIn
-│   │   ├── projects.ts          # Array of projects
-│   │   ├── experience.ts        # Work history
-│   │   ├── skills.ts            # Skills by category
-│   │   └── education.ts         # Education entries
-│   │
-│   ├── lib/
-│   │   ├── utils.ts             # cn() (clsx + tailwind-merge)
-│   │   ├── theme-provider.tsx   # next-themes wrapper (client)
-│   │   └── chat-context.tsx     # open/close state for floating chat
-│   │
-│   └── types/
-│       └── index.ts             # Shared interfaces: PersonalInfo, Project, Experience, Skill, Education
+│   ├── data/                    # Content: personal, about, projects, experience, skills, education
+│   ├── hooks/use-reduced-motion.ts
+│   ├── lib/                     # utils (cn), theme-provider, chat-context
+│   └── types/index.ts           # Shared interfaces
 │
-├── components.json              # shadcn/ui config (aliases, style)
-├── next.config.ts               # Static export, optimizePackageImports, images
-├── package.json
+├── .env.sample                  # GEMINI_API_KEY placeholder
+├── components.json              # shadcn/ui config
+├── next.config.ts               # React Compiler, optimizePackageImports, images
 ├── tsconfig.json                # Path alias @/* → ./src/*
-├── postcss.config.mjs
-├── eslint.config.mjs
-└── README.md                    # This file
+└── README.md
 ```
 
 ### 📌 What goes where
@@ -117,7 +81,8 @@ anand-portfolio/
 - **`components/layout/`** — Navbar, section wrapper, theme toggle. Shared across the app.
 - **`components/sections/`** — One component per block on the page (Hero, About, Skills, etc.).
 - **`components/ui/`** — Buttons, cards, dialogs, badges, etc. Reusable and/or from shadcn.
-- **`components/motion/`** — Reveal animation (scroll-in).
+- **`components/motion/`** — Scroll reveal, stagger and scroll-progress animations.
+- **`components/ai/`** — Floating chat widget.
 - **`data/`** — All copy and structured content. Edit here to change what the site says.
 - **`lib/`** — Utilities and providers (e.g. `cn`, ThemeProvider).
 - **`types/`** — TypeScript interfaces used by `data/` and components.
@@ -126,7 +91,7 @@ anand-portfolio/
 
 ## 🏗️ Architecture & approach
 
-### Static-first with optional API routes
+### Pre-rendered page with one API route
 
 - The main portfolio page is still **fully pre-rendered** for fast loads.
 - For the floating portfolio chat, we use a **small Next.js API route** on Vercel to securely call Gemini (your API key stays on the server).
@@ -202,7 +167,7 @@ Open [http://localhost:3000](http://localhost:3000).
 npm run build
 ```
 
-Static output is in **`out/`**. To preview:
+This is a regular Next.js build (not a static export), because the chat API route needs a server. To preview:
 
 ```bash
 npm start
@@ -223,7 +188,7 @@ All copy and structured data live under **`src/data/`**. Update these files and 
 | **`education.ts`** | Education (institution, degree, field, dates) |
 
 **Metadata (SEO/social):**  
-Edit **`src/app/layout.tsx`** — `metadata` object: title, description, Open Graph URL, Twitter card, etc. Set the URL to your production domain when you have one.
+Edit **`src/app/layout.tsx`** — `metadata` object and `SITE_URL` (currently `https://helloanand.vercel.app`).
 
 **Styling:**  
 - **`src/app/globals.css`** — Theme colors (CSS variables), global styles.  
@@ -239,7 +204,7 @@ Edit **`src/app/layout.tsx`** — `metadata` object: title, description, Open Gr
 2. Go to [vercel.com](https://vercel.com) → New Project → Import the repo.
 3. Framework is auto-detected (Next.js). Build command: **`npm run build`**. Output directory: leave default.
 4. Deploy. Your site will be at `https://<project>.vercel.app`.
-5. Optional: add a custom domain in Project Settings → Domains and update metadata in `layout.tsx`.
+5. Optional: add a custom domain in Project Settings → Domains and update `SITE_URL` in `layout.tsx`.
 
 ### Other hosts
 
@@ -249,16 +214,36 @@ If you add environment variables (for example, `GEMINI_API_KEY` for the floating
 
 ---
 
+## 🎨 Design notes
+
+- **Colours:** tokens live in `src/app/globals.css`: `--brand` is the accent *fill*, `--link` is the accent for *coloured text*, `--marker` is the highlighter, and `--pop-1..4` are the colored-pencil tints used for cards and artwork. The default palette is **yellow**. `indigo`, `tomato` and `forest` (one accent instead of several colours) are optional overrides at the bottom of the file, switchable by visitors with the palette picker in the navbar (`src/components/layout/palette-menu.tsx`, saved in `localStorage`). To drop the alternatives, delete those override blocks and the picker.
+- **Intro:** `src/components/layout/intro.tsx` (multi-language greeting, once per tab session, skipped for reduced motion; an inline script in `layout.tsx` sets `data-intro="skip"` before paint).
+- **Interactive diagram:** `src/components/sections/hero-showcase.tsx` (click a layer for details, or "send request" to animate a request through the stack).
+- **Projects:** `src/components/sections/projects-fan.tsx` is a fanned hand of playing cards. The cards follow your finger/mouse live while dragging and snap on release (with momentum); a ruler above the cards also scrubs through them. Two-finger trackpad swipes also move the cards (and block the browser's back/forward gesture). Tap the front card to flip it: the front shows image, name, Code and Live; the back shows description, highlights and tech. The back face scrolls with the mouse wheel through a hand-written handler (`ScrollPanel`), because Chrome does not wheel-scroll panels inside 3D-flipped cards. While the pointer is over a back face that has something to scroll, the wheel only moves that content and never hands off to the page, even at the top or bottom; a back face whose content fits leaves the wheel to the page. All scrollbars on the site share one style, defined once in `globals.css`. Placeholder artwork is `src/components/ui/project-art.tsx` (follows the palette); set `imageUrl` to a real screenshot to replace it, plus `liveUrl` and `accent` (1-4), in `src/data/projects.ts`.
+- **Type scale:** the small Tailwind sizes are overridden at the top of `src/app/globals.css` (`--text-xs` … `--text-xl`) because the defaults are too small at a 13px root (xs was about 9.8px, sm about 11.4px). Raise or lower those five values to resize text inside cards, chips and timelines without touching spacing or headings.
+- **UI scale:** the whole site is sized in `rem`, so the two `html { font-size }` values in `globals.css` (14px mobile, 13px desktop) scale everything at once.
+- **About:** `src/components/sections/about.tsx`: a highlighted statement beside a "quick facts" card, built from `src/data/about.ts` and your experience/education data.
+- **Cursor:** `src/components/layout/cursor-fx.tsx` draws a dot on the pointer, a ring that follows with a soft lag, and a tapered comet trail. The ring grows over links and buttons, and becomes a labelled sticker over any element with a `data-cursor="..."` attribute (the project cards use `drag`, `flip`, `view` and `back`). Add `data-cursor="word"` to any element to give it a label. Mouse only (not touch), skipped for reduced motion, native cursor kept over text fields, and paused while the resume dialog is open. The footer switch (`cursor-toggle.tsx`) turns it off; the choice is saved in `localStorage`. To remove it entirely, delete `<CursorFx />` and `<CursorToggle />` and the cursor block at the end of `globals.css`.
+- **Skills:** `src/components/sections/skill-sticker-sheet.tsx` shows each skill as a colour-coded sticker on one sheet. The legend filters by layer (click again to reset). It is built from `skills` and `skillLayers` in `src/data/skills.ts`; the `proficiency` field there is deliberately not shown. Sticker colours come from the `--pop-1..4` tokens, so palettes recolour them. Each sticker has an icon from `src/components/sections/skill-icon.tsx`: brand logos from the `simple-icons` package (single-colour, drawn in the text colour; only the imported ones reach the browser) and Lucide line icons for concepts such as REST API. To add a logo, import it from `simple-icons` and add the skill name to the `BRAND` map; skills not listed fall back to a wrench icon.
+- **Contact:** `src/components/sections/postcard.tsx` is a postcard with a compose form. There is no backend: "send it" opens a pre-filled draft in the visitor's email app (`mailto:`), and the email address can be copied.
+- **Section order:** About, Experience & Education (`journey.tsx`), Projects, Skills, Contact.
+
 ## 🤖 Floating portfolio chat (Gemini)
 
-A minimal chat widget (bottom-right FAB) answers questions about this portfolio (projects, skills, experience, education).
+A chat widget (bottom-right, or `Ctrl/Cmd + K`) that answers questions about this portfolio.
 
-- Frontend: `src/components/ai/portfolio-chat.tsx` (dynamically loaded from `layout.tsx`) sends requests to `/api/portfolio-chat`.
-- Hero CTA **Ask about my work** opens the chat via `src/lib/chat-context.tsx`.
-- Backend: `src/app/api/portfolio-chat/route.ts` is a small serverless function that:
-  - Loads portfolio data from `src/data/*`
-  - Adds a strict system prompt (“only answer about Anand based on this data”)
-  - Calls the Gemini API on the server using `GEMINI_API_KEY`
+- **Frontend:** `src/components/ai/*`. Streams the reply as it arrives, renders Markdown, and keeps the conversation in `sessionStorage` for the tab session. It has retry-on-error, a copy button, starter questions, and follow-up suggestions.
+- **Rich answers:** the model can end a reply with directive lines (`[[project:<id>]]`, `[[goto:<section>]]`, `[[email]]`, `[[resume]]`, `[[ask: a | b]]`). `src/lib/chat-directives.ts` parses and **validates** them against `src/data/*`, so the UI can show a project card, scroll buttons, an email button or follow-up chips. Unknown directives are ignored.
+- **Backend:** `src/app/api/portfolio-chat/route.ts` is a serverless route that:
+  - Turns `src/data/*` into plain-language notes for the model (not raw JSON, so it has no internal field names to repeat), leaves out self-rated skill levels and placeholder `example.com` links, and uses a prompt with honesty rules, edge-case rules and worked examples.
+  - **Guards** (`src/lib/chat-guard.ts`, self-contained so it can be tested alone): invisible and control characters are stripped from input; questions about how the assistant works, requests for keys or secrets, and prompt-injection attempts get a fixed reply and never reach the model; and the streamed answer is watched, so if it starts describing internals it is cut at the last clean sentence and redirected.
+  - Streams from Gemini (`gemini-3.5-flash`, falling back to `gemini-2.5-flash-lite`) with thinking disabled for fast first tokens, and passes the key in a header.
+  - Validates input (800 chars per message, last 6 turns) and rate-limits to 8 requests/minute per IP (best-effort, per serverless instance).
+  - Logs server-side errors (missing key, upstream failures, guard cuts, abnormal finish reasons) to the function logs. If Google's quota is exhausted the visitor sees "the assistant is busy, try again in a minute" (HTTP 503), not a generic failure.
+
+**Availability:** the hero pill reads `personalInfo.availability` in `src/data/personal.ts` (`open` + `text`). Set `open: false` to hide it.
+
+> **Free-tier limit:** the Gemini free tier allows only about **20 requests per day per model**, and this route tries two models, so roughly 40 chat messages a day across all visitors before everyone gets the "busy" message. For a public portfolio, enable billing on the key in Google AI Studio (this chat costs very little) or the assistant will go quiet on busy days.
 
 ### Configuring Gemini (free tier)
 
@@ -277,7 +262,7 @@ The key is **never exposed to the browser**; all Gemini calls go through the ser
 ## 📖 What beginners can learn from this project
 
 - **Next.js App Router** — Single layout, one page composed of sections; difference between Server and Client components.
-- **Static export** — Building a site that doesn’t need a Node server and can be hosted anywhere.
+- **API routes** — Keeping a secret key server-side while the page stays pre-rendered.
 - **TypeScript** — Shared types in `types/index.ts` and typed data in `data/`.
 - **Component organization** — Sections vs layout vs UI; when to use `"use client"`.
 - **Performance** — LCP (server-rendered critical content), font `display: swap`, dynamic import for heavy UI, `optimizePackageImports`.
@@ -289,7 +274,7 @@ The key is **never exposed to the browser**; all Gemini calls go through the ser
 
 ## ⚙️ Configuration
 
-- **Static export and images:** In **`next.config.ts`**, `output: "export"` and `images.unoptimized: true` (required for static export). **`trailingSlash: true`** for consistent URLs.
+- **Images and URLs:** In **`next.config.ts`**, `images.unoptimized: true` and `trailingSlash: true`. **`reactCompiler: true`** enables the React Compiler.
 - **Package optimization:** **`experimental.optimizePackageImports`** includes `lucide-react` and Radix packages used by the app.
 - **Path alias:** **`@/*`** → **`./src/*`** in `tsconfig.json` (e.g. `@/components/...`, `@/data/...`).
 
@@ -301,7 +286,7 @@ The key is **never exposed to the browser**; all Gemini calls go through the ser
 |-------|----------------|
 | Build fails | Run `npm run build` and read the error. Ensure types in `src/types/index.ts` match the data in `src/data/`. |
 | Theme not switching | Ensure `ThemeProvider` wraps the app in `layout.tsx` and `suppressHydrationWarning` is on `<html>`. |
-| LCP or performance | Use a production build (`npm run build` then serve `out/`). Hero h1 and LCP paragraph should have no client boundary above them. |
+| LCP or performance | Use a production build (`npm run build` then `npm start`). Hero h1 and LCP paragraph should have no client boundary above them. |
 | Styles missing | Confirm `globals.css` is imported in `layout.tsx` and Tailwind/PostCSS are set up (`postcss.config.mjs`). |
 
 ---

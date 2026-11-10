@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TechChip } from "@/components/ui/tech-chip";
 import { personalInfo } from "@/data/personal";
 import { useChat } from "@/lib/chat-context";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -16,20 +15,12 @@ const ResumeDialog = dynamic(
   { ssr: false }
 );
 
-const STACK = ["Java", "Spring Boot", "React", "TypeScript", "PostgreSQL", "MongoDB"];
-
 export function HeroCta() {
   const { openChat } = useChat();
   const reduced = useReducedMotion();
 
   return (
     <>
-      <div className="mt-8 flex flex-wrap gap-2">
-        {STACK.map((t) => (
-          <TechChip key={t} tech={t} showIcon />
-        ))}
-      </div>
-
       <motion.div
         className="mt-8 flex flex-wrap gap-2"
         initial={reduced ? false : { opacity: 0, y: 12 }}
@@ -39,7 +30,7 @@ export function HeroCta() {
         <Button
           size="default"
           asChild
-          className="bg-brand text-brand-foreground shadow-sm hover:bg-brand/90 hover:scale-[1.02] transition-transform"
+          className="sketch-btn bg-brand text-brand-foreground hover:bg-brand"
         >
           <Link href="#projects">View projects</Link>
         </Button>
@@ -47,7 +38,7 @@ export function HeroCta() {
           size="default"
           variant="outline"
           asChild
-          className="border-border hover:border-brand/50 hover:bg-brand-muted hover:scale-[1.02] transition-transform"
+          className="sketch-btn bg-card text-foreground hover:bg-card"
         >
           <Link href="#contact">Contact</Link>
         </Button>
@@ -63,7 +54,7 @@ export function HeroCta() {
           size="default"
           variant="ghost"
           onClick={openChat}
-          className="gap-1.5 text-muted-foreground hover:text-brand"
+          className="gap-1.5 text-muted-foreground hover:text-link"
         >
           <MessageCircle className="size-4" aria-hidden />
           Ask a question

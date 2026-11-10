@@ -8,11 +8,44 @@
   --nav-height: 3.5rem;
 }
 
+/* Global UI scale: almost everything is in rem, so this one value scales the whole site.
+   Browser default is 16px; tune these two numbers to make the UI bigger or smaller. */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 13px;
+  }
+}
+
 @theme inline {
+  /* Type scale: the default xs/sm are too small once the root is 13px (about 9.8px / 11.4px), and
+     most card, chip and timeline text uses them. Only the small sizes are raised; headings and
+     spacing are unchanged. */
+  --text-xs: 0.9rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 1.02rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1.1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.2rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.32rem;
+  --text-xl--line-height: 1.4;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-link: var(--link);
+  --color-pop-1: var(--pop-1);
+  --color-pop-2: var(--pop-2);
+  --color-pop-3: var(--pop-3);
+  --color-pop-4: var(--pop-4);
+  --font-hand: var(--font-caveat);
+  --font-display: var(--font-bricolage);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-muted: var(--brand-muted);
@@ -56,27 +89,34 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.99 0.002 106);
-  --foreground: oklch(0.18 0.01 264);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 264);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 264);
-  --primary: oklch(0.22 0.02 264);
-  --primary-foreground: oklch(0.99 0.002 106);
-  --secondary: oklch(0.96 0.004 106);
-  --secondary-foreground: oklch(0.28 0.02 264);
-  --muted: oklch(0.96 0.004 106);
-  --muted-foreground: oklch(0.48 0.02 264);
-  --accent: oklch(0.96 0.004 106);
-  --accent-foreground: oklch(0.22 0.02 264);
-  --brand: oklch(0.58 0.22 303);
-  --brand-foreground: oklch(0.99 0.002 106);
-  --brand-muted: oklch(0.58 0.22 303 / 0.1);
+  --link: oklch(0.45 0.2 268);
+  --marker: oklch(0.9 0.17 100 / 0.85);
+  --pop-1: oklch(0.9 0.16 98);
+  --pop-2: oklch(0.8 0.13 12);
+  --pop-3: oklch(0.86 0.12 165);
+  --pop-4: oklch(0.82 0.1 240);
+  --ink: oklch(0.19 0.02 270);
+  --background: oklch(0.975 0.012 95);
+  --foreground: oklch(0.19 0.02 270);
+  --card: oklch(0.992 0.008 95);
+  --card-foreground: oklch(0.19 0.02 270);
+  --popover: oklch(0.992 0.008 95);
+  --popover-foreground: oklch(0.19 0.02 270);
+  --primary: oklch(0.19 0.02 270);
+  --primary-foreground: oklch(0.99 0.008 95);
+  --secondary: oklch(0.94 0.014 95);
+  --secondary-foreground: oklch(0.28 0.02 270);
+  --muted: oklch(0.94 0.014 95);
+  --muted-foreground: oklch(0.44 0.02 270);
+  --accent: oklch(0.94 0.014 95);
+  --accent-foreground: oklch(0.19 0.02 270);
+  --brand: oklch(0.9 0.17 100);
+  --brand-foreground: oklch(0.19 0.02 270);
+  --brand-muted: oklch(0.9 0.17 100 / 0.3);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.006 106);
-  --input: oklch(0.9 0.006 106);
-  --ring: oklch(0.58 0.22 303 / 0.45);
+  --border: oklch(0.86 0.015 95);
+  --input: oklch(0.86 0.015 95);
+  --ring: oklch(0.45 0.2 268 / 0.5);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -93,27 +133,34 @@
 }
 
 .dark {
-  --background: oklch(0.13 0.012 264);
-  --foreground: oklch(0.96 0.005 106);
-  --card: oklch(0.17 0.014 264);
-  --card-foreground: oklch(0.96 0.005 106);
-  --popover: oklch(0.17 0.014 264);
-  --popover-foreground: oklch(0.96 0.005 106);
-  --primary: oklch(0.96 0.005 106);
-  --primary-foreground: oklch(0.16 0.012 264);
-  --secondary: oklch(0.22 0.014 264);
-  --secondary-foreground: oklch(0.92 0.005 106);
-  --muted: oklch(0.22 0.014 264);
-  --muted-foreground: oklch(0.62 0.02 264);
-  --accent: oklch(0.22 0.014 264);
-  --accent-foreground: oklch(0.96 0.005 106);
-  --brand: oklch(0.68 0.2 303);
-  --brand-foreground: oklch(0.14 0.012 264);
-  --brand-muted: oklch(0.68 0.2 303 / 0.14);
+  --link: oklch(0.93 0.2 112);
+  --marker: oklch(0.93 0.2 112 / 0.28);
+  --pop-1: oklch(0.86 0.17 105);
+  --pop-2: oklch(0.72 0.16 10);
+  --pop-3: oklch(0.78 0.13 165);
+  --pop-4: oklch(0.74 0.11 240);
+  --ink: oklch(0.94 0.008 95);
+  --background: oklch(0.15 0.006 270);
+  --foreground: oklch(0.96 0.005 95);
+  --card: oklch(0.2 0.008 270);
+  --card-foreground: oklch(0.96 0.005 95);
+  --popover: oklch(0.2 0.008 270);
+  --popover-foreground: oklch(0.96 0.005 95);
+  --primary: oklch(0.96 0.005 95);
+  --primary-foreground: oklch(0.16 0.006 270);
+  --secondary: oklch(0.25 0.008 270);
+  --secondary-foreground: oklch(0.92 0.005 95);
+  --muted: oklch(0.25 0.008 270);
+  --muted-foreground: oklch(0.7 0.01 270);
+  --accent: oklch(0.25 0.008 270);
+  --accent-foreground: oklch(0.96 0.005 95);
+  --brand: oklch(0.93 0.2 112);
+  --brand-foreground: oklch(0.16 0.006 270);
+  --brand-muted: oklch(0.93 0.2 112 / 0.14);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 9%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.68 0.2 303 / 0.5);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.93 0.2 112 / 0.5);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -142,128 +189,51 @@
     }
   }
   body {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
     transition: background-color 0.35s ease, color 0.35s ease;
   }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--brand) 55%, transparent);
+    color: var(--foreground);
+  }
+  /* Normal arrow everywhere (the browser would otherwise show a hand over links). */
   a,
   [role="button"],
-  button {
-    cursor: pointer;
+  button,
+  summary,
+  label {
+    cursor: default;
   }
 }
 
-/* Hero atmosphere — full viewport width, radial fade (no square box) */
+/* Hero atmosphere — faint graph-paper grid that fades toward the edges */
 .hero-atmosphere {
   overflow: hidden;
 }
 
-.hero-atmosphere__dots {
-  position: absolute;
-  inset: -10%;
-  background-image: radial-gradient(
-    circle,
-    oklch(0.5 0.02 264 / 0.09) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
-  mask-image: radial-gradient(
-    ellipse 120% 100% at 50% 38%,
-    black 0%,
-    black 35%,
-    transparent 78%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 120% 100% at 50% 38%,
-    black 0%,
-    black 35%,
-    transparent 78%
-  );
-}
-
-.dark .hero-atmosphere__dots {
-  background-image: radial-gradient(
-    circle,
-    oklch(0.85 0.02 264 / 0.08) 1px,
-    transparent 1px
-  );
-}
-
-.hero-atmosphere__glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(80px);
-}
-
-.hero-atmosphere__glow--primary {
-  top: -20%;
-  right: 5%;
-  width: min(55vw, 520px);
-  height: min(55vw, 520px);
-  background: radial-gradient(
-    circle,
-    oklch(0.58 0.22 303 / 0.22) 0%,
-    oklch(0.58 0.22 303 / 0.08) 40%,
-    transparent 72%
-  );
-  animation: hero-glow-drift 24s ease-in-out infinite;
-}
-
-.hero-atmosphere__glow--secondary {
-  bottom: -15%;
-  left: -10%;
-  width: min(45vw, 420px);
-  height: min(45vw, 420px);
-  background: radial-gradient(
-    circle,
-    oklch(0.58 0.22 303 / 0.12) 0%,
-    transparent 70%
-  );
-  animation: hero-glow-drift 24s ease-in-out infinite reverse;
-}
-
-.dark .hero-atmosphere__glow--primary {
-  background: radial-gradient(
-    circle,
-    oklch(0.68 0.2 303 / 0.28) 0%,
-    oklch(0.68 0.2 303 / 0.1) 40%,
-    transparent 72%
-  );
-}
-
-.hero-atmosphere__noise {
+.hero-atmosphere__grid {
   position: absolute;
   inset: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image: radial-gradient(
-    ellipse 120% 100% at 50% 40%,
-    black 15%,
-    transparent 80%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 120% 100% at 50% 40%,
-    black 15%,
-    transparent 80%
-  );
+  background-image:
+    linear-gradient(to right, oklch(0.4 0.02 270 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.4 0.02 270 / 0.09) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 110% 90% at 50% 35%, black 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 110% 90% at 50% 35%, black 25%, transparent 78%);
 }
 
-@keyframes hero-glow-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(3%, -4%) scale(1.06);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-atmosphere__glow--primary,
-  .hero-atmosphere__glow--secondary {
-    animation: none;
-  }
+.dark .hero-atmosphere__grid {
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.06) 1px, transparent 1px);
 }
 
 /* Fade hero section into page background at bottom */
@@ -283,48 +253,98 @@
   z-index: 0;
 }
 
+/* Hand-drawn box: ink outline, slightly wobbly corners, hard offset shadow.
+   Unlayered on purpose so it wins over Tailwind's rounded-* utilities. */
+.sketch-box,
 .glass-panel {
-  @apply border border-border/80 bg-card/75 backdrop-blur-xl shadow-sm;
+  background-color: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 14px 6px 16px 5px / 6px 16px 5px 14px;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
-.nav-link-accent {
-  position: relative;
+.sketch-box--sm {
+  border-width: 1.5px;
+  border-radius: 9px 4px 10px 4px / 4px 10px 4px 9px;
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
-.nav-link-accent::after {
-  content: "";
+.sketch-box--accent {
+  background-color: var(--brand-muted);
+  box-shadow: 3px 3px 0 var(--brand);
+}
+
+.sketch-chip {
+  border: 1.5px solid color-mix(in oklch, var(--ink) 70%, transparent);
+  border-radius: 8px 3px 9px 3px / 3px 9px 3px 8px;
+}
+
+.sketch-btn {
+  border: 2px solid var(--ink);
+  border-radius: 10px 4px 11px 4px / 4px 11px 4px 10px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.sketch-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.sketch-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* Slightly tilted card that straightens on hover */
+.sketch-tilt {
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sketch-tilt:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+}
+
+/* Strip of "tape" holding a card/photo */
+.sketch-tape {
   position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  bottom: 0.35rem;
-  height: 2px;
-  border-radius: 999px;
-  background: var(--brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  top: -0.7rem;
+  left: 50%;
+  width: 4.5rem;
+  height: 1.4rem;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in oklch, var(--brand) 75%, transparent);
+  border: 1px solid color-mix(in oklch, var(--ink) 35%, transparent);
+  z-index: 2;
 }
 
-.nav-link-accent:hover::after {
-  transform: scaleX(1);
+/* Hand-drawn underline that draws itself (path needs pathLength="1") */
+.sketch-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sketch-draw 0.9s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+@keyframes sketch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketch-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Inner scrollers (chat messages, resume dialog) never pass their scroll on to the page behind. */
 .resume-modal-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: oklch(0.5 0 0 / 25%) transparent;
-}
-
-.resume-modal-scroll::-webkit-scrollbar {
-  width: 5px;
-}
-
-.resume-modal-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.resume-modal-scroll::-webkit-scrollbar-thumb {
-  background: oklch(0.5 0 0 / 25%);
-  border-radius: 999px;
+  overscroll-behavior: contain;
 }
 
 .typing-cursor {
@@ -342,5 +362,364 @@
   51%,
   100% {
     opacity: 0.15;
+  }
+}
+
+/* ---- Sketch modifiers (defined after .sketch-box so they win) ---- */
+.sketch-box--brand {
+  background-color: var(--brand);
+  color: var(--brand-foreground);
+}
+
+.sketch-box--muted {
+  background-color: var(--muted);
+}
+
+.sketch-tape--sm {
+  width: 3rem;
+  height: 1rem;
+  top: -0.5rem;
+}
+
+/* ---- Marker highlight (animated by <Marker>) ---- */
+.marker {
+  background-image: linear-gradient(
+    var(--marker),
+    var(--marker)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 42%;
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ---- Tech marquee ---- */
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ---- Floating doodles ---- */
+.doodle-float {
+  animation: doodle-float 7s ease-in-out infinite;
+}
+
+.doodle-spin {
+  animation: doodle-spin 22s linear infinite;
+}
+
+@keyframes doodle-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(calc(var(--r, 0deg) + 4deg));
+  }
+}
+
+@keyframes doodle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle-float,
+  .doodle-spin {
+    animation: none;
+  }
+}
+
+/* ---- FAB wiggle ---- */
+@keyframes fab-wiggle {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0deg);
+  }
+  90% {
+    transform: rotate(-9deg);
+  }
+  94% {
+    transform: rotate(8deg);
+  }
+  97% {
+    transform: rotate(-4deg);
+  }
+}
+
+.fab-wiggle {
+  animation: fab-wiggle 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab-wiggle {
+    animation: none;
+  }
+}
+
+/* ---- Anime / manga-inspired accents (kept small on purpose) ---- */
+.speed-lines {
+  color: var(--ink);
+  opacity: 0.12;
+  mask-image: radial-gradient(circle, transparent 22%, black 38%, transparent 74%);
+  -webkit-mask-image: radial-gradient(circle, transparent 22%, black 38%, transparent 74%);
+  animation: speed-burst 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+}
+
+@keyframes speed-burst {
+  0% {
+    transform: scale(0.35) rotate(-6deg);
+    opacity: 0;
+  }
+  35% {
+    transform: scale(1.05) rotate(0deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.12;
+  }
+}
+
+.halftone {
+  background-image: radial-gradient(circle, currentColor 1.3px, transparent 1.7px);
+  background-size: 9px 9px;
+  mask-image: linear-gradient(to top left, black, transparent 72%);
+  -webkit-mask-image: linear-gradient(to top left, black, transparent 72%);
+}
+
+.sfx-pop {
+  transform: scale(0) rotate(-30deg);
+  animation: sfx-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes sfx-pop {
+  to {
+    transform: scale(1) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speed-lines {
+    animation: none;
+  }
+  .sfx-pop {
+    animation: none;
+    transform: scale(1) rotate(8deg);
+  }
+}
+
+/* ---- Intro overlay: skip rules + no-JS fallback ---- */
+html[data-intro="skip"] .intro-overlay {
+  display: none;
+}
+
+.intro-overlay {
+  animation: intro-fallback 0.01s 6s forwards;
+}
+
+@keyframes intro-fallback {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+/* ---- Hero name highlighter sweep ---- */
+.hero-marker {
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 46%;
+  padding: 0 0.1em;
+  margin: 0 -0.1em;
+  animation: hero-marker 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.9s backwards;
+}
+
+@keyframes hero-marker {
+  from {
+    background-size: 0% 46%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-marker {
+    animation: none;
+  }
+}
+
+/* ---- Project cards: colored sticker shadow + pointer-driven 3D tilt ---- */
+.sketch-box--pop {
+  box-shadow: 5px 5px 0 var(--pop, var(--ink));
+}
+
+.tilt-3d {
+  transform: perspective(1000px) rotate(var(--tilt, 0deg)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tilt-3d:hover {
+    box-shadow: 9px 9px 0 var(--pop, var(--ink));
+    transition-duration: 0.08s, 0.25s;
+  }
+}
+
+/* ======== Alternative palettes (the default, no attribute, is "yellow": see :root / .dark above). ======== */
+/* palette: indigo */
+html[data-palette="indigo"] {
+  --brand: oklch(0.48 0.2 270);
+  --brand-foreground: oklch(0.98 0.01 95);
+  --brand-muted: oklch(0.48 0.2 270 / 0.1);
+  --link: oklch(0.45 0.2 270);
+  --marker: oklch(0.9 0.15 100 / 0.85);
+  --ring: oklch(0.48 0.2 270 / 0.5);
+  --pop-1: oklch(0.88 0.07 275);
+  --pop-2: oklch(0.93 0.11 100);
+  --pop-3: oklch(0.9 0.035 235);
+  --pop-4: oklch(0.91 0.02 95);
+}
+html[data-palette="indigo"].dark {
+  --brand: oklch(0.76 0.13 275);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.76 0.13 275 / 0.16);
+  --link: oklch(0.78 0.12 275);
+  --marker: oklch(0.86 0.15 100 / 0.22);
+  --ring: oklch(0.76 0.13 275 / 0.5);
+  --pop-1: oklch(0.62 0.11 275);
+  --pop-2: oklch(0.8 0.13 100);
+  --pop-3: oklch(0.66 0.06 235);
+  --pop-4: oklch(0.55 0.02 270);
+}
+
+/* palette: tomato */
+html[data-palette="tomato"] {
+  --brand: oklch(0.57 0.21 30);
+  --brand-foreground: oklch(0.99 0.01 95);
+  --brand-muted: oklch(0.57 0.21 30 / 0.1);
+  --link: oklch(0.5 0.2 30);
+  --marker: oklch(0.9 0.1 70 / 0.85);
+  --ring: oklch(0.57 0.21 30 / 0.5);
+  --pop-1: oklch(0.87 0.08 30);
+  --pop-2: oklch(0.93 0.08 85);
+  --pop-3: oklch(0.9 0.03 60);
+  --pop-4: oklch(0.9 0.03 200);
+}
+html[data-palette="tomato"].dark {
+  --brand: oklch(0.72 0.17 35);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.72 0.17 35 / 0.16);
+  --link: oklch(0.78 0.15 40);
+  --marker: oklch(0.85 0.1 70 / 0.22);
+  --ring: oklch(0.72 0.17 35 / 0.5);
+  --pop-1: oklch(0.6 0.14 30);
+  --pop-2: oklch(0.78 0.12 85);
+  --pop-3: oklch(0.62 0.04 60);
+  --pop-4: oklch(0.6 0.05 200);
+}
+
+/* palette: forest */
+html[data-palette="forest"] {
+  --brand: oklch(0.42 0.1 160);
+  --brand-foreground: oklch(0.98 0.01 95);
+  --brand-muted: oklch(0.42 0.1 160 / 0.1);
+  --link: oklch(0.4 0.1 160);
+  --marker: oklch(0.9 0.13 120 / 0.8);
+  --ring: oklch(0.42 0.1 160 / 0.5);
+  --pop-1: oklch(0.88 0.07 160);
+  --pop-2: oklch(0.93 0.09 105);
+  --pop-3: oklch(0.9 0.035 130);
+  --pop-4: oklch(0.91 0.025 80);
+}
+html[data-palette="forest"].dark {
+  --brand: oklch(0.78 0.13 160);
+  --brand-foreground: oklch(0.16 0.01 270);
+  --brand-muted: oklch(0.78 0.13 160 / 0.16);
+  --link: oklch(0.8 0.12 160);
+  --marker: oklch(0.86 0.13 120 / 0.22);
+  --ring: oklch(0.78 0.13 160 / 0.5);
+  --pop-1: oklch(0.58 0.1 160);
+  --pop-2: oklch(0.8 0.12 105);
+  --pop-3: oklch(0.62 0.05 130);
+  --pop-4: oklch(0.56 0.03 80);
+}
+
+/* ---- Custom cursor (see CursorFx). The native cursor is hidden only while the effect is on;
+        text fields and embedded documents keep theirs. ---- */
+html[data-cursor-fx="on"],
+html[data-cursor-fx="on"] * {
+  cursor: none !important;
+}
+
+html[data-cursor-fx="on"] :is(input, textarea, select) {
+  cursor: text !important;
+}
+
+html[data-cursor-fx="on"] :is(object, iframe, embed) {
+  cursor: auto !important;
+}
+
+/* ---- Scrollbars: slim, quiet, ink-coloured. The thumb is a translucent ink pill that deepens on hover
+        and while dragging (ink works on light, dark and every palette; an accent colour would be too
+        faint on the cream page). Chrome, Edge and Safari use the ::-webkit-scrollbar rules; Firefox
+        falls back to scrollbar-color. ---- */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  /* a transparent border + padding-box clip insets the visible pill, leaving an even gutter around it */
+  background: color-mix(in oklch, var(--ink) 30%, transparent);
+  background-clip: padding-box;
+  border: 4px solid transparent;
+  border-radius: 999px;
+  min-height: 56px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--ink) 55%, transparent);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: color-mix(in oklch, var(--ink) 80%, transparent);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  html,
+  .resume-modal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--ink) 40%, transparent) transparent;
   }
 }

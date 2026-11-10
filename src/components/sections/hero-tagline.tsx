@@ -34,7 +34,7 @@ export function HeroTagline({ fallback = HERO_ROLE_FALLBACK }: HeroTaglineProps)
   }, [reduced]);
 
   return (
-    <p className="mt-4 min-h-[2rem] text-xl text-muted-foreground sm:text-2xl">
+    <p className="mt-4 min-h-[2rem] font-hand text-2xl text-muted-foreground sm:text-3xl">
       {reduced || !showTyping ? (
         <span>{fallback}</span>
       ) : (

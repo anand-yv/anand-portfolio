@@ -28,8 +28,8 @@ export function SectionWrapper({
     <section
       id={id}
       className={cn(
-        "relative isolate scroll-mt-[4.5rem] overflow-hidden py-20 sm:py-24",
-        bordered && "border-t border-border/70",
+        "relative isolate scroll-mt-[4.5rem] overflow-hidden py-16 sm:py-20",
+        bordered && "border-t-2 border-dashed border-ink/15",
         className
       )}
     >
